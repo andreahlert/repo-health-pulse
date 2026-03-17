@@ -45,12 +45,12 @@
   "/>
 
   <text class="repo" x="15" y="68">
-    <tspan class="repo-dim">owner/</tspan>abandoned-project
+    <tspan class="repo-dim">expressjs/</tspan>express
   </text>
 
   <circle class="dot" cx="410" cy="28" r="3"/>
   <text class="status" x="418" y="32">flatline</text>
 
-  <text class="score" x="415" y="58">5</text>
+  <text class="score" x="410" y="58">15</text>
   <text class="score-unit" x="430" y="58">/100</text>
 </svg>

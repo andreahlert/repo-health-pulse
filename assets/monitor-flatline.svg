@@ -20,18 +20,21 @@
         animation: flatline-sweep 6s linear infinite;
       }
       .grid-line { stroke: #262a30; stroke-width: 0.5; }
-      .label { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 11px; }
-      .value { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
+      .label { fill: #4b5563; font-family: 'Courier New', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+      .value { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
       .value-unit { fill: #4b5563; font-family: 'Courier New', monospace; font-size: 10px; }
-      .value-dead { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 16px; }
+      .value-dead { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 15px; }
+      .value-crit { fill: #ef4444; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
       .repo-name { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
-      .status-text { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 12px; animation: fade-slow 3s ease-in-out infinite; }
+      .status-text { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 12px; font-weight: bold; animation: fade-slow 3s ease-in-out infinite; }
       .status-dot { fill: #6b7280; animation: fade-slow 3s ease-in-out infinite; }
       .divider { stroke: #2e3238; stroke-width: 1; }
       .bar-bg { fill: #262a30; rx: 3; }
       .bar-fill { fill: #4b5563; rx: 3; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 8; }
-      .heart { fill: #4b5563; }
+      .heart { fill: #4b5563; font-size: 18px; }
+      .bpm { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; }
+      .bpm-unit { fill: #4b5563; font-family: 'Courier New', monospace; font-size: 10px; }
       .noise {
         fill: none;
         stroke: #374151;
@@ -46,12 +49,13 @@
   <rect class="border" x="0.5" y="0.5" width="799" height="219"/>
 
   <g opacity="0.15">
-    <line class="grid-line" x1="0" y1="44" x2="560" y2="44"/>
-    <line class="grid-line" x1="0" y1="88" x2="560" y2="88"/>
-    <line class="grid-line" x1="0" y1="132" x2="560" y2="132"/>
-    <line class="grid-line" x1="0" y1="176" x2="560" y2="176"/>
+    <line class="grid-line" x1="0" y1="44" x2="555" y2="44"/>
+    <line class="grid-line" x1="0" y1="88" x2="555" y2="88"/>
+    <line class="grid-line" x1="0" y1="132" x2="555" y2="132"/>
+    <line class="grid-line" x1="0" y1="176" x2="555" y2="176"/>
   </g>
 
+  <!-- Flatline with noise -->
   <path class="ecg-line" d="
     M 0,110
     L 40,110 L 42,109 L 44,111 L 46,110
@@ -63,47 +67,57 @@
     L 380,110 L 383,109 L 385,111 L 387,110
     L 440,110 L 442,111 L 444,110
     L 500,110 L 502,109 L 504,111 L 506,110
-    L 560,110
+    L 555,110
   "/>
 
   <path class="noise" d="
     M 0,110
     L 50,110.5 L 100,109.5 L 150,110.3 L 200,109.7
     L 250,110.4 L 300,109.6 L 350,110.2 L 400,109.8
-    L 450,110.3 L 500,109.7 L 560,110
+    L 450,110.3 L 500,109.7 L 555,110
   "/>
 
-  <line class="divider" x1="580" y1="15" x2="580" y2="205"/>
+  <line class="divider" x1="570" y1="10" x2="570" y2="210"/>
 
-  <text class="label" x="600" y="35">HR</text>
-  <text class="value" x="700" y="35" text-anchor="end">--</text>
-  <text class="value-unit" x="706" y="35">bpm</text>
+  <!-- BPM -->
+  <text class="heart" x="585" y="33">&#x2665;</text>
+  <text class="bpm" x="605" y="33">--</text>
+  <text class="bpm-unit" x="630" y="33">bpm</text>
 
-  <text class="label" x="600" y="62">CI</text>
-  <text class="value-dead" x="700" y="62" text-anchor="end">NONE</text>
+  <!-- CI Pass Rate -->
+  <text class="label" x="585" y="62">ci pass rate</text>
+  <text class="value-dead" x="780" y="62" text-anchor="end">87%</text>
 
-  <text class="label" x="600" y="89">PR</text>
-  <text class="value-dead" x="700" y="89" text-anchor="end">--</text>
-  <text class="value-unit" x="706" y="89">days</text>
+  <!-- PR Merge Time -->
+  <text class="label" x="585" y="88">pr merge time</text>
+  <text class="value" x="757" y="88" text-anchor="end">2.0</text>
+  <text class="value-unit" x="762" y="88">days</text>
 
-  <text class="label" x="600" y="116">RF</text>
-  <text class="value-dead" x="700" y="116" text-anchor="end">0.0</text>
-  <text class="value-unit" x="706" y="116">/wk</text>
+  <!-- Release Frequency -->
+  <text class="label" x="585" y="114">releases</text>
+  <text class="value-crit" x="757" y="114" text-anchor="end">0.0</text>
+  <text class="value-unit" x="762" y="114">/wk</text>
 
-  <text class="label" x="600" y="143">IR</text>
-  <text class="value-dead" x="700" y="143" text-anchor="end">--</text>
-  <text class="value-unit" x="706" y="143">days</text>
+  <!-- Issue Response Time -->
+  <text class="label" x="585" y="140">response time</text>
+  <text class="value" x="757" y="140" text-anchor="end">6</text>
+  <text class="value-unit" x="762" y="140">min</text>
 
-  <rect class="bar-bg" x="600" y="160" width="170" height="10"/>
-  <rect class="bar-fill" x="600" y="160" width="9" height="10"/>
+  <!-- Health Bar -->
+  <rect class="bar-bg" x="585" y="158" width="195" height="8"/>
+  <rect class="bar-fill" x="585" y="158" width="29" height="8"/>
 
-  <circle class="status-dot" cx="608" cy="185" r="4"/>
-  <text class="status-text" x="618" y="189">FLATLINE</text>
-  <text class="value" x="770" y="189" text-anchor="end" font-size="13">5</text>
-  <text class="value-unit" x="775" y="189">/100</text>
+  <!-- Status -->
+  <circle class="status-dot" cx="593" cy="183" r="3.5"/>
+  <text class="status-text" x="603" y="187">FLATLINE</text>
+  <text class="value" x="757" y="187" text-anchor="end">15</text>
+  <text class="value-unit" x="762" y="187">/100</text>
 
+  <!-- Repo Name -->
   <text class="repo-name" x="20" y="205">
-    <tspan fill="#4b5563">owner/</tspan>abandoned-project
+    <tspan fill="#4b5563">expressjs/</tspan>express
   </text>
-  <text class="heart" x="540" y="207" font-size="16">&#x2665;</text>
+
+  <!-- Last release note -->
+  <text fill="#4b5563" font-family="'Courier New', monospace" font-size="8" x="555" y="205" text-anchor="end">last release: 2025-12-01 (106 days ago)</text>
 </svg>
