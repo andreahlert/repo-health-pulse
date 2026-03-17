@@ -6,6 +6,8 @@ Real-time repository vital signs, visualized as a cardiac monitor.
 
 ## Monitor View (800x220)
 
+Full dashboard with ECG waveform + vital signs panel.
+
 ### Healthy — `owner/repo-name` — Score 90/100
 
 Normal sinus rhythm. CI passing, fast PR reviews, regular releases, quick issue response.
@@ -38,9 +40,31 @@ No heartbeat. No CI runs, no PRs, no releases, no activity.
 
 ---
 
+## Minimal View (480x80)
+
+Clean, compact. Just the ECG line, repo name, and score.
+
+### Healthy
+
+![mini-healthy](assets/minimal/mini-healthy.svg)
+
+### Stressed
+
+![mini-stressed](assets/minimal/mini-stressed.svg)
+
+### Critical
+
+![mini-critical](assets/minimal/mini-critical.svg)
+
+### Flatline
+
+![mini-flatline](assets/minimal/mini-flatline.svg)
+
+---
+
 ## Badge View (280x32)
 
-Compact badges for inline use, same data, shields-style form factor.
+Inline badges, shields-style form factor.
 
 | State | Badge |
 |---|---|
@@ -65,10 +89,10 @@ Compact badges for inline use, same data, shields-style form factor.
 
 | Score | BPM | Waveform | Color |
 |---|---|---|---|
-| 80-100 | 60-80 | Normal sinus rhythm, clean PQRST | Green `#00ff41` |
-| 60-79 | 80-100 | Faster rhythm, elevated T-waves | Yellow `#f0c030` |
-| 20-59 | 100-130 | Irregular intervals, distorted waves | Red `#ff2020` |
-| 0-19 | Flatline | Straight line with noise | Gray `#555555` |
+| 80-100 | 60-80 | Normal sinus rhythm, clean PQRST | Green `#4ade80` |
+| 60-79 | 80-100 | Faster rhythm, elevated T-waves | Amber `#eab308` |
+| 20-59 | 100-130 | Irregular intervals, distorted waves | Red `#ef4444` |
+| 0-19 | Flatline | Straight line with noise | Gray `#6b7280` |
 
 ## Usage (planned)
 
@@ -76,9 +100,9 @@ Compact badges for inline use, same data, shields-style form factor.
 <!-- Full monitor -->
 ![health](https://repopulse.dev/monitor/owner/repo)
 
+<!-- Minimal -->
+![health](https://repopulse.dev/mini/owner/repo)
+
 <!-- Compact badge -->
 ![health](https://repopulse.dev/badge/owner/repo)
-
-<!-- Mini monitor (400x120) -->
-![health](https://repopulse.dev/mini/owner/repo)
 ```

@@ -1,10 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="220" viewBox="0 0 800 220">
   <defs>
     <style>
-      @keyframes sweep {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(800px); }
-      }
       @keyframes pulse-glow {
         0%, 100% { opacity: 0.6; }
         50% { opacity: 1; }
@@ -17,38 +13,36 @@
         0% { stroke-dashoffset: 2400; }
         100% { stroke-dashoffset: 0; }
       }
-      .bg { fill: #0a0a0a; }
+      .bg { fill: #1a1c20; }
       .ecg-line {
         fill: none;
-        stroke: #00ff41;
+        stroke: #4ade80;
         stroke-width: 2.5;
         stroke-linecap: round;
         stroke-linejoin: round;
-        filter: drop-shadow(0 0 6px #00ff4180);
+        filter: drop-shadow(0 0 4px #4ade8050);
         stroke-dasharray: 2400;
         animation: trace 4s linear infinite;
       }
-      .grid-line { stroke: #1a2a1a; stroke-width: 0.5; }
-      .label { fill: #00ff41; font-family: 'Courier New', monospace; font-size: 11px; }
-      .value { fill: #00ff41; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
-      .value-unit { fill: #00ff4199; font-family: 'Courier New', monospace; font-size: 10px; }
-      .repo-name { fill: #00ff41; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
-      .status-text { fill: #00ff41; font-family: 'Courier New', monospace; font-size: 12px; }
-      .status-dot { fill: #00ff41; animation: blink 1.5s ease-in-out infinite; }
-      .divider { stroke: #00ff4133; stroke-width: 1; }
-      .bar-bg { fill: #1a1a1a; rx: 3; }
-      .bar-fill { fill: #00ff41; rx: 3; filter: drop-shadow(0 0 4px #00ff4160); }
-      .border { fill: none; stroke: #00ff4133; stroke-width: 1; rx: 8; }
-      .icon { fill: #00ff41; font-size: 14px; }
-      .heart { fill: #00ff41; animation: pulse-glow 1s ease-in-out infinite; }
+      .grid-line { stroke: #262a30; stroke-width: 0.5; }
+      .label { fill: #4ade80; font-family: 'Courier New', monospace; font-size: 11px; }
+      .value { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
+      .value-unit { fill: #94a3b8; font-family: 'Courier New', monospace; font-size: 10px; }
+      .repo-name { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
+      .status-text { fill: #4ade80; font-family: 'Courier New', monospace; font-size: 12px; }
+      .status-dot { fill: #4ade80; animation: blink 1.5s ease-in-out infinite; }
+      .divider { stroke: #2e3238; stroke-width: 1; }
+      .bar-bg { fill: #262a30; rx: 3; }
+      .bar-fill { fill: #4ade80; rx: 3; opacity: 0.85; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 8; }
+      .icon { fill: #4ade80; font-size: 14px; }
+      .heart { fill: #4ade80; animation: pulse-glow 1s ease-in-out infinite; }
     </style>
   </defs>
 
-  <!-- Background -->
   <rect class="bg" width="800" height="220" rx="8"/>
   <rect class="border" x="0.5" y="0.5" width="799" height="219"/>
 
-  <!-- Grid lines -->
   <g opacity="0.3">
     <line class="grid-line" x1="0" y1="44" x2="560" y2="44"/>
     <line class="grid-line" x1="0" y1="88" x2="560" y2="88"/>
@@ -56,7 +50,6 @@
     <line class="grid-line" x1="0" y1="176" x2="560" y2="176"/>
   </g>
 
-  <!-- ECG Waveform - Normal Sinus Rhythm -->
   <path class="ecg-line" d="
     M 0,110
     L 30,110
@@ -68,7 +61,6 @@
     L 120,110
     L 123,105 L 130,100 L 140,100 L 147,105 L 150,110
     L 180,110
-
     L 210,110
     L 215,110 L 218,105 L 222,115 L 225,110
     L 245,110
@@ -78,7 +70,6 @@
     L 300,110
     L 303,105 L 310,100 L 320,100 L 327,105 L 330,110
     L 360,110
-
     L 390,110
     L 395,110 L 398,105 L 402,115 L 405,110
     L 425,110
@@ -91,50 +82,38 @@
     L 560,110
   "/>
 
-  <!-- Divider -->
   <line class="divider" x1="580" y1="15" x2="580" y2="205"/>
 
-  <!-- Vital Signs Panel -->
-  <!-- Heart Rate -->
   <text class="label" x="600" y="35">HR</text>
   <text class="value" x="700" y="35" text-anchor="end">72</text>
   <text class="value-unit" x="706" y="35">bpm</text>
 
-  <!-- CI Status -->
   <text class="label" x="600" y="62">CI</text>
-  <text class="value" x="700" y="62" text-anchor="end" fill="#00ff41">PASS</text>
+  <text class="value" x="700" y="62" text-anchor="end">PASS</text>
   <text x="710" y="62" class="icon">&#x2713;</text>
 
-  <!-- PR Review Time -->
   <text class="label" x="600" y="89">PR</text>
   <text class="value" x="700" y="89" text-anchor="end">3.2</text>
   <text class="value-unit" x="706" y="89">hrs</text>
 
-  <!-- Release Frequency -->
   <text class="label" x="600" y="116">RF</text>
   <text class="value" x="700" y="116" text-anchor="end">2.4</text>
   <text class="value-unit" x="706" y="116">/wk</text>
 
-  <!-- Issue Response -->
   <text class="label" x="600" y="143">IR</text>
   <text class="value" x="700" y="143" text-anchor="end">1.8</text>
   <text class="value-unit" x="706" y="143">hrs</text>
 
-  <!-- Health Bar -->
   <rect class="bar-bg" x="600" y="160" width="170" height="10"/>
   <rect class="bar-fill" x="600" y="160" width="153" height="10"/>
 
-  <!-- Status -->
   <circle class="status-dot" cx="608" cy="185" r="4"/>
   <text class="status-text" x="618" y="189">HEALTHY</text>
   <text class="value" x="770" y="189" text-anchor="end" font-size="13">90</text>
   <text class="value-unit" x="775" y="189">/100</text>
 
-  <!-- Repo Name -->
   <text class="repo-name" x="20" y="205">
-    <tspan fill="#00ff4180">owner/</tspan>repo-name
+    <tspan fill="#64748b">owner/</tspan>repo-name
   </text>
-
-  <!-- Heart icon -->
   <text class="heart" x="540" y="207" font-size="16">&#x2665;</text>
 </svg>

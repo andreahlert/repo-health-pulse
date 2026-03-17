@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
+  <defs>
+    <style>
+      @keyframes trace-fast {
+        0% { stroke-dashoffset: 1000; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes pulse-warn {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      .bg { fill: #1a1c20; }
+      .ecg {
+        fill: none;
+        stroke: #eab308;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 3px #eab30840);
+        stroke-dasharray: 1000;
+        animation: trace-fast 2.2s linear infinite;
+      }
+      .repo { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 12px; }
+      .repo-dim { fill: #64748b; }
+      .score { fill: #eab308; font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #94a3b8; font-family: 'Courier New', monospace; font-size: 11px; }
+      .status { fill: #eab308; font-family: 'Courier New', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+      .dot { fill: #eab308; animation: pulse-warn 0.7s ease-in-out infinite; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="480" height="80" rx="6"/>
+  <rect class="border" x="0.5" y="0.5" width="479" height="79"/>
+
+  <path class="ecg" d="
+    M 15,40
+    L 28,40
+    L 30,40 L 32,36 L 35,44 L 37,40
+    L 45,40
+    L 47,38 L 49,37 L 52,40
+    L 57,40
+    L 59,40 L 61,16 L 64,60 L 66,32 L 69,40
+    L 78,40
+    L 80,36 L 84,33 L 89,33 L 93,36 L 95,40
+    L 110,40
+
+    L 123,40
+    L 125,40 L 127,36 L 130,44 L 132,40
+    L 140,40
+    L 142,38 L 144,37 L 147,40
+    L 152,40
+    L 154,40 L 156,16 L 159,60 L 161,32 L 164,40
+    L 173,40
+    L 175,36 L 179,33 L 184,33 L 188,36 L 190,40
+    L 205,40
+
+    L 218,40
+    L 220,40 L 222,36 L 225,44 L 227,40
+    L 235,40
+    L 237,38 L 239,37 L 242,40
+    L 247,40
+    L 249,40 L 251,16 L 254,60 L 256,32 L 259,40
+    L 268,40
+    L 270,36 L 274,33 L 279,33 L 283,36 L 285,40
+    L 300,40
+
+    L 313,40
+    L 315,40 L 317,36 L 320,44 L 322,40
+    L 330,40
+    L 332,38 L 334,37 L 337,40
+    L 342,40
+    L 344,40 L 346,16 L 349,60 L 351,32 L 354,40
+    L 363,40
+    L 365,36 L 369,33 L 374,33 L 378,36 L 380,40
+    L 385,40
+  "/>
+
+  <text class="repo" x="15" y="68">
+    <tspan class="repo-dim">owner/</tspan>legacy-api
+  </text>
+
+  <circle class="dot" cx="410" cy="28" r="3"/>
+  <text class="status" x="418" y="32">stressed</text>
+
+  <text class="score" x="410" y="58">66</text>
+  <text class="score-unit" x="438" y="58">/100</text>
+</svg>

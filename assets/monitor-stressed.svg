@@ -13,39 +13,37 @@
         0%, 100% { opacity: 0.5; }
         50% { opacity: 1; }
       }
-      .bg { fill: #0a0a0a; }
+      .bg { fill: #1a1c20; }
       .ecg-line {
         fill: none;
-        stroke: #f0c030;
+        stroke: #eab308;
         stroke-width: 2.5;
         stroke-linecap: round;
         stroke-linejoin: round;
-        filter: drop-shadow(0 0 6px #f0c03080);
+        filter: drop-shadow(0 0 4px #eab30850);
         stroke-dasharray: 2400;
         animation: trace-fast 2.5s linear infinite;
       }
-      .grid-line { stroke: #2a2a1a; stroke-width: 0.5; }
-      .label { fill: #f0c030; font-family: 'Courier New', monospace; font-size: 11px; }
-      .value { fill: #f0c030; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
-      .value-unit { fill: #f0c03099; font-family: 'Courier New', monospace; font-size: 10px; }
-      .value-bad { fill: #ff6b35; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
-      .repo-name { fill: #f0c030; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
-      .status-text { fill: #f0c030; font-family: 'Courier New', monospace; font-size: 12px; }
-      .status-dot { fill: #f0c030; animation: blink-warn 0.8s ease-in-out infinite; }
-      .divider { stroke: #f0c03033; stroke-width: 1; }
-      .bar-bg { fill: #1a1a1a; rx: 3; }
-      .bar-fill { fill: #f0c030; rx: 3; filter: drop-shadow(0 0 4px #f0c03060); }
-      .border { fill: none; stroke: #f0c03033; stroke-width: 1; rx: 8; }
-      .icon { fill: #ff6b35; font-size: 14px; }
-      .heart { fill: #f0c030; animation: pulse-warn 0.6s ease-in-out infinite; }
+      .grid-line { stroke: #262a30; stroke-width: 0.5; }
+      .label { fill: #eab308; font-family: 'Courier New', monospace; font-size: 11px; }
+      .value { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
+      .value-unit { fill: #94a3b8; font-family: 'Courier New', monospace; font-size: 10px; }
+      .value-warn { fill: #f59e0b; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; }
+      .repo-name { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
+      .status-text { fill: #eab308; font-family: 'Courier New', monospace; font-size: 12px; }
+      .status-dot { fill: #eab308; animation: blink-warn 0.8s ease-in-out infinite; }
+      .divider { stroke: #2e3238; stroke-width: 1; }
+      .bar-bg { fill: #262a30; rx: 3; }
+      .bar-fill { fill: #eab308; rx: 3; opacity: 0.85; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 8; }
+      .icon { fill: #f59e0b; font-size: 14px; }
+      .heart { fill: #eab308; animation: pulse-warn 0.6s ease-in-out infinite; }
     </style>
   </defs>
 
-  <!-- Background -->
   <rect class="bg" width="800" height="220" rx="8"/>
   <rect class="border" x="0.5" y="0.5" width="799" height="219"/>
 
-  <!-- Grid -->
   <g opacity="0.3">
     <line class="grid-line" x1="0" y1="44" x2="560" y2="44"/>
     <line class="grid-line" x1="0" y1="88" x2="560" y2="88"/>
@@ -53,7 +51,6 @@
     <line class="grid-line" x1="0" y1="176" x2="560" y2="176"/>
   </g>
 
-  <!-- ECG Waveform - Tachycardia / Stressed (faster, taller T-waves) -->
   <path class="ecg-line" d="
     M 0,110
     L 15,110
@@ -65,7 +62,6 @@
     L 73,110
     L 75,100 L 80,92 L 86,92 L 91,100 L 93,110
     L 110,110
-
     L 125,110
     L 128,110 L 130,103 L 134,117 L 136,110
     L 146,110
@@ -75,7 +71,6 @@
     L 183,110
     L 185,100 L 190,92 L 196,92 L 201,100 L 203,110
     L 220,110
-
     L 235,110
     L 238,110 L 240,103 L 244,117 L 246,110
     L 256,110
@@ -85,7 +80,6 @@
     L 293,110
     L 295,100 L 300,92 L 306,92 L 311,100 L 313,110
     L 330,110
-
     L 345,110
     L 348,110 L 350,103 L 354,117 L 356,110
     L 366,110
@@ -95,7 +89,6 @@
     L 403,110
     L 405,100 L 410,92 L 416,92 L 421,100 L 423,110
     L 440,110
-
     L 455,110
     L 458,110 L 460,103 L 464,117 L 466,110
     L 476,110
@@ -107,20 +100,18 @@
     L 560,110
   "/>
 
-  <!-- Divider -->
   <line class="divider" x1="580" y1="15" x2="580" y2="205"/>
 
-  <!-- Vital Signs Panel -->
   <text class="label" x="600" y="35">HR</text>
   <text class="value" x="700" y="35" text-anchor="end">96</text>
   <text class="value-unit" x="706" y="35">bpm</text>
 
   <text class="label" x="600" y="62">CI</text>
-  <text class="value-bad" x="700" y="62" text-anchor="end">FLAKY</text>
+  <text class="value-warn" x="700" y="62" text-anchor="end">FLAKY</text>
   <text x="710" y="62" class="icon">&#x26A0;</text>
 
   <text class="label" x="600" y="89">PR</text>
-  <text class="value-bad" x="700" y="89" text-anchor="end">18.5</text>
+  <text class="value-warn" x="700" y="89" text-anchor="end">18.5</text>
   <text class="value-unit" x="706" y="89">hrs</text>
 
   <text class="label" x="600" y="116">RF</text>
@@ -128,22 +119,19 @@
   <text class="value-unit" x="706" y="116">/wk</text>
 
   <text class="label" x="600" y="143">IR</text>
-  <text class="value-bad" x="700" y="143" text-anchor="end">26.3</text>
+  <text class="value-warn" x="700" y="143" text-anchor="end">26.3</text>
   <text class="value-unit" x="706" y="143">hrs</text>
 
-  <!-- Health Bar -->
   <rect class="bar-bg" x="600" y="160" width="170" height="10"/>
   <rect class="bar-fill" x="600" y="160" width="112" height="10"/>
 
-  <!-- Status -->
   <circle class="status-dot" cx="608" cy="185" r="4"/>
   <text class="status-text" x="618" y="189">STRESSED</text>
   <text class="value" x="770" y="189" text-anchor="end" font-size="13">66</text>
   <text class="value-unit" x="775" y="189">/100</text>
 
-  <!-- Repo Name -->
   <text class="repo-name" x="20" y="205">
-    <tspan fill="#f0c03080">owner/</tspan>legacy-api
+    <tspan fill="#64748b">owner/</tspan>legacy-api
   </text>
   <text class="heart" x="540" y="207" font-size="16">&#x2665;</text>
 </svg>
