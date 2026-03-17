@@ -6,13 +6,32 @@ All data below is **generated automatically** from the GitHub API via CI.
 
 ---
 
+## Reference: The Perfect Patient
+
+What does a perfectly healthy repository look like? CI at 98%, PRs merging in 3h, weekly releases, issues answered in under an hour. Calm resting heart rate at 68 bpm, regular sinus rhythm, clean baseline.
+
+![reference](generated/monitor/reference-perfect-repo.svg)
+
+Every repo below is compared against this baseline. The further the metrics deviate, the more the ECG deforms:
+
+| Deviation | What happens to the ECG |
+|---|---|
+| CI drops below 35% | P-wave disappears, atrial fibrillation (noisy baseline between beats) |
+| CI drops below 30% | ST segment elevates (injury current, heart attack signal) |
+| PR merge time increases | T-wave grows taller (cardiac stress). Above 7 days, T-wave inverts |
+| Releases slow down | Heart rate drops, longer pauses between beats (bradycardia) |
+| Releases stop completely | Flatline with slow wandering baseline (asystole) |
+| Response time increases | Baseline becomes unstable, drifts between beats |
+
+---
+
 ## Showcase
 
 ### Monitor View (800x220)
 
-![vscode](generated/monitor/microsoft-vscode.svg)
-
 ![ruff](generated/monitor/astral-sh-ruff.svg)
+
+![vscode](generated/monitor/microsoft-vscode.svg)
 
 ![airflow](generated/monitor/apache-airflow.svg)
 

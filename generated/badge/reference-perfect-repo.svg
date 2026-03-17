@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="32" viewBox="0 0 280 32">
+  <defs>
+    <style>
+      @keyframes badge-trace {
+        0% { stroke-dashoffset: 200; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes badge-pulse {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
+      .badge-bg-left { fill: #1a1c20; }
+      .badge-bg-right { fill: #1e2420; }
+      .badge-text { fill: #e2e8f0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 11px; }
+      .badge-value { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: bold;  }
+      .badge-ecg {
+        fill: none;
+        stroke: #4ade80;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        /* no filter - avoids render glitch */
+        stroke-dasharray: 200;
+        animation: badge-trace 4s linear infinite;
+      }
+      .badge-heart { fill: #4ade80; font-size: 10px; animation: badge-pulse 1s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <rect class="badge-bg-left" width="90" height="32" rx="4"/>
+  <rect class="badge-bg-right" x="90" width="190" height="32" rx="0"/>
+  <rect class="badge-bg-right" x="276" width="4" height="32" rx="4"/>
+  <rect fill="none" stroke="#2e3238" stroke-width="1" x="0.5" y="0.5" width="279" height="31" rx="4"/>
+
+  <text class="badge-text" x="10" y="20">health</text>
+
+  <path class="badge-ecg" d="M 95,16 L 95,16 L 96.25,15.99 L 97.49,15.92 L 98.74,15.61 L 99.98,15.06 L 101.23,14.85 L 102.47,15.28 L 103.72,15.77 L 104.96,16.03 L 106.21,14.24 L 107.45,6.08 L 108.7,14.62 L 109.94,16.13 L 111.19,15.72 L 112.43,15.21 L 113.68,14.35 L 114.92,13.47 L 116.17,13.16 L 117.41,14.06 L 118.66,15.28 L 119.9,15.85 L 121.15,15.98 L 122.39,16 L 123.64,16 L 124.88,16 L 126.13,16 L 127.37,16 L 128.62,16 L 129.86,16 L 131.11,16 L 132.35,16 L 133.6,16 L 134.85,16 L 136.09,16 L 137.34,16 L 138.58,16 L 139.83,16 L 141.07,16 L 142.32,16 L 143.56,16 L 159.75,16 L 159.75,16 L 160.99,15.99 L 162.23,15.92 L 163.47,15.61 L 164.72,15.06 L 165.96,14.85 L 167.2,15.28 L 168.44,15.77 L 169.68,16.03 L 170.92,14.24 L 172.16,6.08 L 173.41,14.62 L 174.65,16.13 L 175.89,15.72 L 177.13,15.21 L 178.37,14.35 L 179.61,13.47 L 180.86,13.16 L 182.1,14.06 L 183.34,15.28 L 184.58,15.85 L 185.82,15.98 L 187.06,16 L 188.31,16 L 189.55,16 L 190.79,16 L 192.03,16 L 193.27,16 L 194.51,16 L 195.76,16 L 197,16 L 198.24,16 L 199.48,16 L 200.72,16 L 201.96,16 L 203.21,16 L 204.45,16 L 205.69,16 L 206.93,16 L 208.17,16 L 224.31,16 L 226,16"/>
+
+  <text class="badge-value" x="232" y="20">94/100</text>
+  <text class="badge-heart" x="268" y="20">&#x2665;</text>
+</svg>
