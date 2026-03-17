@@ -2,6 +2,7 @@ import { HealthResult, HealthState, RenderFormat, SvgData } from '../core/types'
 import { renderMonitor } from './templates';
 import { renderMini } from './template-mini';
 import { renderBadge } from './template-badge';
+import { generateMonitorWaveform, generateMiniWaveform, generateBadgeWaveform } from './waveform-generator';
 
 const VALUE_CLASS_MAP: Record<HealthState, 'good' | 'warn' | 'crit' | 'dead'> = {
   healthy: 'good',
@@ -96,13 +97,21 @@ export function renderSvg(
   repo: string
 ): string {
   const data = buildSvgData(result, owner, repo);
+  const slug = `${owner}/${repo}`;
+
+  // Generate unique waveform based on individual metrics
+  const waveform = format === 'monitor'
+    ? generateMonitorWaveform(result.metrics, slug)
+    : format === 'mini'
+    ? generateMiniWaveform(result.metrics, slug)
+    : generateBadgeWaveform(result.metrics, slug);
 
   switch (format) {
     case 'monitor':
-      return renderMonitor(data);
+      return renderMonitor(data, waveform);
     case 'mini':
-      return renderMini(data);
+      return renderMini(data, waveform);
     case 'badge':
-      return renderBadge(data);
+      return renderBadge(data, waveform);
   }
 }

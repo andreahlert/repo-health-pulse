@@ -1,10 +1,8 @@
 import { SvgData } from '../core/types';
 import { themes } from './theme';
-import { miniWaveforms } from './waveforms';
 
-export function renderMini(d: SvgData): string {
+export function renderMini(d: SvgData, waveform: string): string {
   const t = themes[d.state];
-  const waveform = miniWaveforms[d.state];
   const statusLabel = d.state;
 
   const blinkCss = d.state === 'critical' ? `

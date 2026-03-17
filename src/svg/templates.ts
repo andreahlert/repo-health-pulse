@@ -1,10 +1,8 @@
 import { SvgData } from '../core/types';
 import { themes, valueColors } from './theme';
-import { monitorWaveforms } from './waveforms';
 
-export function renderMonitor(d: SvgData): string {
+export function renderMonitor(d: SvgData, waveform: string): string {
   const t = themes[d.state];
-  const waveform = monitorWaveforms[d.state];
   const statusLabel = d.state.toUpperCase();
 
   const blinkCss = d.state === 'critical' ? `

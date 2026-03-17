@@ -1,10 +1,8 @@
 import { SvgData } from '../core/types';
 import { themes } from './theme';
-import { badgeWaveforms } from './waveforms';
 
-export function renderBadge(d: SvgData): string {
+export function renderBadge(d: SvgData, waveform: string): string {
   const t = themes[d.state];
-  const waveform = badgeWaveforms[d.state];
 
   const blinkCss = d.state === 'critical' ? `
       @keyframes badge-blink {
