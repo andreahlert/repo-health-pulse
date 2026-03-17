@@ -149,17 +149,23 @@ function scoreReleases(
   perWeek: number,
   releaseCount: number,
   lastReleaseDate: string | null,
+  prMergedCount: number,
   cohort: CohortPercentiles,
 ): number {
   const hasReleaseHistory = releaseCount > 0 || lastReleaseDate !== null;
 
   if (perWeek === 0 && !hasReleaseHistory) {
-    // Repo never used releases, don't penalize
-    return 50;
+    // Repo never used releases. If it has active PRs, it's just using
+    // a different distribution mechanism (tags, channels, etc.) - neutral.
+    // If it has no PRs either, slightly below average.
+    return prMergedCount >= 10 ? 50 : 40;
   }
 
   if (perWeek === 0 && hasReleaseHistory) {
-    // Used to release but stopped. Check how long ago.
+    // Used to release but stopped. But if PRs are very active, the repo
+    // likely moved to a different release mechanism - don't penalize hard.
+    if (prMergedCount >= 15) return 45;
+
     if (lastReleaseDate) {
       const daysSince =
         (Date.now() - new Date(lastReleaseDate).getTime()) / (1000 * 60 * 60 * 24);
@@ -247,6 +253,7 @@ export function calculateScore(raw: RawMetrics): HealthResult {
       raw.releasesPerWeek,
       raw.releaseCount,
       raw.lastReleaseDate,
+      raw.prMergedCount,
       cohort,
     ),
     response: scoreResponse(raw.responseTimeHours, raw.responseIsBotOnly),

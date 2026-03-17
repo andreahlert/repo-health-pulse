@@ -11,6 +11,8 @@ interface OctokitLike {
     repos: {
       get(params: any): Promise<any>;
       listReleases(params: any): Promise<any>;
+      listTags(params: any): Promise<any>;
+      getCommit(params: any): Promise<any>;
     };
     issues: {
       listComments(params: any): Promise<any>;
@@ -73,7 +75,11 @@ async function collectCi(
       status: 'completed',
     });
 
-    const runs = data.workflow_runs || [];
+    const allRuns = data.workflow_runs || [];
+    // Only count runs that actually executed (exclude skipped/cancelled)
+    const runs = allRuns.filter((r: any) =>
+      r.conclusion === 'success' || r.conclusion === 'failure'
+    );
     if (runs.length === 0) return { ciPassRate: null, ciTotalRuns: 0 };
 
     const success = runs.filter((r: any) => r.conclusion === 'success').length;
@@ -119,36 +125,64 @@ async function collectReleases(
   owner: string,
   repo: string
 ): Promise<Pick<RawMetrics, 'releasesPerWeek' | 'releaseCount' | 'releasePeriodDays' | 'lastReleaseDate'>> {
+  const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
+  const empty = { releasesPerWeek: 0, releaseCount: 0, releasePeriodDays: 0, lastReleaseDate: null };
+
+  // Try GitHub Releases first
   try {
-    const { data } = await octokit.rest.repos.listReleases({
-      owner,
-      repo,
-      per_page: 30,
-    });
+    const { data } = await octokit.rest.repos.listReleases({ owner, repo, per_page: 30 });
 
-    if (data.length === 0) {
-      return { releasesPerWeek: 0, releaseCount: 0, releasePeriodDays: 0, lastReleaseDate: null };
+    if (data.length > 0) {
+      const recent = data.filter((r: any) => r.published_at && r.published_at >= ninetyDaysAgo);
+      const periodDays = daysBetween(data[data.length - 1].published_at, data[0].published_at);
+
+      if (recent.length > 0) {
+        return {
+          releasesPerWeek: Math.round((recent.length / (90 / 7)) * 100) / 100,
+          releaseCount: recent.length,
+          releasePeriodDays: Math.round(periodDays),
+          lastReleaseDate: data[0].published_at,
+        };
+      }
     }
+  } catch {}
 
-    const now = new Date().toISOString();
-    const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
-    const recent = data.filter((r: any) => r.published_at >= ninetyDaysAgo);
+  // Fallback: count recent tags (many projects use tags instead of Releases)
+  try {
+    const { data: tags } = await (octokit as any).rest.repos.listTags({ owner, repo, per_page: 30 });
 
-    const periodDays = data.length > 0
-      ? daysBetween(data[data.length - 1].published_at, data[0].published_at)
-      : 90;
+    if (tags.length > 0) {
+      // Get commit dates for the tags to filter by recency
+      const tagDates: string[] = [];
+      // Check first and last tag to estimate frequency (avoid too many API calls)
+      for (const tag of tags.slice(0, 10)) {
+        try {
+          const { data: commit } = await (octokit as any).rest.repos.getCommit({
+            owner, repo, ref: tag.commit.sha,
+          });
+          tagDates.push(commit.commit.committer.date);
+        } catch { break; }
+      }
 
-    const weeks = Math.max(periodDays / 7, 1);
+      if (tagDates.length > 0) {
+        const recentTags = tagDates.filter(d => d >= ninetyDaysAgo);
+        if (recentTags.length > 0 || tagDates.length > 0) {
+          const latestDate = tagDates[0];
+          const count = recentTags.length;
+          return {
+            releasesPerWeek: Math.round((count / (90 / 7)) * 100) / 100,
+            releaseCount: count,
+            releasePeriodDays: tagDates.length > 1
+              ? Math.round(daysBetween(tagDates[tagDates.length - 1], tagDates[0]))
+              : 90,
+            lastReleaseDate: latestDate,
+          };
+        }
+      }
+    }
+  } catch {}
 
-    return {
-      releasesPerWeek: Math.round((recent.length / (90 / 7)) * 100) / 100,
-      releaseCount: recent.length,
-      releasePeriodDays: Math.round(periodDays),
-      lastReleaseDate: data[0].published_at,
-    };
-  } catch {
-    return { releasesPerWeek: 0, releaseCount: 0, releasePeriodDays: 0, lastReleaseDate: null };
-  }
+  return empty;
 }
 
 async function collectIssueResponse(
