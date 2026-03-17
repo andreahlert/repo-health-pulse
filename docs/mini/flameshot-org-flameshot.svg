@@ -47,6 +47,6 @@
   <circle class="dot" cx="410" cy="28" r="3"/>
   <text class="status" x="418" y="32">stressed</text>
 
-  <text class="score" x="410" y="58">57</text>
+  <text class="score" x="410" y="58">55</text>
   <text class="score-unit" x="438" y="58">/100</text>
 </svg>

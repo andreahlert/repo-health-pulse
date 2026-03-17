@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
   <defs>
     <style>
-      @keyframes trace-fast {
+      @keyframes trace-erratic {
         0% { stroke-dashoffset: 1000; }
         100% { stroke-dashoffset: 0; }
       }
@@ -13,29 +13,35 @@
         0%, 100% { opacity: 0.4; }
         50% { opacity: 0.7; }
       }
+      @keyframes blink-crit {
+        0%, 100% { opacity: 1; }
+        30% { opacity: 0; }
+        60% { opacity: 1; }
+        80% { opacity: 0; }
+      }
       .bg { fill: #1a1c20; }
       .ecg {
         fill: none;
-        stroke: #eab308;
+        stroke: #ef4444;
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
         /* no filter - avoids render glitch */
         stroke-dasharray: 1000;
-        animation: trace-fast 2.5s linear infinite;
+        animation: trace-erratic 3.5s linear infinite;
       }
       .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
       .repo-dim { fill: #64748b; }
-      .score { fill: #eab308; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score { fill: #ef4444; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
       .score-unit { fill: #94a3b8; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
-      .status { fill: #eab308; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;  }
-      .dot { fill: #eab308; animation: pulse 0.7s ease-in-out infinite; }
-      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
+      .status { fill: #ef4444; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: blink-crit 0.8s ease-in-out infinite; }
+      .dot { fill: #ef4444; animation: blink-crit 0.5s ease-in-out infinite; }
+      .border { fill: none; stroke: #ef444425; stroke-width: 1; rx: 6; }
     </style>
   </defs>
 
   <rect class="bg" width="480" height="80" rx="6"/>
-  
+  <rect width="480" height="80" rx="6" fill="#ef4444" opacity="0.02"/>
   <rect class="border" x="0.5" y="0.5" width="479" height="79"/>
 
   <path class="ecg" d="M 15,40 L 15,39.63 L 16.18,39.77 L 17.37,39.69 L 18.55,38.96 L 19.74,37.91 L 20.92,37.7 L 22.11,38.87 L 23.29,39.73 L 24.47,40.36 L 25.66,36.18 L 26.84,17.12 L 28.03,37.64 L 29.21,40.5 L 30.4,39.03 L 31.58,38.01 L 32.76,35.77 L 33.95,32.65 L 35.13,30.62 L 36.32,32.31 L 37.5,36.3 L 38.68,39.45 L 39.87,40.02 L 41.05,40.02 L 42.24,40.23 L 43.42,39.66 L 44.61,40.35 L 45.79,39.7 L 46.97,39.94 L 48.16,40.28 L 49.34,40.11 L 50.53,40.32 L 51.71,40.26 L 52.9,40.35 L 54.08,40.07 L 55.26,40.01 L 56.45,40.18 L 57.63,39.98 L 58.82,40.3 L 60,40.12 L 61.19,40.01 L 69.48,39.87 L 76.58,40.1 L 76.58,40.12 L 77.79,40 L 79.01,39.71 L 80.22,38.92 L 81.43,38.38 L 82.65,38.11 L 83.86,38.21 L 85.07,39.31 L 86.28,40.25 L 87.5,35.82 L 88.71,17 L 89.92,36.98 L 91.14,40.48 L 92.35,39.22 L 93.56,37.91 L 94.78,35.95 L 95.99,32.47 L 97.2,30.97 L 98.41,32.73 L 99.63,36.67 L 100.84,39.29 L 102.05,40.27 L 103.27,40.11 L 104.48,40.01 L 105.69,39.89 L 106.91,39.99 L 108.12,40.05 L 109.33,40.22 L 110.54,40.22 L 111.76,40.36 L 112.97,40.07 L 114.18,39.91 L 115.4,40.15 L 116.61,39.97 L 117.82,39.9 L 119.03,39.84 L 120.25,40.04 L 121.46,40.05 L 122.67,39.76 L 123.89,40.14 L 132.38,39.91 L 139.66,39.84 L 139.66,40.26 L 140.98,40.04 L 142.31,39.36 L 143.64,39.44 L 144.97,37.89 L 146.3,38.28 L 147.63,38.49 L 148.96,39.7 L 150.29,40.36 L 151.62,36.46 L 152.95,17.05 L 154.27,37.43 L 155.6,40.44 L 156.93,39.24 L 158.26,38.16 L 159.59,35.43 L 160.92,32.9 L 162.25,31.14 L 163.58,32.28 L 164.91,36.56 L 166.23,38.98 L 167.56,39.67 L 168.89,40.24 L 170.22,40.3 L 171.55,40.19 L 172.88,39.86 L 174.21,40.3 L 175.54,40.38 L 176.87,39.86 L 178.2,40.32 L 179.52,40.36 L 180.85,40 L 182.18,39.88 L 183.51,40.07 L 184.84,40.3 L 186.17,39.98 L 187.5,40.39 L 188.83,40.12 L 190.16,39.78 L 191.48,40.16 L 200.79,39.91 L 208.76,39.81 L 208.76,39.8 L 209.95,39.68 L 211.14,39.63 L 212.32,39.32 L 213.51,38.27 L 214.7,37.58 L 215.88,38.76 L 217.07,39.65 L 218.26,39.9 L 219.44,35.93 L 220.63,17.63 L 221.82,37.58 L 223.01,40.64 L 224.19,39.38 L 225.38,37.78 L 226.57,35.6 L 227.75,32.52 L 228.94,30.5 L 230.13,32.8 L 231.31,36.88 L 232.5,38.81 L 233.69,39.99 L 234.88,39.73 L 236.06,39.72 L 237.25,40.27 L 238.44,40.2 L 239.62,39.86 L 240.81,40.02 L 242,40.01 L 243.18,40.32 L 244.37,40.34 L 245.56,40.34 L 246.75,40.24 L 247.93,40.1 L 249.12,39.79 L 250.31,39.65 L 251.49,40.06 L 252.68,39.67 L 253.87,40.18 L 255.05,40.21 L 263.36,39.83 L 270.48,40.05 L 270.48,39.73 L 271.81,40.07 L 273.14,40.07 L 274.46,39.38 L 275.79,38.32 L 277.12,37.87 L 278.44,38.56 L 279.77,39.1 L 281.1,40.39 L 282.42,36.35 L 283.75,17.49 L 285.07,37.32 L 286.4,40.61 L 287.73,39.45 L 289.05,37.77 L 290.38,35.51 L 291.71,32.57 L 293.03,30.72 L 294.36,32.87 L 295.68,37.01 L 297.01,39.41 L 298.34,39.52 L 299.66,40.06 L 300.99,39.87 L 302.32,39.65 L 303.64,40.13 L 304.97,39.61 L 306.29,40.29 L 307.62,39.69 L 308.95,39.83 L 310.27,40.3 L 311.6,40.31 L 312.93,39.88 L 314.25,39.62 L 315.58,40.02 L 316.9,39.62 L 318.23,40.03 L 319.56,40.08 L 320.88,39.91 L 322.21,39.89 L 331.49,39.91 L 339.45,40.07 L 339.45,39.84 L 340.74,39.9 L 342.02,39.95 L 343.31,38.94 L 344.59,38.22 L 345.88,37.69 L 347.16,38.72 L 348.45,39.38 L 349.73,39.78 L 351.02,35.92 L 352.31,17.42 L 353.59,37.21 L 354.88,40.6 L 356.16,39.13 L 357.45,38.35 L 358.73,35.65 L 360.02,32.88 L 361.3,30.5 L 362.59,32.67 L 363.87,36.53 L 365.16,39.13 L 366.44,39.85 L 367.73,39.63 L 369.01,39.97 L 370.3,40.15 L 371.59,40.26 L 372.87,39.67 L 374.16,39.66 L 375.44,40.1 L 376.73,39.72 L 378.01,40.37 L 379.3,39.96 L 380.58,39.81 L 381.87,39.84 L 383.15,39.9 L 384.44,40.3 L 385,40"/>
@@ -45,8 +51,8 @@
   </text>
 
   <circle class="dot" cx="410" cy="28" r="3"/>
-  <text class="status" x="418" y="32">stressed</text>
+  <text class="status" x="418" y="32">critical</text>
 
-  <text class="score" x="410" y="58">51</text>
+  <text class="score" x="410" y="58">49</text>
   <text class="score-unit" x="438" y="58">/100</text>
 </svg>

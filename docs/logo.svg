@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="heartClip">
+      <path d="M32 56 C32 56, 6 38, 6 22 C6 13, 13 6, 22 8 C27 9.5, 30 13, 32 17 C34 13, 37 9.5, 42 8 C51 6, 58 13, 58 22 C58 38, 32 56, 32 56Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Dark background circle -->
+  <circle cx="32" cy="32" r="31" fill="#1a1c20"/>
+  <circle cx="32" cy="32" r="30.5" fill="none" stroke="#4ade80" stroke-width="0.5" stroke-opacity="0.3"/>
+
+  <!-- Heart outline -->
+  <path d="M32 54 C32 54, 8 37, 8 22 C8 14, 14 8, 22 9.5 C27 10.5, 30 14, 32 18 C34 14, 37 10.5, 42 9.5 C50 8, 56 14, 56 22 C56 37, 32 54, 32 54Z"
+        fill="none"
+        stroke="url(#heartGrad)"
+        stroke-width="1.8"
+        stroke-linejoin="round"
+        opacity="0.6"/>
+
+  <!-- Inner subtle heart fill -->
+  <path d="M32 54 C32 54, 8 37, 8 22 C8 14, 14 8, 22 9.5 C27 10.5, 30 14, 32 18 C34 14, 37 10.5, 42 9.5 C50 8, 56 14, 56 22 C56 37, 32 54, 32 54Z"
+        fill="#4ade80"
+        opacity="0.08"/>
+
+  <!-- ECG waveform line going through the heart -->
+  <polyline
+    points="2,33 10,33 14,33 18,33 21,33 23,30 25,36 27,25 29,42 31,18 33,45 35,22 37,38 39,28 41,33 43,33 47,33 50,33 54,33 62,33"
+    fill="none"
+    stroke="#4ade80"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#glow)"/>
+
+  <!-- Small bright dots at the peaks for emphasis -->
+  <circle cx="31" cy="18" r="1" fill="#4ade80" opacity="0.8"/>
+  <circle cx="33" cy="45" r="0.8" fill="#4ade80" opacity="0.6"/>
+</svg>

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120" width="800" height="120">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1a1c20"/>
+      <stop offset="100%" stop-color="#1e2127"/>
+    </linearGradient>
+    <linearGradient id="heartGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="ecgFade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0"/>
+      <stop offset="8%" stop-color="#4ade80" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#4ade80" stop-opacity="0.3"/>
+      <stop offset="92%" stop-color="#4ade80" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glowB">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="textGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="120" rx="8" fill="url(#bgGrad)"/>
+
+  <!-- Subtle border -->
+  <rect width="800" height="120" rx="8" fill="none" stroke="#4ade80" stroke-width="0.5" stroke-opacity="0.15"/>
+
+  <!-- === ICON (centered at x=60, y=46) scaled to ~56px === -->
+  <g transform="translate(26, 14) scale(0.82)">
+    <!-- Heart outline -->
+    <path d="M32 54 C32 54, 8 37, 8 22 C8 14, 14 8, 22 9.5 C27 10.5, 30 14, 32 18 C34 14, 37 10.5, 42 9.5 C50 8, 56 14, 56 22 C56 37, 32 54, 32 54Z"
+          fill="none"
+          stroke="url(#heartGradB)"
+          stroke-width="2"
+          stroke-linejoin="round"
+          opacity="0.6"/>
+
+    <!-- Inner subtle heart fill -->
+    <path d="M32 54 C32 54, 8 37, 8 22 C8 14, 14 8, 22 9.5 C27 10.5, 30 14, 32 18 C34 14, 37 10.5, 42 9.5 C50 8, 56 14, 56 22 C56 37, 32 54, 32 54Z"
+          fill="#4ade80"
+          opacity="0.08"/>
+
+    <!-- ECG waveform through heart -->
+    <polyline
+      points="2,33 10,33 14,33 18,33 21,33 23,30 25,36 27,25 29,42 31,18 33,45 35,22 37,38 39,28 41,33 43,33 47,33 50,33 54,33 62,33"
+      fill="none"
+      stroke="#4ade80"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      filter="url(#glowB)"/>
+
+    <circle cx="31" cy="18" r="1" fill="#4ade80" opacity="0.8"/>
+  </g>
+
+  <!-- === TEXT === -->
+  <!-- "Repo Health" -->
+  <text x="105" y="52" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="30" fill="#e2e8f0" letter-spacing="-0.5">
+    Repo Health
+  </text>
+  <!-- "Pulse" in green -->
+  <text x="328" y="52" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="30" fill="#4ade80" letter-spacing="-0.5">
+    Pulse
+  </text>
+
+  <!-- Tagline -->
+  <text x="105" y="72" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="400" font-size="12" fill="#e2e8f0" opacity="0.5" letter-spacing="0.5">
+    Repository health as cardiac monitor waveforms
+  </text>
+
+  <!-- === BOTTOM ECG LINE === -->
+  <!-- Full-width ECG waveform running along the bottom -->
+  <polyline
+    points="0,105
+            30,105 50,105 70,105 80,105
+            85,102 90,108 95,98 100,115 105,92 110,118 115,96 120,110 125,100 130,105
+            140,105 170,105 200,105 210,105
+            215,102 220,108 225,98 230,115 235,92 240,118 245,96 250,110 255,100 260,105
+            270,105 300,105 330,105 340,105
+            345,102 350,108 355,98 360,115 365,92 370,118 375,96 380,110 385,100 390,105
+            400,105 430,105 460,105 470,105
+            475,102 480,108 485,98 490,115 495,92 500,118 505,96 510,110 515,100 520,105
+            530,105 560,105 590,105 600,105
+            605,102 610,108 615,98 620,115 625,92 630,118 635,96 640,110 645,100 650,105
+            660,105 690,105 720,105 730,105
+            735,102 740,108 745,98 750,115 755,92 760,118 765,96 770,110 775,100 780,105
+            790,105 800,105"
+    fill="none"
+    stroke="url(#ecgFade)"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <!-- Subtle horizontal guide line behind the ECG -->
+  <line x1="0" y1="105" x2="800" y2="105" stroke="#4ade80" stroke-width="0.3" stroke-opacity="0.1"/>
+</svg>
