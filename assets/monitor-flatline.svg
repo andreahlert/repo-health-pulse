@@ -20,21 +20,21 @@
         animation: flatline-sweep 6s linear infinite;
       }
       .grid-line { stroke: #262a30; stroke-width: 0.5; }
-      .label { fill: #4b5563; font-family: 'Courier New', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-      .value { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
-      .value-unit { fill: #4b5563; font-family: 'Courier New', monospace; font-size: 10px; }
-      .value-dead { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 15px; }
-      .value-crit { fill: #ef4444; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
-      .repo-name { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
-      .status-text { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 12px; font-weight: bold; animation: fade-slow 3s ease-in-out infinite; }
+      .label { fill: #4b5563; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+      .value { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .value-unit { fill: #4b5563; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
+      .value-dead { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; }
+      .value-crit { fill: #ef4444; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .repo-name { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 14px; font-weight: bold; }
+      .status-text { fill: #6b7280; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; font-weight: bold; animation: fade-slow 3s ease-in-out infinite; }
       .status-dot { fill: #6b7280; animation: fade-slow 3s ease-in-out infinite; }
       .divider { stroke: #2e3238; stroke-width: 1; }
       .bar-bg { fill: #262a30; rx: 3; }
       .bar-fill { fill: #4b5563; rx: 3; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 8; }
       .heart { fill: #4b5563; font-size: 18px; }
-      .bpm { fill: #6b7280; font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; }
-      .bpm-unit { fill: #4b5563; font-family: 'Courier New', monospace; font-size: 10px; }
+      .bpm { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 22px; font-weight: bold; }
+      .bpm-unit { fill: #4b5563; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
       .noise {
         fill: none;
         stroke: #374151;
@@ -119,5 +119,5 @@
   </text>
 
   <!-- Last release note -->
-  <text fill="#4b5563" font-family="'Courier New', monospace" font-size="8" x="555" y="205" text-anchor="end">last release: 2025-12-01 (106 days ago)</text>
+  <text fill="#4b5563" font-family="ui-monospace, 'SF Mono', Consolas, monospace" font-size="8" x="555" y="205" text-anchor="end">last release: 2025-12-01 (106 days ago)</text>
 </svg>

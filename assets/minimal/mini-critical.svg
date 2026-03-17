@@ -22,11 +22,11 @@
         stroke-dasharray: 1000;
         animation: trace-erratic 3s linear infinite;
       }
-      .repo { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 12px; }
+      .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
       .repo-dim { fill: #64748b; }
-      .score { fill: #ef4444; font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold; }
-      .score-unit { fill: #94a3b8; font-family: 'Courier New', monospace; font-size: 11px; }
-      .status { fill: #ef4444; font-family: 'Courier New', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: blink-crit 0.8s ease-in-out infinite; }
+      .score { fill: #ef4444; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #94a3b8; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #ef4444; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: blink-crit 0.8s ease-in-out infinite; }
       .dot { fill: #ef4444; animation: blink-crit 0.5s ease-in-out infinite; }
       .border { fill: none; stroke: #ef444425; stroke-width: 1; rx: 6; }
     </style>

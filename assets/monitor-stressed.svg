@@ -25,21 +25,21 @@
         animation: trace-fast 2.5s linear infinite;
       }
       .grid-line { stroke: #262a30; stroke-width: 0.5; }
-      .label { fill: #94a3b8; font-family: 'Courier New', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-      .value { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
-      .value-unit { fill: #64748b; font-family: 'Courier New', monospace; font-size: 10px; }
-      .value-warn { fill: #f59e0b; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
-      .value-good { fill: #4ade80; font-family: 'Courier New', monospace; font-size: 15px; font-weight: bold; }
-      .repo-name { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; }
-      .status-text { fill: #eab308; font-family: 'Courier New', monospace; font-size: 12px; font-weight: bold; }
+      .label { fill: #94a3b8; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+      .value { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .value-unit { fill: #64748b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
+      .value-warn { fill: #f59e0b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .value-good { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .repo-name { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 14px; font-weight: bold; }
+      .status-text { fill: #eab308; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; font-weight: bold; }
       .status-dot { fill: #eab308; animation: blink-warn 0.8s ease-in-out infinite; }
       .divider { stroke: #2e3238; stroke-width: 1; }
       .bar-bg { fill: #262a30; rx: 3; }
       .bar-fill { fill: #eab308; rx: 3; opacity: 0.85; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 8; }
       .heart { fill: #eab308; animation: pulse-warn 0.6s ease-in-out infinite; font-size: 18px; }
-      .bpm { fill: #eab308; font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; }
-      .bpm-unit { fill: #eab30899; font-family: 'Courier New', monospace; font-size: 10px; }
+      .bpm { fill: #eab308; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 22px; font-weight: bold; }
+      .bpm-unit { fill: #eab30899; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
     </style>
   </defs>
 

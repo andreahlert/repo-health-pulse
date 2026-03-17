@@ -11,8 +11,8 @@
       }
       .badge-bg-left { fill: #1a1c20; }
       .badge-bg-right { fill: #24221a; }
-      .badge-text { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 11px; }
-      .badge-value { fill: #eab308; font-family: 'Courier New', monospace; font-size: 11px; font-weight: bold; }
+      .badge-text { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .badge-value { fill: #eab308; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: bold; }
       .badge-ecg {
         fill: none;
         stroke: #eab308;

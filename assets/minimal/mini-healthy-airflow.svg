@@ -18,7 +18,7 @@
         stroke-linejoin: round;
         filter: drop-shadow(0 0 3px #4ade8040);
         stroke-dasharray: 1000;
-        animation: trace 3.5s linear infinite;
+        animation: trace 3.2s linear infinite;
       }
       .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
       .repo-dim { fill: #64748b; }
@@ -35,30 +35,32 @@
 
   <path class="ecg" d="
     M 15,40
-    L 35,40 L 38,40 L 40,36 L 43,44 L 45,40
-    L 58,40 L 60,38 L 63,37 L 66,40
-    L 73,40 L 75,40 L 77,18 L 80,58 L 82,33 L 85,40
-    L 98,40 L 100,37 L 105,34 L 112,34 L 117,37 L 119,40
-    L 140,40
-    L 160,40 L 163,40 L 165,36 L 168,44 L 170,40
-    L 183,40 L 185,38 L 188,37 L 191,40
-    L 198,40 L 200,40 L 202,18 L 205,58 L 207,33 L 210,40
-    L 223,40 L 225,37 L 230,34 L 237,34 L 242,37 L 244,40
-    L 265,40
-    L 285,40 L 288,40 L 290,36 L 293,44 L 295,40
-    L 308,40 L 310,38 L 313,37 L 316,40
-    L 323,40 L 325,40 L 327,18 L 330,58 L 332,33 L 335,40
-    L 348,40 L 350,37 L 355,34 L 362,34 L 367,37 L 369,40
-    L 385,40
+    L 32,40 L 35,40 L 37,36 L 40,44 L 42,40
+    L 53,40 L 55,38 L 58,37 L 61,40
+    L 68,40 L 70,40 L 72,17 L 75,59 L 77,32 L 80,40
+    L 93,40 L 95,37 L 100,34 L 107,34 L 112,37 L 114,40
+    L 133,40
+
+    L 150,40 L 153,40 L 155,36 L 158,44 L 160,40
+    L 171,40 L 173,38 L 176,37 L 179,40
+    L 186,40 L 188,40 L 190,17 L 193,59 L 195,32 L 198,40
+    L 211,40 L 213,37 L 218,34 L 225,34 L 230,37 L 232,40
+    L 251,40
+
+    L 268,40 L 271,40 L 273,36 L 276,44 L 278,40
+    L 289,40 L 291,38 L 294,37 L 297,40
+    L 304,40 L 306,40 L 308,17 L 311,59 L 313,32 L 316,40
+    L 329,40 L 331,37 L 336,34 L 343,34 L 348,37 L 350,40
+    L 369,40 L 385,40
   "/>
 
   <text class="repo" x="15" y="68">
-    <tspan class="repo-dim">microsoft/</tspan>vscode
+    <tspan class="repo-dim">apache/</tspan>airflow
   </text>
 
   <circle class="dot" cx="410" cy="28" r="3"/>
   <text class="status" x="418" y="32">healthy</text>
 
-  <text class="score" x="410" y="58">92</text>
+  <text class="score" x="410" y="58">82</text>
   <text class="score-unit" x="438" y="58">/100</text>
 </svg>

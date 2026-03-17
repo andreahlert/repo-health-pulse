@@ -16,6 +16,12 @@ Full dashboard with ECG waveform + vital signs panel.
 
 ![vscode](assets/monitor-healthy.svg)
 
+### apache/airflow — HEALTHY (82/100)
+
+CI passing clean. PRs merge in ~6.5 hours (median). Biweekly release cadence across core + Helm + CLI. Human issue response in ~3.5 hours.
+
+![airflow](assets/monitor-healthy-airflow.svg)
+
 ### facebook/react — STRESSED (58/100)
 
 CI is solid, but PRs take 3.3 days to merge and releases happen roughly once a month. Issue response time averages 67 hours.
@@ -41,6 +47,8 @@ Zero releases in 106 days (last: 2025-12-01). Only 4 PRs merged in recent histor
 Just the ECG line, repo name, and score.
 
 ![vscode](assets/minimal/mini-healthy.svg)
+
+![airflow](assets/minimal/mini-healthy-airflow.svg)
 
 ![react](assets/minimal/mini-stressed.svg)
 

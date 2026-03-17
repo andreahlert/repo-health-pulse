@@ -20,11 +20,11 @@
         stroke-dasharray: 1000;
         animation: trace-fast 2.2s linear infinite;
       }
-      .repo { fill: #e2e8f0; font-family: 'Courier New', monospace; font-size: 12px; }
+      .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
       .repo-dim { fill: #64748b; }
-      .score { fill: #eab308; font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold; }
-      .score-unit { fill: #94a3b8; font-family: 'Courier New', monospace; font-size: 11px; }
-      .status { fill: #eab308; font-family: 'Courier New', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+      .score { fill: #eab308; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #94a3b8; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #eab308; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
       .dot { fill: #eab308; animation: pulse-warn 0.7s ease-in-out infinite; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
     </style>
