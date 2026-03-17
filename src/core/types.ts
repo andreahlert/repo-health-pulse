@@ -12,6 +12,7 @@ export interface RawMetrics {
   responseTimeHours: number | null;
   responseIsBotOnly: boolean;
   lastReleaseDate: string | null;
+  sizeKb: number;
 }
 
 export interface MetricScores {

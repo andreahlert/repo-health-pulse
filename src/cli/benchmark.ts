@@ -28,6 +28,7 @@ const perfectRaw: RawMetrics = {
   responseTimeHours: 0.8,
   responseIsBotOnly: false,
   lastReleaseDate: new Date().toISOString(),
+  sizeKb: 100000, // ~100MB, medium cohort
 };
 
 const perfectResult: HealthResult = {

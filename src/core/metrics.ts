@@ -9,6 +9,7 @@ interface OctokitLike {
       list(params: any): Promise<any>;
     };
     repos: {
+      get(params: any): Promise<any>;
       listReleases(params: any): Promise<any>;
     };
     issues: {
@@ -42,6 +43,13 @@ export async function collectMetrics(
   owner: string,
   repo: string
 ): Promise<RawMetrics> {
+  // Fetch repo info for size (used by cohort scoring)
+  let sizeKb = 0;
+  try {
+    const { data: repoInfo } = await octokit.rest.repos.get({ owner, repo });
+    sizeKb = repoInfo.size || 0;
+  } catch {}
+
   const [ci, prs, releases, issues] = await Promise.all([
     collectCi(octokit, owner, repo),
     collectPrs(octokit, owner, repo),
@@ -49,7 +57,7 @@ export async function collectMetrics(
     collectIssueResponse(octokit, owner, repo),
   ]);
 
-  return { ...ci, ...prs, ...releases, ...issues };
+  return { ...ci, ...prs, ...releases, ...issues, sizeKb };
 }
 
 async function collectCi(

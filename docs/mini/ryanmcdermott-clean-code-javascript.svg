@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
+  <defs>
+    <style>
+      @keyframes flat-sweep {
+        0% { stroke-dashoffset: 1000; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      @keyframes fade {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.7; }
+      }
+      .bg { fill: #1a1c20; }
+      .ecg {
+        fill: none;
+        stroke: #6b7280;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        /* no filter - avoids render glitch */
+        stroke-dasharray: 1000;
+        animation: flat-sweep 6s linear infinite;
+      }
+      .repo { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
+      .repo-dim { fill: #4b5563; }
+      .score { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #4b5563; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #6b7280; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: fade 3s ease-in-out infinite; }
+      .dot { fill: #6b7280; animation: fade 3s ease-in-out infinite; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="480" height="80" rx="6"/>
+  
+  <rect class="border" x="0.5" y="0.5" width="479" height="79"/>
+
+  <path class="ecg" d="M 15,40 L 23,40.32 L 31,40.15 L 39,40.46 L 47,40.55 L 55,40.34 L 63,40.47 L 71,40.63 L 79,40.75 L 87,40.76 L 95,40.55 L 103,40.75 L 111,40.74 L 119,40.78 L 127,40.54 L 135,40.5 L 143,40.53 L 151,40.6 L 159,40.35 L 167,40.55 L 175,40.24 L 183,40.4 L 191,40.17 L 199,39.93 L 207,40.18 L 215,40.04 L 223,39.78 L 231,39.63 L 239,39.79 L 247,39.63 L 255,39.71 L 263,39.37 L 271,39.55 L 279,39.45 L 287,39.4 L 295,39.49 L 303,39.28 L 311,39.24 L 319,39.42 L 327,39.36 L 335,39.26 L 343,39.31 L 351,39.26 L 359,39.44 L 367,39.38 L 375,39.49 L 383,39.57 L 385,40"/>
+
+  <text class="repo" x="15" y="68">
+    <tspan class="repo-dim">ryanmcdermott/</tspan>clean-code-javascript
+  </text>
+
+  <circle class="dot" cx="410" cy="28" r="3"/>
+  <text class="status" x="418" y="32">flatline</text>
+
+  <text class="score" x="410" y="58">10</text>
+  <text class="score-unit" x="438" y="58">/100</text>
+</svg>

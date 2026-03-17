@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
+  <defs>
+    <style>
+      @keyframes flat-sweep {
+        0% { stroke-dashoffset: 1000; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      @keyframes fade {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.7; }
+      }
+      .bg { fill: #1a1c20; }
+      .ecg {
+        fill: none;
+        stroke: #6b7280;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        /* no filter - avoids render glitch */
+        stroke-dasharray: 1000;
+        animation: flat-sweep 6s linear infinite;
+      }
+      .repo { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
+      .repo-dim { fill: #4b5563; }
+      .score { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #4b5563; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #6b7280; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: fade 3s ease-in-out infinite; }
+      .dot { fill: #6b7280; animation: fade 3s ease-in-out infinite; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="480" height="80" rx="6"/>
+  
+  <rect class="border" x="0.5" y="0.5" width="479" height="79"/>
+
+  <path class="ecg" d="M 15,40 L 23,40.2 L 31,40.31 L 39,40.19 L 47,40.48 L 55,40.5 L 63,40.56 L 71,40.41 L 79,40.56 L 87,40.65 L 95,40.82 L 103,40.68 L 111,40.69 L 119,40.77 L 127,40.64 L 135,40.52 L 143,40.6 L 151,40.39 L 159,40.55 L 167,40.23 L 175,40.47 L 183,40.32 L 191,40.12 L 199,39.95 L 207,40.1 L 215,40.12 L 223,39.87 L 231,39.67 L 239,39.66 L 247,39.53 L 255,39.74 L 263,39.39 L 271,39.64 L 279,39.4 L 287,39.38 L 295,39.5 L 303,39.32 L 311,39.19 L 319,39.38 L 327,39.23 L 335,39.37 L 343,39.48 L 351,39.5 L 359,39.46 L 367,39.61 L 375,39.65 L 383,39.51 L 385,40"/>
+
+  <text class="repo" x="15" y="68">
+    <tspan class="repo-dim">sindresorhus/</tspan>awesome
+  </text>
+
+  <circle class="dot" cx="410" cy="28" r="3"/>
+  <text class="status" x="418" y="32">flatline</text>
+
+  <text class="score" x="410" y="58">10</text>
+  <text class="score-unit" x="438" y="58">/100</text>
+</svg>
