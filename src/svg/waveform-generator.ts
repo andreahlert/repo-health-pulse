@@ -2,238 +2,243 @@ import { MetricScores } from '../core/types';
 
 interface WaveformConfig {
   width: number;
-  height: number;
   centerY: number;
   startX: number;
+  amplitude: number; // R-wave peak amplitude in pixels
 }
 
-const MONITOR_CONFIG: WaveformConfig = { width: 555, height: 220, centerY: 110, startX: 0 };
-const MINI_CONFIG: WaveformConfig = { width: 385, height: 80, centerY: 40, startX: 15 };
-const BADGE_CONFIG: WaveformConfig = { width: 131, height: 32, centerY: 16, startX: 95 };
+const MONITOR: WaveformConfig = { width: 555, centerY: 110, startX: 0, amplitude: 50 };
+const MINI: WaveformConfig = { width: 370, centerY: 40, startX: 15, amplitude: 22 };
+const BADGE: WaveformConfig = { width: 131, centerY: 16, startX: 95, amplitude: 10 };
 
-// Seeded random for deterministic waveforms per-repo
+// --- Seeded PRNG for deterministic output ---
+
 function seededRandom(seed: number): () => number {
-  let s = seed;
+  let s = Math.abs(seed) || 1;
   return () => {
-    s = (s * 16807 + 0) % 2147483647;
+    s = (s * 16807) % 2147483647;
     return (s - 1) / 2147483646;
   };
 }
 
 function hashString(str: string): number {
-  let hash = 5381;
-  for (let i = 0; i < str.length; i++) {
-    hash = ((hash << 5) + hash + str.charCodeAt(i)) | 0;
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+// --- Gaussian ECG Model ---
+// Each wave (P, Q, R, S, T) is a Gaussian: a * exp(-(t-b)^2 / (2*c^2))
+// t is normalized 0..1 within one beat cycle
+
+interface GaussianWave {
+  a: number;  // amplitude (positive=up, negative=down), relative to R=1.0
+  b: number;  // center position in cycle (0..1)
+  c: number;  // width (sigma)
+  cRight?: number; // optional right-side sigma for asymmetric T wave
+}
+
+interface BeatProfile {
+  waves: GaussianWave[];
+  cyclePixels: number;      // total beat width in pixels
+  baselineNoise: number;    // 0..1 noise amplitude on baseline
+  fibrillation: boolean;    // replace P wave with f-waves
+}
+
+function gaussian(t: number, a: number, b: number, cLeft: number, cRight?: number): number {
+  const c = (cRight !== undefined && t > b) ? cRight : cLeft;
+  return a * Math.exp(-((t - b) ** 2) / (2 * c * c));
+}
+
+function sampleBeat(profile: BeatProfile, numPoints: number, rand: () => number): number[] {
+  const values: number[] = [];
+  for (let i = 0; i < numPoints; i++) {
+    const t = i / numPoints;
+    let y = 0;
+    for (const w of profile.waves) {
+      y += gaussian(t, w.a, w.b, w.c, w.cRight);
+    }
+    // Add baseline noise
+    if (profile.baselineNoise > 0) {
+      y += (rand() - 0.5) * profile.baselineNoise * 0.06;
+    }
+    // Add fibrillation noise (replaces P wave area, t < 0.20)
+    if (profile.fibrillation && t < 0.20) {
+      y += (rand() - 0.5) * 0.08 + Math.sin(t * 40 + rand() * 6) * 0.04;
+    }
+    values.push(y);
   }
-  return Math.abs(hash);
+  return values;
 }
 
-interface BeatParams {
-  // Derived from metrics
-  baseInterval: number;     // px between beats (from release frequency)
-  intervalJitter: number;   // irregularity (from CI pass rate)
-  qrsAmplitude: number;     // height of R peak (base)
-  qrsDistortion: number;    // extra deflections in QRS (from CI)
-  tWaveHeight: number;      // T-wave elevation (from PR merge time)
-  tWaveInverted: boolean;   // T-wave flipped (extreme PR slowness)
-  baselineNoise: number;    // wandering baseline (from response time)
-  pWavePresent: boolean;    // P-wave disappears in severe arrhythmia
-}
+// --- Metric-driven beat profile ---
 
-function metricsToParams(scores: MetricScores): BeatParams {
-  // Release frequency → heart rate / beat interval
-  // High releases = fast beat (short interval), low = slow beat (long interval)
+function metricsToProfile(scores: MetricScores, pixelsPerBeat: number, rand: () => number): BeatProfile {
+  // Release frequency -> heart rate (cycle length)
+  // High releases = fast heart = shorter cycle
   const relScore = scores.releases;
-  const baseInterval = 180 - (relScore * 1.1); // 180px (slow) to 70px (fast)
+  // At 100: ~60px/beat (fast). At 0: ~180px/beat (slow/flatline)
+  const baseCycle = 180 - relScore * 1.2;
+  const cyclePixels = Math.max(50, Math.min(200, baseCycle * (pixelsPerBeat / 100)));
 
-  // CI pass rate → rhythm regularity
-  // High CI = regular, low CI = arrhythmia
+  // CI pass rate -> rhythm regularity & waveform integrity
   const ciScore = scores.ci;
-  const intervalJitter = ((100 - ciScore) / 100) * 0.5; // 0 (perfect) to 0.5 (chaotic)
-  const qrsDistortion = (100 - ciScore) / 100; // 0 to 1
+  const arrhythmia = (100 - ciScore) / 100; // 0 = perfect, 1 = chaos
 
-  // PR merge time → T-wave stress
-  // Fast PRs = normal T-wave, slow = elevated/inverted
+  // PR merge time -> T-wave stress
   const prScore = scores.pr;
-  const tWaveHeight = 1.0 + ((100 - prScore) / 100) * 1.5; // 1.0 (normal) to 2.5 (very elevated)
-  const tWaveInverted = prScore < 15;
+  const tStress = (100 - prScore) / 100; // 0 = normal, 1 = extreme
 
-  // Response time → baseline noise
-  // Fast response = clean line, slow = noisy/wandering
+  // Response time -> baseline noise
   const respScore = scores.response;
-  const baselineNoise = ((100 - respScore) / 100) * 0.8; // 0 (clean) to 0.8 (very noisy)
+  const noise = (100 - respScore) / 100; // 0 = clean, 1 = noisy
+
+  // --- Build PQRST waves ---
+
+  const waves: GaussianWave[] = [];
+
+  // P wave: small, rounded dome at ~12% of cycle
+  // Disappears in severe arrhythmia (atrial fibrillation)
+  if (ciScore > 35) {
+    const pAmp = 0.12 * (1 - arrhythmia * 0.5); // gets smaller with arrhythmia
+    waves.push({ a: pAmp, b: 0.12, c: 0.030 + arrhythmia * 0.01 });
+  }
+
+  // Q wave: small dip before R
+  waves.push({ a: -0.08 - arrhythmia * 0.04, b: 0.22, c: 0.010 });
+
+  // R wave: dominant sharp peak, always present
+  // Gets slightly variable amplitude with arrhythmia
+  const rAmp = 1.0 + (rand() - 0.5) * arrhythmia * 0.3;
+  waves.push({ a: rAmp, b: 0.25, c: 0.015 });
+
+  // S wave: dip below baseline after R
+  waves.push({ a: -(0.12 + arrhythmia * 0.08), b: 0.28, c: 0.011 });
+
+  // T wave: asymmetric rounded wave (gradual rise, steeper fall)
+  // Elevated with PR stress, inverted in extreme stress
+  let tAmp = 0.25 + tStress * 0.35; // 0.25 normal -> 0.60 very elevated
+  if (prScore < 10) tAmp = -tAmp;    // inverted T in extreme stress
+  waves.push({
+    a: tAmp,
+    b: 0.42 + tStress * 0.02,        // shifts slightly later under stress
+    c: 0.045,                          // gradual rise (left sigma)
+    cRight: 0.032,                     // steeper fall (right sigma)
+  });
+
+  // ST elevation for very low CI (simulates injury current / heart attack)
+  if (ciScore < 30) {
+    waves.push({ a: 0.15, b: 0.34, c: 0.040 });
+  }
 
   return {
-    baseInterval: Math.max(60, Math.min(180, baseInterval)),
-    intervalJitter,
-    qrsAmplitude: 1.0,
-    qrsDistortion,
-    tWaveHeight,
-    tWaveInverted,
-    baselineNoise,
-    pWavePresent: ciScore > 30,
+    waves,
+    cyclePixels,
+    baselineNoise: noise,
+    fibrillation: ciScore < 35,
   };
 }
 
-function generateBeat(
-  x: number,
-  centerY: number,
-  scale: number,
-  params: BeatParams,
-  rand: () => number,
-): { path: string; width: number } {
-  const amp = 50 * scale;
-  const noise = () => (rand() - 0.5) * params.baselineNoise * amp * 0.4;
-  const points: string[] = [];
+// --- Path generation ---
 
-  let cx = x;
+function generatePath(config: WaveformConfig, scores: MetricScores, seed: string): string {
+  const rand = seededRandom(hashString(seed));
+  const profile = metricsToProfile(scores, config.amplitude, rand);
 
-  // Flat lead-in with baseline noise
-  const leadIn = 5 * scale + noise() * 0.3;
-  if (Math.abs(noise()) > 0.5) {
-    const n1 = noise() * 0.3;
-    const n2 = noise() * 0.3;
-    points.push(`L ${cx + leadIn * 0.3},${centerY + n1}`);
-    points.push(`L ${cx + leadIn * 0.7},${centerY + n2}`);
-  }
-  cx += leadIn;
-
-  // P-wave (small atrial bump)
-  if (params.pWavePresent) {
-    const pHeight = 5 * scale * (1 + params.baselineNoise * 0.3);
-    points.push(`L ${cx},${centerY + noise()}`);
-    points.push(`L ${cx + 3 * scale},${centerY - pHeight + noise()}`);
-    points.push(`L ${cx + 7 * scale},${centerY + pHeight * 0.5 + noise()}`);
-    points.push(`L ${cx + 10 * scale},${centerY + noise()}`);
-    cx += 10 * scale;
-  }
-
-  // PR segment (flat, short)
-  const prSeg = (3 + rand() * 2) * scale;
-  points.push(`L ${cx + prSeg},${centerY + noise()}`);
-  cx += prSeg;
-
-  // QRS complex
-  const qrsBase = amp * params.qrsAmplitude;
-
-  // Q dip
-  const qDepth = qrsBase * 0.15 * (1 + params.qrsDistortion * rand());
-  points.push(`L ${cx},${centerY + noise()}`);
-  points.push(`L ${cx + 2 * scale},${centerY + qDepth + noise()}`);
-  cx += 2 * scale;
-
-  // R peak (main spike up)
-  const rHeight = qrsBase * (0.9 + params.qrsDistortion * rand() * 0.4);
-  points.push(`L ${cx + 2 * scale},${centerY - rHeight}`);
-  cx += 2 * scale;
-
-  // S dip (below baseline)
-  const sDepth = qrsBase * (0.5 + params.qrsDistortion * rand() * 0.3);
-  points.push(`L ${cx + 2 * scale},${centerY + sDepth}`);
-  cx += 2 * scale;
-
-  // Extra distortion deflections for low CI
-  if (params.qrsDistortion > 0.4 && rand() < params.qrsDistortion) {
-    const extraAmp = qrsBase * 0.3 * rand();
-    const dir = rand() > 0.5 ? -1 : 1;
-    points.push(`L ${cx + 1.5 * scale},${centerY + dir * extraAmp}`);
-    cx += 1.5 * scale;
-  }
-
-  // Return to baseline
-  const returnNoise = noise() * 0.3;
-  points.push(`L ${cx + 2 * scale},${centerY + returnNoise}`);
-  cx += 2 * scale;
-
-  // ST segment
-  const stSeg = (3 + rand() * 2) * scale;
-  const stElevation = params.qrsDistortion > 0.5 ? noise() * 0.5 : 0;
-  points.push(`L ${cx + stSeg},${centerY + stElevation + noise() * 0.2}`);
-  cx += stSeg;
-
-  // T-wave
-  const tHeight = 10 * scale * params.tWaveHeight;
-  const tDir = params.tWaveInverted ? 1 : -1;
-  const tWidth = 12 * scale;
-  points.push(`L ${cx + tWidth * 0.2},${centerY + tDir * tHeight * 0.4 + noise() * 0.2}`);
-  points.push(`L ${cx + tWidth * 0.5},${centerY + tDir * tHeight + noise() * 0.2}`);
-  points.push(`L ${cx + tWidth * 0.8},${centerY + tDir * tHeight * 0.4 + noise() * 0.2}`);
-  points.push(`L ${cx + tWidth},${centerY + noise() * 0.3}`);
-  cx += tWidth;
-
-  // Flat trail
-  const trail = (3 + rand() * 3) * scale;
-  if (params.baselineNoise > 0.3) {
-    points.push(`L ${cx + trail * 0.5},${centerY + noise() * 0.4}`);
-  }
-  points.push(`L ${cx + trail},${centerY + noise() * 0.2}`);
-  cx += trail;
-
-  return {
-    path: points.join(' '),
-    width: cx - x,
-  };
-}
-
-function generateWaveformPath(
-  config: WaveformConfig,
-  params: BeatParams,
-  rand: () => number,
-): string {
-  const { width, centerY, startX } = config;
+  const { width, centerY, startX, amplitude } = config;
   const endX = startX + width;
-  const scale = config.height / 220; // scale relative to monitor size
+
+  // How many beats fit in the width
+  const pointsPerBeat = Math.max(30, Math.round(profile.cyclePixels * 0.8));
 
   const parts: string[] = [`M ${startX},${centerY}`];
   let x = startX;
 
-  while (x < endX - 10) {
-    // Jitter the interval between beats
-    const jitter = 1 + (rand() - 0.5) * params.intervalJitter * 2;
-    const interval = params.baseInterval * scale * Math.max(0.5, jitter);
+  // Jitter for arrhythmia (CI-driven)
+  const ciScore = scores.ci;
+  const arrhythmiaJitter = (100 - ciScore) / 100;
 
-    const beat = generateBeat(x, centerY, scale, params, rand);
-    parts.push(beat.path);
-    x += beat.width;
+  while (x < endX - 5) {
+    // Per-beat interval jitter
+    const jitter = 1 + (rand() - 0.5) * arrhythmiaJitter * 0.6;
+    const beatWidth = profile.cyclePixels * Math.max(0.6, jitter);
 
-    // Flat gap between beats (diastole) with possible noise
-    const gap = Math.max(5, interval - beat.width);
-    if (gap > 0 && x < endX) {
-      const gapEnd = Math.min(x + gap, endX);
-      if (params.baselineNoise > 0.3 && gap > 10) {
-        // Add wandering baseline between beats
-        const mid = x + (gapEnd - x) * 0.5;
-        const n1 = (rand() - 0.5) * params.baselineNoise * 3 * scale;
-        const n2 = (rand() - 0.5) * params.baselineNoise * 2 * scale;
-        parts.push(`L ${mid},${centerY + n1}`);
-        parts.push(`L ${gapEnd},${centerY + n2}`);
+    // Sample the Gaussian model for this beat
+    const samples = sampleBeat(profile, pointsPerBeat, rand);
+
+    // Map samples to SVG coordinates
+    const pxPerSample = beatWidth / pointsPerBeat;
+    for (let i = 0; i < samples.length && x < endX; i++) {
+      const px = x + i * pxPerSample;
+      if (px > endX) break;
+      // Negate because SVG y-axis is inverted (up = smaller y)
+      const py = centerY - samples[i] * amplitude;
+      parts.push(`L ${Math.round(px * 100) / 100},${Math.round(py * 100) / 100}`);
+    }
+
+    x += beatWidth;
+
+    // TP segment (resting flat line between beats)
+    // This is what compresses when heart rate increases (realistic)
+    const tpBase = profile.cyclePixels * 0.3;
+    const tp = Math.max(3, tpBase * jitter);
+    if (x < endX) {
+      const tpEnd = Math.min(x + tp, endX);
+      if (profile.baselineNoise > 0.3) {
+        // Wandering baseline
+        const mid = x + (tpEnd - x) * 0.5;
+        const drift1 = (rand() - 0.5) * profile.baselineNoise * amplitude * 0.04;
+        const drift2 = (rand() - 0.5) * profile.baselineNoise * amplitude * 0.03;
+        parts.push(`L ${Math.round(mid * 100) / 100},${Math.round((centerY + drift1) * 100) / 100}`);
+        parts.push(`L ${Math.round(tpEnd * 100) / 100},${Math.round((centerY + drift2) * 100) / 100}`);
       } else {
-        parts.push(`L ${gapEnd},${centerY}`);
+        parts.push(`L ${Math.round(tpEnd * 100) / 100},${centerY}`);
       }
-      x = gapEnd;
+      x = tpEnd;
     }
   }
 
-  // End at the edge
+  // End at edge
   parts.push(`L ${endX},${centerY}`);
-
   return parts.join(' ');
 }
 
+// --- Flatline generator (special case) ---
+
+function generateFlatline(config: WaveformConfig, seed: string): string {
+  const rand = seededRandom(hashString(seed));
+  const { width, centerY, startX } = config;
+  const endX = startX + width;
+
+  const parts: string[] = [`M ${startX},${centerY}`];
+  // Slow wandering baseline + tiny noise (realistic asystole)
+  const step = 8;
+  for (let x = startX + step; x <= endX; x += step) {
+    const wander = Math.sin(x * 0.015) * 1.5 * (config.amplitude / 50);
+    const noise = (rand() - 0.5) * 0.8 * (config.amplitude / 50);
+    parts.push(`L ${x},${Math.round((centerY + wander + noise) * 100) / 100}`);
+  }
+  parts.push(`L ${endX},${centerY}`);
+  return parts.join(' ');
+}
+
+// --- Public API ---
+
+function isEffectivelyFlatline(scores: MetricScores): boolean {
+  return scores.releases === 0 && scores.pr <= 30;
+}
+
 export function generateMonitorWaveform(scores: MetricScores, repoSlug: string): string {
-  const params = metricsToParams(scores);
-  const rand = seededRandom(hashString(repoSlug));
-  return generateWaveformPath(MONITOR_CONFIG, params, rand);
+  if (isEffectivelyFlatline(scores)) return generateFlatline(MONITOR, repoSlug);
+  return generatePath(MONITOR, scores, repoSlug);
 }
 
 export function generateMiniWaveform(scores: MetricScores, repoSlug: string): string {
-  const params = metricsToParams(scores);
-  const rand = seededRandom(hashString(repoSlug + ':mini'));
-  return generateWaveformPath(MINI_CONFIG, params, rand);
+  if (isEffectivelyFlatline(scores)) return generateFlatline(MINI, repoSlug + ':mini');
+  return generatePath(MINI, scores, repoSlug + ':mini');
 }
 
 export function generateBadgeWaveform(scores: MetricScores, repoSlug: string): string {
-  const params = metricsToParams(scores);
-  const rand = seededRandom(hashString(repoSlug + ':badge'));
-  return generateWaveformPath(BADGE_CONFIG, params, rand);
+  if (isEffectivelyFlatline(scores)) return generateFlatline(BADGE, repoSlug + ':badge');
+  return generatePath(BADGE, scores, repoSlug + ':badge');
 }
