@@ -2,111 +2,172 @@
 
 Real-time repository vital signs, visualized as a cardiac monitor.
 
-All data below is **real**, collected via GitHub API on 2026-03-17.
+All data below is **generated automatically** from the GitHub API via CI.
 
 ---
 
-## Monitor View
+## Showcase
 
-Full dashboard with ECG waveform + vital signs panel.
+### Monitor View (800x220)
 
-### microsoft/vscode — HEALTHY (92/100)
+![vscode](generated/monitor/microsoft-vscode.svg)
 
-100% CI pass rate. PRs merge in 1.2 hours (median). Weekly releases. Issues triaged almost instantly.
+![ruff](generated/monitor/astral-sh-ruff.svg)
 
-![vscode](assets/monitor-healthy.svg)
+![airflow](generated/monitor/apache-airflow.svg)
 
-### apache/airflow — HEALTHY (82/100)
+![next.js](generated/monitor/vercel-next.js.svg)
 
-CI passing clean. PRs merge in ~6.5 hours (median). Biweekly release cadence across core + Helm + CLI. Human issue response in ~3.5 hours.
+![react](generated/monitor/facebook-react.svg)
 
-![airflow](assets/monitor-healthy-airflow.svg)
+![kubernetes](generated/monitor/kubernetes-kubernetes.svg)
 
-### facebook/react — STRESSED (58/100)
+![deno](generated/monitor/denoland-deno.svg)
 
-CI is solid, but PRs take 3.3 days to merge and releases happen roughly once a month. Issue response time averages 67 hours.
-
-![react](assets/monitor-stressed.svg)
-
-### kubernetes/kubernetes — CRITICAL (35/100)
-
-30% CI failure rate. PRs take 8.3 days to merge. The fast issue response time is misleading: it's automated bot replies, not humans.
-
-![kubernetes](assets/monitor-critical.svg)
-
-### expressjs/express — FLATLINE (15/100)
-
-Zero releases in 106 days (last: 2025-12-01). Only 4 PRs merged in recent history. CI at 87% but nothing is shipping.
-
-![express](assets/monitor-flatline.svg)
+![express](generated/monitor/expressjs-express.svg)
 
 ---
 
-## Minimal View
+### Minimal View (480x80)
 
-Just the ECG line, repo name, and score.
+![vscode](generated/mini/microsoft-vscode.svg)
 
-![vscode](assets/minimal/mini-healthy.svg)
+![ruff](generated/mini/astral-sh-ruff.svg)
 
-![airflow](assets/minimal/mini-healthy-airflow.svg)
+![airflow](generated/mini/apache-airflow.svg)
 
-![react](assets/minimal/mini-stressed.svg)
+![next.js](generated/mini/vercel-next.js.svg)
 
-![kubernetes](assets/minimal/mini-critical.svg)
+![react](generated/mini/facebook-react.svg)
 
-![express](assets/minimal/mini-flatline.svg)
+![kubernetes](generated/mini/kubernetes-kubernetes.svg)
+
+![deno](generated/mini/denoland-deno.svg)
+
+![express](generated/mini/expressjs-express.svg)
 
 ---
 
-## Badge View
+### Badge View (280x32)
 
-| State | Badge |
+| Repo | Badge |
 |---|---|
-| Healthy | ![healthy](assets/badge-healthy.svg) |
-| Stressed | ![stressed](assets/badge-stressed.svg) |
-| Critical | ![critical](assets/badge-critical.svg) |
-| Flatline | ![flatline](assets/badge-flatline.svg) |
+| microsoft/vscode | ![vscode](generated/badge/microsoft-vscode.svg) |
+| astral-sh/ruff | ![ruff](generated/badge/astral-sh-ruff.svg) |
+| apache/airflow | ![airflow](generated/badge/apache-airflow.svg) |
+| vercel/next.js | ![next.js](generated/badge/vercel-next.js.svg) |
+| facebook/react | ![react](generated/badge/facebook-react.svg) |
+| kubernetes/kubernetes | ![k8s](generated/badge/kubernetes-kubernetes.svg) |
+| denoland/deno | ![deno](generated/badge/denoland-deno.svg) |
+| expressjs/express | ![express](generated/badge/expressjs-express.svg) |
+
+---
+
+## Quick Start
+
+### Option 1: GitHub Action (recommended)
+
+Add to your repo's `.github/workflows/health-pulse.yml`:
+
+```yaml
+name: Health Pulse
+
+on:
+  release:
+    types: [published]
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: andreahlert/repo-health-pulse@main
+        with:
+          format: monitor
+          output-path: .github/health-pulse.svg
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update health pulse [skip ci]"
+          file_pattern: ".github/health-pulse.svg"
+```
+
+Then add to your README:
+
+```markdown
+![health](.github/health-pulse.svg)
+```
+
+### Option 2: CLI
+
+```bash
+npx repopulse apache/airflow                                    # stdout
+npx repopulse microsoft/vscode --format mini --output health.svg
+npx repopulse                                                   # detects from git remote
+```
+
+### Formats
+
+| Format | Size | Use case |
+|---|---|---|
+| `monitor` | 800x220 | Full dashboard with ECG + vital signs panel |
+| `mini` | 480x80 | Compact, just ECG line + score |
+| `badge` | 280x32 | Inline, shields.io style |
 
 ---
 
 ## How Scoring Works
 
-Data comes from GitHub API. Each metric maps to a 0-100 sub-score, then gets weighted into a composite.
+Data comes from GitHub API. Each metric maps to a 0-100 sub-score, then averaged into a composite.
 
 | Metric | What it measures | Source | Scoring |
 |---|---|---|---|
 | CI Pass Rate | % of successful workflow runs (last 30) | Actions API | 100% = 100, 90% = 75, 80% = 50, <70% = 25 |
 | PR Merge Time | Median time from open to merge | Pulls API | <4h = 100, <24h = 75, <3d = 50, <7d = 25, >7d = 0 |
 | Releases | Releases per week (rolling 90 days) | Releases API | >2/wk = 100, ~weekly = 80, biweekly = 60, monthly = 40, none = 0 |
-| Response Time | Median first response on new issues | Issues API | <2h = 100, <12h = 75, <48h = 50, <7d = 25, >7d = 0 |
+| Response Time | Median first response on new issues | Search API | <2h = 100, <12h = 75, <48h = 50, <7d = 25, >7d = 0 |
 
 ### ECG Mapping
 
-The composite score controls the visual:
-
 | Score | Waveform | Speed | Color |
 |---|---|---|---|
-| 80-100 | Normal sinus rhythm | 4s cycle (calm) | Green `#4ade80` |
+| 80-100 | Normal sinus rhythm | 4s cycle | Green `#4ade80` |
 | 60-79 | Faster rhythm, taller T-waves | 2.5s cycle | Amber `#eab308` |
-| 20-59 | Irregular intervals, distorted QRS | 3.5s cycle (erratic) | Red `#ef4444` |
-| 0-19 | Flatline with noise | 6s cycle (fading) | Gray `#6b7280` |
+| 20-59 | Irregular intervals, distorted QRS | 3.5s cycle | Red `#ef4444` |
+| 0-19 | Flatline with noise | 6s cycle | Gray `#6b7280` |
 
 ### Caveats
 
-- **Bot replies inflate response time scores.** Kubernetes shows <1min response, but it's all automated triage bots.
+- **Bot replies inflate response time scores.** Kubernetes shows <1min response, but it's automated triage bots.
 - **Monorepo workflows skew CI.** Large repos may have many workflow files, some experimental.
-- **GitHub-only metrics.** Linux kernel uses LKML for patches and Bugzilla for bugs. From GitHub API, it looks "dead." It isn't.
-- **Release strategy varies.** Some projects use tags instead of GitHub Releases, or publish from a separate CI pipeline.
+- **GitHub-only metrics.** Projects using LKML, Bugzilla, or other tools will appear less active than they are.
+- **Release strategy varies.** Some projects use tags instead of GitHub Releases.
 
-## Usage (planned)
+---
 
-```markdown
-<!-- Full monitor -->
-![health](https://repopulse.dev/monitor/owner/repo)
+## Action Inputs
 
-<!-- Minimal -->
-![health](https://repopulse.dev/mini/owner/repo)
+| Input | Default | Description |
+|---|---|---|
+| `token` | `github.token` | GitHub token with read access |
+| `format` | `monitor` | SVG format: `monitor`, `mini`, or `badge` |
+| `output-path` | `.github/health-pulse.svg` | Where to write the SVG |
 
-<!-- Compact badge -->
-![health](https://repopulse.dev/badge/owner/repo)
-```
+## Action Outputs
+
+| Output | Description |
+|---|---|
+| `score` | Composite health score (0-100) |
+| `state` | `healthy`, `stressed`, `critical`, or `flatline` |
+| `bpm` | Display BPM value |

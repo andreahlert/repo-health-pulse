@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
+  <defs>
+    <style>
+      @keyframes trace-erratic {
+        0% { stroke-dashoffset: 1000; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      @keyframes fade {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.7; }
+      }
+      @keyframes blink-crit {
+        0%, 100% { opacity: 1; }
+        30% { opacity: 0; }
+        60% { opacity: 1; }
+        80% { opacity: 0; }
+      }
+      .bg { fill: #1a1c20; }
+      .ecg {
+        fill: none;
+        stroke: #ef4444;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 3px #ef444460);
+        stroke-dasharray: 1000;
+        animation: trace-erratic 3.5s linear infinite;
+      }
+      .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
+      .repo-dim { fill: #64748b; }
+      .score { fill: #ef4444; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #94a3b8; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #ef4444; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: blink-crit 0.8s ease-in-out infinite; }
+      .dot { fill: #ef4444; animation: blink-crit 0.5s ease-in-out infinite; }
+      .border { fill: none; stroke: #ef444425; stroke-width: 1; rx: 6; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="480" height="80" rx="6"/>
+  <rect width="480" height="80" rx="6" fill="#ef4444" opacity="0.02"/>
+  <rect class="border" x="0.5" y="0.5" width="479" height="79"/>
+
+  <path class="ecg" d="M 15,40
+    L 30,40 L 33,38 L 36,42 L 38,40
+    L 45,40 L 47,38 L 49,37 L 52,40
+    L 58,40 L 60,40 L 62,14 L 65,62 L 67,30 L 70,40
+    L 82,40 L 84,37 L 88,34 L 94,34 L 98,37 L 100,40
+    L 110,40
+    L 140,40 L 142,38 L 144,42 L 146,40
+    L 151,40 L 153,40 L 155,12 L 158,64 L 160,28 L 163,42 L 165,38 L 167,40
+    L 180,40 L 182,37 L 186,34 L 191,34 L 195,37 L 197,40
+    L 207,40
+    L 216,41 L 219,39 L 222,43 L 225,37 L 228,44 L 231,38 L 234,41
+    L 242,40 L 244,40 L 246,16 L 249,60 L 251,32 L 254,40
+    L 268,40 L 270,37 L 274,34 L 280,34 L 284,37 L 286,40
+    L 300,40
+    L 335,40 L 337,38 L 340,42 L 342,40
+    L 349,40 L 351,40 L 353,13 L 356,63 L 358,29 L 361,42 L 363,37 L 365,40
+    L 378,40 L 385,40"/>
+
+  <text class="repo" x="15" y="68">
+    <tspan class="repo-dim">vercel/</tspan>next.js
+  </text>
+
+  <circle class="dot" cx="410" cy="28" r="3"/>
+  <text class="status" x="418" y="32">critical</text>
+
+  <text class="score" x="410" y="58">59</text>
+  <text class="score-unit" x="438" y="58">/100</text>
+</svg>

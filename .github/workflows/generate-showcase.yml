@@ -1,0 +1,53 @@
+name: Generate Showcase
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly Monday 6am UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate health pulse for showcase repos
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p generated/monitor generated/mini generated/badge
+
+          repos=(
+            "microsoft/vscode"
+            "facebook/react"
+            "kubernetes/kubernetes"
+            "expressjs/express"
+            "apache/airflow"
+            "vercel/next.js"
+            "denoland/deno"
+            "astral-sh/ruff"
+          )
+
+          for repo in "${repos[@]}"; do
+            slug=$(echo "$repo" | tr '/' '-')
+            echo "::group::$repo"
+
+            node dist-cli/index.js "$repo" --format monitor --output "generated/monitor/${slug}.svg" || true
+            node dist-cli/index.js "$repo" --format mini --output "generated/mini/${slug}.svg" || true
+            node dist-cli/index.js "$repo" --format badge --output "generated/badge/${slug}.svg" || true
+
+            echo "::endgroup::"
+            sleep 2  # respect rate limits between repos
+          done
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update showcase SVGs [skip ci]"
+          file_pattern: "generated/**/*.svg"
