@@ -1,0 +1,44 @@
+name: Health Pulse
+
+on:
+  # Update on releases, CI completions, and merged PRs
+  release:
+    types: [published]
+  workflow_run:
+    workflows: ["*"]
+    types: [completed]
+  pull_request:
+    types: [closed]
+  issue_comment:
+    types: [created]
+  # Fallback: update daily
+  schedule:
+    - cron: '0 6 * * *'
+  # Manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    # Only run for merged PRs, not all closed
+    if: >
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: andreahlert/repo-health-pulse@main
+        with:
+          format: monitor
+          output-path: .github/health-pulse.svg
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update health pulse [skip ci]"
+          file_pattern: ".github/health-pulse.svg"

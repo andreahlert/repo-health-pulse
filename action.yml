@@ -1,0 +1,33 @@
+name: 'Repo Health Pulse'
+description: 'Generate an animated ECG-style SVG showing your repository vital signs'
+author: 'andreahlert'
+
+branding:
+  icon: 'heart'
+  color: 'green'
+
+inputs:
+  token:
+    description: 'GitHub token with read access to actions, pulls, releases, and issues'
+    required: false
+    default: ${{ github.token }}
+  format:
+    description: 'SVG format: monitor (800x220), mini (480x80), or badge (280x32)'
+    required: false
+    default: 'monitor'
+  output-path:
+    description: 'Path where the SVG file will be written'
+    required: false
+    default: '.github/health-pulse.svg'
+
+outputs:
+  score:
+    description: 'Composite health score (0-100)'
+  state:
+    description: 'Health state: healthy, stressed, critical, or flatline'
+  bpm:
+    description: 'Display BPM value'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
