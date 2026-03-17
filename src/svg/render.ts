@@ -13,7 +13,7 @@ const VALUE_CLASS_MAP: Record<HealthState, 'good' | 'warn' | 'crit' | 'dead'> = 
 
 function formatTime(hours: number | null): { display: string; unit: string } {
   if (hours === null) return { display: '--', unit: '' };
-  if (hours < 1 / 60) return { display: '<1', unit: 'min' };
+  if (hours < 1 / 60) return { display: '&lt;1', unit: 'min' };
   if (hours < 1) return { display: String(Math.round(hours * 60)), unit: 'min' };
   if (hours < 24) return { display: String(Math.round(hours * 10) / 10), unit: 'hrs' };
   return { display: String(Math.round(hours / 24 * 10) / 10), unit: 'days' };
