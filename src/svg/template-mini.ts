@@ -50,7 +50,7 @@ export function renderMini(d: SvgData, waveform: string): string {
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
-        filter: drop-shadow(0 0 3px ${t.accentGlow});
+        /* no filter - avoids render glitch */
         stroke-dasharray: 1000;
         animation: ${t.animName} ${t.animDuration} linear infinite;
       }

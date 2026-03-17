@@ -34,7 +34,7 @@
         stroke-width: 2.5;
         stroke-linecap: round;
         stroke-linejoin: round;
-        filter: drop-shadow(0 0 4px #ef444460);
+        /* no filter - avoids render glitch */
         stroke-dasharray: 2400;
         animation: trace-erratic 3.5s linear infinite;
       }
@@ -83,7 +83,7 @@
   <text class="val-ci" x="780" y="62" text-anchor="end">70%</text>
 
   <text class="label" x="585" y="88">pr merge time</text>
-  <text class="val-pr" x="757" y="88" text-anchor="end">9.7</text>
+  <text class="val-pr" x="757" y="88" text-anchor="end">9</text>
   <text class="val-unit" x="762" y="88">days</text>
 
   <text class="label" x="585" y="114">releases</text>

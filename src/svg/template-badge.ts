@@ -39,7 +39,7 @@ export function renderBadge(d: SvgData, waveform: string): string {
         stroke: ${t.accent};
         stroke-width: 1.8;
         stroke-linecap: round;
-        filter: drop-shadow(0 0 2px ${t.accentGlow});
+        /* no filter - avoids render glitch */
         stroke-dasharray: 200;
         animation: badge-trace ${t.animDuration} linear infinite;
       }

@@ -81,7 +81,7 @@ export function renderMonitor(d: SvgData, waveform: string): string {
         stroke-width: 2.5;
         stroke-linecap: round;
         stroke-linejoin: round;
-        filter: drop-shadow(0 0 4px ${t.accentGlow});
+        /* no filter - avoids render glitch */
         stroke-dasharray: 2400;
         animation: ${t.animName} ${t.animDuration} linear infinite;
       }
