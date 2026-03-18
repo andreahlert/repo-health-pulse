@@ -76,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: andreahlert/repo-health-pulse@main
+      - uses: andreahlert/repo-health-pulse@master
         with:
           format: monitor
           output-path: .github/health-pulse.svg

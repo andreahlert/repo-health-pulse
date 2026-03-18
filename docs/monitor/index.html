@@ -1,104 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Repovital</title>
+  <title>Repovital Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header-title">
-      <h1>Repovital</h1>
-      <p class="subtitle">Vital signs for every repository</p>
+  <nav class="navbar">
+    <a href="../" class="navbar-brand">Repovital</a>
+    <div class="navbar-links">
+      <a href="../">Home</a>
+      <a href="./" class="active">Dashboard</a>
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
     </div>
-  </header>
+  </nav>
 
-  <section class="stats-banner" id="stats-banner">
-    <div class="stat-item">
-      <span class="stat-value" id="stat-total">--</span>
-      <span class="stat-label">repos</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value healthy" id="stat-healthy">--</span>
-      <span class="stat-label">healthy</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value stressed" id="stat-stressed">--</span>
-      <span class="stat-label">stressed</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value critical" id="stat-critical">--</span>
-      <span class="stat-label">critical</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value flatline" id="stat-flatline">--</span>
-      <span class="stat-label">flatline</span>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-value" id="stat-median">--</span>
-      <span class="stat-label">median score</span>
-    </div>
-  </section>
+  <main class="container">
+    <section class="stats-banner" id="stats-banner">
+      <div class="stat-item">
+        <span class="stat-value" id="stat-total">--</span>
+        <span class="stat-label">repos</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value healthy" id="stat-healthy">--</span>
+        <span class="stat-label">healthy</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value stressed" id="stat-stressed">--</span>
+        <span class="stat-label">stressed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value critical" id="stat-critical">--</span>
+        <span class="stat-label">critical</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value flatline" id="stat-flatline">--</span>
+        <span class="stat-label">flatline</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-median">--</span>
+        <span class="stat-label">median score</span>
+      </div>
+    </section>
 
-  <section class="controls">
-    <div class="controls-row">
-      <div class="filter-group">
-        <label class="filter-label">State</label>
-        <div class="toggle-buttons" id="state-filters">
-          <button class="toggle-btn active" data-state="all">All</button>
-          <button class="toggle-btn" data-state="healthy">Healthy</button>
-          <button class="toggle-btn" data-state="stressed">Stressed</button>
-          <button class="toggle-btn" data-state="critical">Critical</button>
-          <button class="toggle-btn" data-state="flatline">Flatline</button>
+    <section class="controls">
+      <div class="controls-row">
+        <div class="filter-group">
+          <label class="filter-label">State</label>
+          <div class="toggle-buttons" id="state-filters">
+            <button class="toggle-btn active" data-state="all">All</button>
+            <button class="toggle-btn" data-state="healthy">Healthy</button>
+            <button class="toggle-btn" data-state="stressed">Stressed</button>
+            <button class="toggle-btn" data-state="critical">Critical</button>
+            <button class="toggle-btn" data-state="flatline">Flatline</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Language</label>
+          <select id="language-filter" class="select-input">
+            <option value="all">All Languages</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Stars</label>
+          <div class="toggle-buttons" id="star-filters">
+            <button class="toggle-btn active" data-stars="all">All</button>
+            <button class="toggle-btn" data-stars="1k-5k">1k-5k</button>
+            <button class="toggle-btn" data-stars="5k-10k">5k-10k</button>
+            <button class="toggle-btn" data-stars="10k-50k">10k-50k</button>
+            <button class="toggle-btn" data-stars="50k+">50k+</button>
+          </div>
         </div>
       </div>
 
-      <div class="filter-group">
-        <label class="filter-label">Language</label>
-        <select id="language-filter" class="select-input">
-          <option value="all">All Languages</option>
-        </select>
-      </div>
+      <div class="controls-row">
+        <div class="filter-group search-group">
+          <label class="filter-label">Search</label>
+          <input type="text" id="search-input" class="text-input" placeholder="Filter by repo name...">
+        </div>
 
-      <div class="filter-group">
-        <label class="filter-label">Stars</label>
-        <div class="toggle-buttons" id="star-filters">
-          <button class="toggle-btn active" data-stars="all">All</button>
-          <button class="toggle-btn" data-stars="1k-5k">1k-5k</button>
-          <button class="toggle-btn" data-stars="5k-10k">5k-10k</button>
-          <button class="toggle-btn" data-stars="10k-50k">10k-50k</button>
-          <button class="toggle-btn" data-stars="50k+">50k+</button>
+        <div class="filter-group">
+          <label class="filter-label">Sort by</label>
+          <select id="sort-select" class="select-input">
+            <option value="score">Score</option>
+            <option value="stars">Stars</option>
+            <option value="pr_hours">PR Time</option>
+            <option value="ci">CI %</option>
+            <option value="name">Name</option>
+          </select>
         </div>
       </div>
+    </section>
+
+    <div class="legend-bar" id="legend-bar" style="display:none">
+      <span class="card-type-tag">non-code</span>
+      <span>Non-code repos (docs, lists, configs) are tagged separately</span>
     </div>
 
-    <div class="controls-row">
-      <div class="filter-group search-group">
-        <label class="filter-label">Search</label>
-        <input type="text" id="search-input" class="text-input" placeholder="Filter by repo name...">
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Sort by</label>
-        <select id="sort-select" class="select-input">
-          <option value="score">Score</option>
-          <option value="stars">Stars</option>
-          <option value="pr_hours">PR Time</option>
-          <option value="ci">CI %</option>
-          <option value="name">Name</option>
-        </select>
-      </div>
-    </div>
-  </section>
-
-  <div class="legend-bar" id="legend-bar" style="display:none">
-    <span class="card-type-tag">non-code</span>
-    <span>Non-code repos (docs, lists, configs) are tagged separately</span>
-  </div>
-
-  <section class="grid" id="repo-grid"></section>
+    <section class="grid" id="repo-grid"></section>
+  </main>
 
   <footer class="footer">
     <p>Generated by <strong>Repovital</strong></p>
