@@ -50,7 +50,7 @@
     /* ── Dashboard layout (fills remaining viewport) ── */
     .dashboard {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 38% 1fr;
       grid-template-rows: auto 1fr;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
@@ -145,6 +145,27 @@
       border-radius: 8px;
       flex-shrink: 0;
     }
+    /* Languages stack */
+    .lang-stack {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      padding: 0.4rem 0.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .lang-tag {
+      font-size: 0.6rem;
+      font-family: var(--font-mono);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: #262a30;
+      color: var(--text-muted);
+    }
+    /* ECG section grows to fill remaining space */
+    .ecg-section { flex: 1; min-height: 0; overflow-y: auto; }
 
     /* ── Right column: metrics + comparison ─────────── */
     .col-right {
@@ -154,6 +175,11 @@
       min-height: 0;
       overflow-y: auto;
     }
+    /* Metrics grid takes 4 cards in 2x2 */
+    .metrics-grid { flex-shrink: 0; }
+    /* Comparison and percentile fill remaining space */
+    .comparison-section { flex-shrink: 0; }
+    .percentile-section { flex-shrink: 0; }
 
     /* ── Metric cards (2x2 grid) ───────────────────── */
     .metrics-grid {
@@ -726,6 +752,22 @@
       html += '<div class="hero-svg"><img src="mini/' + slug(repo.repo) + '.svg" alt="' + repo.repo + ' ECG" onerror="this.parentElement.innerHTML=\'<span style=color:#6b7280>SVG not available</span>\'"></div>';
       if (repo.description) {
         html += '<div class="repo-description">' + repo.description + '</div>';
+      }
+      /* Languages stack */
+      if (repo.languages && repo.languages.length > 0) {
+        html += '<div class="lang-stack">';
+        repo.languages.forEach(function(l) {
+          html += '<span class="lang-tag">' + l.lang + ' ' + l.pct + '%</span>';
+        });
+        html += '</div>';
+      }
+      /* Topics */
+      if (repo.topics && repo.topics.length > 0) {
+        html += '<div class="lang-stack">';
+        repo.topics.slice(0, 8).forEach(function(t) {
+          html += '<span class="lang-tag" style="background:#1e2a20;color:#4ade80">' + t + '</span>';
+        });
+        html += '</div>';
       }
 
       /* ECG findings in left column */
