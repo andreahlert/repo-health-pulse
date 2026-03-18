@@ -61,7 +61,18 @@ Not all metrics carry equal weight. Release cadence gets less weight because 55%
 - **Skipped CI runs** (cherry-pick workflows, conditional jobs) are excluded from pass rate. Only `success` and `failure` count.
 - **No GitHub Releases?** Falls back to git tags. If no tags either, checks PR activity: repos with 15+ merged PRs get a neutral score instead of being penalized.
 - **Bot auto-replies** on issues are detected and capped at score 50 to prevent artificial inflation.
-- **Flatline detection**: repos with zero releases AND fewer than 5 merged PRs are marked as flatline regardless of other metrics.
+- **Flatline detection**: uses the **date** of the last merged PR, not just count. No PR merged in the last 30 days + no releases = flatline. If there's recent PR activity, the repo is alive (critical at worst).
+
+### Classification Criteria
+
+| State | Score | Condition | What it means |
+|---|---|---|---|
+| **Healthy** | >= 70 | All metrics above p50 of cohort | Top 8% of the population. The repo performs better than most peers in its size category. |
+| **Stressed** | 50-69 | Most metrics around cohort median | The normal state (42% of repos). Average performance for the segment. Not a problem. |
+| **Critical** | 30-49 | Multiple metrics below cohort p25 | Below average. At least 2 metrics are significantly behind peers. Needs attention. |
+| **Flatline** | < 30 | Low score + no recent activity | Abandoned or stalled. No PRs merged in the last 30 days AND no releases. If there's recent PR activity, the repo stays at critical, never flatline. |
+
+The key distinction: **flatline is not just a low score.** A repo with bad metrics but active development (PRs merging) is critical, not dead. Flatline is reserved for repos where development has actually stopped.
 
 ### ECG Anatomy
 
@@ -88,9 +99,9 @@ Data collected from **286 active repos** across 10+ languages and star counts fr
 | State | Count | % | Description |
 |---|---|---|---|
 | Healthy | 24 | 8% | Top performers in their cohort |
-| Stressed | 121 | 42% | Population average |
-| Critical | 87 | 30% | Below cohort median |
-| Flatline | 54 | 19% | Inactive or abandoned |
+| Stressed | 116 | 41% | Population average |
+| Critical | 98 | 34% | Below cohort median |
+| Flatline | 48 | 17% | Inactive or abandoned (no PRs merged in 30 days) |
 
 ### Population Medians (the "normal patient")
 
@@ -203,9 +214,9 @@ Then in your README:
 ### CLI
 
 ```bash
-npx repopulse apache/airflow                                    # stdout
-npx repopulse microsoft/vscode --format mini --output health.svg
-npx repopulse                                                   # detects from git remote
+npx repo-health-pulse apache/airflow                                    # stdout
+npx repo-health-pulse microsoft/vscode --format mini --output health.svg
+npx repo-health-pulse                                                   # detects from git remote
 ```
 
 ### Formats
