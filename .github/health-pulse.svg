@@ -96,7 +96,7 @@
   <text class="bpm-unit" x="630" y="33">bpm</text>
 
   <text class="label" x="585" y="62">ci pass rate</text>
-  <text class="val-ci" x="780" y="62" text-anchor="end">53%</text>
+  <text class="val-ci" x="780" y="62" text-anchor="end">57%</text>
 
   <text class="label" x="585" y="88">pr merge time</text>
   <text class="val-pr" x="757" y="88" text-anchor="end">--</text>
