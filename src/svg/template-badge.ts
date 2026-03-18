@@ -44,6 +44,12 @@ export function renderBadge(d: SvgData, waveform: string): string {
         animation: badge-trace ${t.animDuration} linear infinite;
       }
       .badge-heart { fill: ${d.state === 'flatline' ? '#4b5563' : t.accent}; font-size: 10px; ${heartAnim} }
+
+      @media (prefers-color-scheme: light) {
+        .badge-bg-left { fill: #f1f5f9; }
+        .badge-bg-right { fill: #f8fafc; }
+        .badge-text { fill: #1e293b; }
+      }
     </style>
   </defs>
 

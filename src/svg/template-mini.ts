@@ -61,6 +61,14 @@ export function renderMini(d: SvgData, waveform: string): string {
       .status { fill: ${t.accent}; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; ${statusAnim} }
       .dot { fill: ${t.accent}; ${dotAnim} }
       .border { fill: none; stroke: ${t.borderColor}; stroke-width: 1; rx: 6; }
+
+      @media (prefers-color-scheme: light) {
+        .bg { fill: #ffffff; }
+        .repo { fill: ${d.state === 'flatline' ? '#6b7280' : '#1e293b'}; }
+        .repo-dim { fill: #94a3b8; }
+        .score-unit { fill: #64748b; }
+        .border { stroke: #e2e8f0; }
+      }
     </style>
   </defs>
 

@@ -18,6 +18,24 @@
       --amber: #eab308;
       --red: #ef4444;
       --gray: #6b7280;
+      --nav-bg: rgba(12,13,16,0.8);
+      --code-bg: #0a0b0d;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-card: rgba(0,0,0,0.03);
+      --bg-card-hover: rgba(0,0,0,0.06);
+      --border: rgba(0,0,0,0.1);
+      --text: #1e293b;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --green: #16a34a;
+      --green-dim: rgba(22,163,74,0.12);
+      --amber: #ca8a04;
+      --red: #dc2626;
+      --gray: #6b7280;
+      --nav-bg: rgba(248,250,252,0.85);
+      --code-bg: #f1f5f9;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +59,7 @@
       align-items: center;
       padding: 0 2rem;
       height: 56px;
-      background: rgba(12,13,16,0.8);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -157,7 +175,7 @@
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.05;
-      background: linear-gradient(135deg, #fff 30%, var(--green) 100%);
+      background: linear-gradient(135deg, var(--text) 30%, var(--green) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 1.5rem;
@@ -366,7 +384,7 @@
       margin-bottom: 1.25rem;
     }
     .code-block {
-      background: #0a0b0d;
+      background: var(--code-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 0.75rem 1rem;
@@ -439,6 +457,7 @@
       <a href="https://github.com/andreahlert/repo-health-pulse" target="_blank">GitHub</a>
     </div>
     <div class="nav-cta">
+      <button id="theme-toggle" class="btn btn-ghost" onclick="toggleTheme()" title="Toggle light/dark mode" style="padding:0.4rem 0.7rem;font-size:1rem">&#9790;</button>
       <a href="monitor/" class="btn btn-ghost">Dashboard</a>
       <a href="#install" class="btn btn-primary">Install</a>
     </div>
@@ -470,21 +489,21 @@
 
     <div class="showcase-grid">
       <div class="showcase-card">
-        <img src="generated/monitor/astral-sh-ruff.svg" alt="ruff" loading="lazy">
+        <img src="showcase/astral-sh-ruff.svg" alt="astral-sh/ruff health monitor" loading="lazy">
         <div class="showcase-meta">
           <span class="showcase-repo">astral-sh/ruff</span>
           <span class="showcase-state" style="background:var(--green-dim);color:var(--green)">Healthy</span>
         </div>
       </div>
       <div class="showcase-card">
-        <img src="generated/monitor/microsoft-vscode.svg" alt="vscode" loading="lazy">
+        <img src="showcase/microsoft-vscode.svg" alt="microsoft/vscode health monitor" loading="lazy">
         <div class="showcase-meta">
           <span class="showcase-repo">microsoft/vscode</span>
           <span class="showcase-state" style="background:rgba(234,179,8,0.15);color:var(--amber)">Stressed</span>
         </div>
       </div>
       <div class="showcase-card">
-        <img src="generated/monitor/expressjs-express.svg" alt="express" loading="lazy">
+        <img src="showcase/expressjs-express.svg" alt="expressjs/express health monitor" loading="lazy">
         <div class="showcase-meta">
           <span class="showcase-repo">expressjs/express</span>
           <span class="showcase-state" style="background:rgba(107,114,128,0.15);color:var(--gray)">Flatline</span>
@@ -631,6 +650,27 @@ npx repo-health-pulse --format mini \
 
     var bars = document.getElementById('stats-bars');
     if (bars) barsObserver.observe(bars);
+
+    // Theme toggle
+    function toggleTheme() {
+      var html = document.documentElement;
+      var current = html.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('repovital-theme', next);
+      document.getElementById('theme-toggle').textContent = next === 'light' ? '\u2600' : '\u263E';
+    }
+    // Init theme from localStorage or system preference
+    (function() {
+      var saved = localStorage.getItem('repovital-theme');
+      if (!saved) {
+        saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById('theme-toggle').textContent = '\u2600';
+      }
+    })();
   </script>
 </body>
 </html>

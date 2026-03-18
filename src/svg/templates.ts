@@ -103,6 +103,20 @@ export function renderMonitor(d: SvgData, waveform: string): string {
       .heart { fill: ${t.accent}; animation: pulse-glow ${heartAnim} ease-in-out infinite; font-size: 18px; }
       .bpm { fill: ${t.accent}; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 22px; font-weight: bold; }
       .bpm-unit { fill: ${t.accentDim}; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
+
+      /* Adapt to GitHub light/dark mode */
+      @media (prefers-color-scheme: light) {
+        .bg { fill: #ffffff; }
+        .grid-line { stroke: #e2e8f0; }
+        .label { fill: #64748b; }
+        .val { fill: #1e293b; }
+        .val-unit { fill: #94a3b8; }
+        .repo-name { fill: #1e293b; }
+        .divider { stroke: #e2e8f0; }
+        .bar-bg { fill: #f1f5f9; }
+        .border { stroke: #e2e8f0; }
+        .bpm-unit { fill: ${t.accent}99; }
+      }
     </style>
   </defs>
 
