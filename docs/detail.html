@@ -6,12 +6,16 @@
   <title>Repo Detail - Repo Health Pulse</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      padding: 0 24px;
+    }
+
     /* ── Detail page layout ─────────────────────────── */
     .detail-header {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1.5rem 2rem;
+      padding: 1.5rem 0;
     }
 
     .back-link {
@@ -30,6 +34,17 @@
 
     .detail-header-right {
       margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .detail-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--bg-input);
+      flex-shrink: 0;
     }
 
     .repo-title {
@@ -51,7 +66,7 @@
 
     /* ── Hero SVG ───────────────────────────────────── */
     .hero-svg {
-      max-width: 640px;
+      max-width: 900px;
       margin: 0 auto 2rem;
       background: #1e2025;
       border: 1px solid var(--border);
@@ -70,9 +85,21 @@
 
     /* ── Content wrapper ────────────────────────────── */
     .detail-content {
-      max-width: 960px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem 3rem;
+      padding: 0 0 3rem;
+    }
+
+    /* ── Description ─────────────────────────────────── */
+    .repo-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding: 0.75rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
     }
 
     /* ── Info bar ───────────────────────────────────── */
@@ -222,6 +249,131 @@
       font-style: italic;
     }
 
+    /* ── Comparison Chart ────────────────────────────── */
+    .comparison-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .comparison-section h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .comparison-metric {
+      margin-bottom: 1.25rem;
+    }
+
+    .comparison-metric:last-child {
+      margin-bottom: 0;
+    }
+
+    .comparison-metric-name {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .comparison-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+
+    .comparison-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .comparison-bar-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      width: 110px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .comparison-bar-track {
+      flex: 1;
+      height: 14px;
+      background: #1e2025;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .comparison-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+      min-width: 2px;
+    }
+
+    .comparison-bar-fill.pop-median {
+      background: #475569;
+    }
+
+    .comparison-bar-fill.cohort-median {
+      background: transparent;
+      border: 1.5px dashed #64748b;
+      box-sizing: border-box;
+    }
+
+    .comparison-bar-value {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      width: 55px;
+      flex-shrink: 0;
+    }
+
+    /* ── Percentile section ──────────────────────────── */
+    .percentile-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .percentile-section h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .percentile-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .percentile-item {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .percentile-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     /* ── ECG Explanation ────────────────────────────── */
     .ecg-section {
       background: var(--bg-card);
@@ -282,13 +434,18 @@
     }
 
     /* ── Responsive ─────────────────────────────────── */
-    @media (max-width: 700px) {
+    @media (max-width: 900px) {
       .metrics-grid { grid-template-columns: 1fr; }
-      .detail-content { padding: 0 1rem 2rem; }
-      .detail-header { padding: 1rem; }
-      .hero-svg { margin: 0 1rem 1.5rem; }
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 0 16px; }
+      .detail-content { padding: 0 0 2rem; }
+      .detail-header { padding: 1rem 0; }
+      .hero-svg { margin: 0 0 1.5rem; }
       .info-bar { gap: 1rem; }
       .score-overview { flex-direction: column; text-align: center; }
+      .comparison-bar-label { width: 80px; font-size: 0.65rem; }
     }
   </style>
 </head>
@@ -299,6 +456,7 @@
       Back to mosaic
     </a>
     <div class="detail-header-right">
+      <img id="detail-avatar" class="detail-avatar" src="" alt="" style="display:none">
       <span class="repo-title" id="repo-title">Loading...</span>
     </div>
   </div>
@@ -323,6 +481,10 @@
 
     function slug(repo) {
       return repo.replace("/", "-");
+    }
+
+    function owner(repo) {
+      return repo.split("/")[0];
     }
 
     function formatStars(n) {
@@ -364,6 +526,10 @@
       return state.charAt(0).toUpperCase() + state.slice(1);
     }
 
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
     /* ── Cohort logic ───────────────────────────────── */
     function getCohort(size_kb) {
       if (size_kb < 10240) return { name: "tiny (<10 MB)", ci: 55, pr: 84, rel: 0 };
@@ -372,6 +538,9 @@
       return { name: "huge (500 MB+)", ci: 70, pr: 18, rel: 0.31 };
     }
 
+    /* ── Population medians (across all repos) ──────── */
+    var POP_MEDIANS = { ci: 75, pr: 28, rel: 0.1 };
+
     /* ── Percentile scoring (0-100) ─────────────────── */
     function ciPercentile(val) {
       if (val == null) return 0;
@@ -379,7 +548,6 @@
     }
 
     function prPercentile(val) {
-      // Lower is better. 0h = 100, 168h (1 week) = 0
       if (val == null) return 0;
       if (val <= 0) return 100;
       var p = Math.max(0, 100 - (val / 168) * 100);
@@ -387,14 +555,12 @@
     }
 
     function relPercentile(val) {
-      // 0 = 0, 1/wk = 60, 3+/wk = 100
       if (val == null || val === 0) return 0;
       var p = Math.min(100, (val / 3) * 100);
       return Math.round(p);
     }
 
     function responsePercentile(val) {
-      // Lower is better. 0h = 100, 72h = 0
       if (val == null) return null;
       if (val <= 0) return 100;
       var p = Math.max(0, 100 - (val / 72) * 100);
@@ -411,6 +577,20 @@
       }
       var word = diff > 0 ? "above" : diff < 0 ? "below" : "at";
       return "This is " + word + " average for " + cohortName + " repos";
+    }
+
+    /* ── Compute percentile rank within a population ── */
+    function percentileRank(value, allValues, lowerIsBetter) {
+      if (value == null || allValues.length === 0) return null;
+      var below = 0;
+      for (var i = 0; i < allValues.length; i++) {
+        if (lowerIsBetter) {
+          if (allValues[i] > value) below++;
+        } else {
+          if (allValues[i] < value) below++;
+        }
+      }
+      return Math.round((below / allValues.length) * 100);
     }
 
     /* ── ECG findings ───────────────────────────────── */
@@ -437,10 +617,10 @@
         findings.push({ color: "#eab308", text: "Slow heart rate (bradycardia) from no release activity in the past 90 days. Delivery rhythm is stalled." });
       }
 
-      if (repo.response_hours != null && repo.response_hours > 48) {
-        findings.push({ color: "#eab308", text: "Noisy baseline from slow issue response time (" + formatHours(repo.response_hours) + "). Community engagement is lagging." });
-      } else if (repo.response_hours != null && repo.response_hours > 168) {
+      if (repo.response_hours != null && repo.response_hours > 168) {
         findings.push({ color: "#ef4444", text: "Severe baseline wander: issue response time exceeds one week (" + formatHours(repo.response_hours) + ")." });
+      } else if (repo.response_hours != null && repo.response_hours > 48) {
+        findings.push({ color: "#eab308", text: "Noisy baseline from slow issue response time (" + formatHours(repo.response_hours) + "). Community engagement is lagging." });
       }
 
       if (repo.score < 25) {
@@ -450,11 +630,160 @@
       return findings;
     }
 
+    /* ── Bar width helpers for comparison chart ──────── */
+    function ciBarWidth(val) {
+      if (val == null) return 0;
+      return clamp(val, 0, 100);
+    }
+
+    function prBarWidth(val, maxHours) {
+      // Logarithmic scale for PR hours
+      if (val == null || val <= 0) return 0;
+      var logVal = Math.log10(val + 1);
+      var logMax = Math.log10(maxHours + 1);
+      return clamp((logVal / logMax) * 100, 0, 100);
+    }
+
+    function relBarWidth(val) {
+      if (val == null) return 0;
+      return clamp((val / 3) * 100, 0, 100);
+    }
+
+    function barColorForScore(pct) {
+      if (pct >= 65) return "#4ade80";
+      if (pct >= 40) return "#eab308";
+      return "#ef4444";
+    }
+
+    /* ── Render comparison chart ─────────────────────── */
+    function renderComparisonChart(repo, cohort, allRepos) {
+      var maxPrHours = 720; // 30 days as max for log scale
+
+      var metrics = [
+        {
+          name: "CI Pass Rate",
+          repoVal: repo.ci,
+          popMedian: POP_MEDIANS.ci,
+          cohortMedian: cohort.ci,
+          barFn: ciBarWidth,
+          formatFn: function(v) { return v != null ? v + "%" : "N/A"; },
+          scorePct: ciPercentile(repo.ci)
+        },
+        {
+          name: "PR Merge Time",
+          repoVal: repo.pr_hours,
+          popMedian: POP_MEDIANS.pr,
+          cohortMedian: cohort.pr,
+          barFn: function(v) { return prBarWidth(v, maxPrHours); },
+          formatFn: function(v) { return formatHours(v); },
+          scorePct: prPercentile(repo.pr_hours)
+        },
+        {
+          name: "Release Frequency",
+          repoVal: repo.releases_per_week,
+          popMedian: POP_MEDIANS.rel,
+          cohortMedian: cohort.rel,
+          barFn: relBarWidth,
+          formatFn: function(v) { return v != null ? v.toFixed(2) + "/wk" : "0/wk"; },
+          scorePct: relPercentile(repo.releases_per_week)
+        }
+      ];
+
+      var html = '<div class="comparison-section"><h3>Metric Comparison</h3>';
+
+      metrics.forEach(function(m) {
+        var repoWidth = m.barFn(m.repoVal);
+        var popWidth = m.barFn(m.popMedian);
+        var cohortWidth = m.barFn(m.cohortMedian);
+        var repoColor = barColorForScore(m.scorePct);
+
+        html += '<div class="comparison-metric">' +
+          '<div class="comparison-metric-name">' + m.name + '</div>' +
+          '<div class="comparison-bars">' +
+            '<div class="comparison-bar-row">' +
+              '<span class="comparison-bar-label">Population</span>' +
+              '<div class="comparison-bar-track"><div class="comparison-bar-fill pop-median" style="width:' + popWidth + '%"></div></div>' +
+              '<span class="comparison-bar-value">' + m.formatFn(m.popMedian) + '</span>' +
+            '</div>' +
+            '<div class="comparison-bar-row">' +
+              '<span class="comparison-bar-label">Cohort</span>' +
+              '<div class="comparison-bar-track"><div class="comparison-bar-fill cohort-median" style="width:' + cohortWidth + '%"></div></div>' +
+              '<span class="comparison-bar-value">' + m.formatFn(m.cohortMedian) + '</span>' +
+            '</div>' +
+            '<div class="comparison-bar-row">' +
+              '<span class="comparison-bar-label" style="color:var(--text)">This repo</span>' +
+              '<div class="comparison-bar-track"><div class="comparison-bar-fill" style="width:' + repoWidth + '%;background:' + repoColor + '"></div></div>' +
+              '<span class="comparison-bar-value" style="color:var(--text)">' + m.formatFn(m.repoVal) + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      });
+
+      html += '</div>';
+      return html;
+    }
+
+    /* ── Render percentile section ───────────────────── */
+    function renderPercentileSection(repo, allRepos, cohort) {
+      var codeRepos = allRepos.filter(function(r) { return !r.type || r.type === "code"; });
+
+      var ciValues = codeRepos.map(function(r) { return r.ci; }).filter(function(v) { return v != null; });
+      var prValues = codeRepos.map(function(r) { return r.pr_hours; }).filter(function(v) { return v != null; });
+      var relValues = codeRepos.map(function(r) { return r.releases_per_week; }).filter(function(v) { return v != null; });
+
+      var items = [];
+
+      var ciPct = percentileRank(repo.ci, ciValues, false);
+      if (ciPct !== null) {
+        var ciColor = ciPct >= 60 ? "#4ade80" : ciPct >= 30 ? "#eab308" : "#ef4444";
+        items.push({
+          color: ciColor,
+          text: "This repo's CI pass rate (" + repo.ci + "%) is better than " + ciPct + "% of code repos in its cohort."
+        });
+      }
+
+      var prPct = percentileRank(repo.pr_hours, prValues, true);
+      if (prPct !== null) {
+        var prColor = prPct >= 60 ? "#4ade80" : prPct >= 30 ? "#eab308" : "#ef4444";
+        items.push({
+          color: prColor,
+          text: "This repo's PR merge time (" + formatHours(repo.pr_hours) + ") is faster than " + prPct + "% of code repos."
+        });
+      }
+
+      var relPct = percentileRank(repo.releases_per_week, relValues, false);
+      if (relPct !== null) {
+        var relColor = relPct >= 60 ? "#4ade80" : relPct >= 30 ? "#eab308" : "#ef4444";
+        items.push({
+          color: relColor,
+          text: "This repo's release cadence (" + (repo.releases_per_week != null ? repo.releases_per_week.toFixed(2) : "0") + "/wk) is higher than " + relPct + "% of code repos."
+        });
+      }
+
+      if (items.length === 0) return "";
+
+      var html = '<div class="percentile-section"><h3>Compare with Population</h3><div class="percentile-items">';
+      items.forEach(function(item) {
+        html += '<div class="percentile-item">' +
+          '<span class="percentile-dot" style="background:' + item.color + '"></span>' +
+          '<span>' + item.text + '</span>' +
+        '</div>';
+      });
+      html += '</div></div>';
+      return html;
+    }
+
     /* ── Render ──────────────────────────────────────── */
-    function renderDetail(repo) {
+    function renderDetail(repo, allRepos) {
       var root = document.getElementById("detail-root");
       var cohort = getCohort(repo.size_kb);
       var sc = stateColor(repo.state);
+      var o = owner(repo.repo);
+
+      /* Avatar */
+      var avatarEl = document.getElementById("detail-avatar");
+      avatarEl.src = "https://github.com/" + o + ".png?size=64";
+      avatarEl.style.display = "block";
 
       /* Title */
       document.getElementById("repo-title").innerHTML =
@@ -513,6 +842,11 @@
 
       html += '<div class="detail-content">';
 
+      /* Description */
+      if (repo.description) {
+        html += '<div class="repo-description">' + repo.description + '</div>';
+      }
+
       /* Score overview */
       html += '<div class="score-overview">' +
         '<div class="score-circle" style="background:' + sc + '22;color:' + sc + ';border:2px solid ' + sc + '">' +
@@ -561,6 +895,12 @@
       });
       html += '</div>';
 
+      /* Comparison chart */
+      html += renderComparisonChart(repo, cohort, allRepos);
+
+      /* Percentile section */
+      html += renderPercentileSection(repo, allRepos, cohort);
+
       /* ECG findings */
       var findings = getEcgFindings(repo);
       html += '<div class="ecg-section">' +
@@ -608,7 +948,7 @@
             '<div class="detail-error">Repo "' + repoName + '" not found in dataset. <a href="index.html" style="color:var(--accent)">Go back.</a></div>';
           return;
         }
-        renderDetail(repo);
+        renderDetail(repo, data);
       })
       .catch(function (err) {
         document.getElementById("detail-root").innerHTML =

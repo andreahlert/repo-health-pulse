@@ -30,6 +30,7 @@ interface CsvRow {
   releases_per_week: number;
   release_count_90d: number;
   has_actions: boolean;
+  type: string;
 }
 
 function parseCsv(filePath: string): CsvRow[] {
@@ -53,6 +54,7 @@ function parseCsv(filePath: string): CsvRow[] {
       releases_per_week: parseFloat(vals[10]) || 0,
       release_count_90d: parseInt(vals[11]) || 0,
       has_actions: vals[12]?.trim() === '1',
+      type: vals[13]?.trim() || 'code',
     };
   }).filter(r => r.repo && r.stars > 0);
 }
@@ -75,9 +77,12 @@ function csvToRawMetrics(row: CsvRow): RawMetrics {
 }
 
 function main() {
-  const csvPath = 'data/population.csv';
+  // Use classified CSV if available (has type column), else fallback
+  const csvPath = fs.existsSync('data/population-classified.csv')
+    ? 'data/population-classified.csv'
+    : 'data/population.csv';
   if (!fs.existsSync(csvPath)) {
-    console.error('Error: data/population.csv not found. Run collect-population.ts first.');
+    console.error('Error: No population CSV found. Run collect-population.ts first.');
     process.exit(1);
   }
 
@@ -129,6 +134,7 @@ function main() {
       age_days: row.age_days,
       language: row.language,
       open_issues: row.open_issues,
+      type: row.type || 'code',
     });
 
     generated++;

@@ -43,6 +43,10 @@
     return repo.replace("/", "-");
   }
 
+  function owner(repo) {
+    return repo.split("/")[0];
+  }
+
   function formatStars(n) {
     if (n >= 1000) return (n / 1000).toFixed(n >= 100000 ? 0 : 1) + "k";
     return String(n);
@@ -78,6 +82,11 @@
     return map[state] || "#6b7280";
   }
 
+  function truncate(str, max) {
+    if (!str) return "";
+    return str.length > max ? str.slice(0, max) + "..." : str;
+  }
+
   /* ── Render stats banner ───────────────────────── */
   function renderStats(repos) {
     const counts = { healthy: 0, stressed: 0, critical: 0, flatline: 0 };
@@ -94,7 +103,11 @@
   /* ── Build a card ──────────────────────────────── */
   function createCard(repo) {
     var s = slug(repo.repo);
+    var o = owner(repo.repo);
     var langColor = LANG_COLORS[repo.language] || LANG_COLORS.unknown;
+    var repoType = repo.type || "code";
+    var isNonCode = repoType !== "code";
+    var desc = repo.description ? truncate(repo.description, 60) : "";
 
     var card = document.createElement("div");
     card.className = "card";
@@ -102,18 +115,32 @@
     card.addEventListener("click", function () {
       window.location.href = "detail.html?repo=" + encodeURIComponent(repo.repo);
     });
+
+    var typeTag = isNonCode
+      ? '<span class="card-type-tag">' + repoType + '</span>'
+      : '';
+
+    var descHtml = desc
+      ? '<div class="card-description" title="' + (repo.description || '').replace(/"/g, '&quot;') + '">' + desc + '</div>'
+      : '';
+
     card.innerHTML =
       '<div class="card-svg">' +
         '<img src="' + SVG_BASE + s + '.svg" alt="' + repo.repo + ' health pulse" loading="lazy" onerror="this.parentElement.innerHTML=\'<span style=&quot;color:#6b7280;font-size:0.75rem&quot;>SVG not found</span>\'">' +
       '</div>' +
       '<div class="card-body">' +
         '<div class="card-header">' +
-          '<span class="card-name" title="' + repo.repo + '">' + repo.repo + '</span>' +
+          '<div class="card-name-group">' +
+            '<img src="https://github.com/' + o + '.png?size=40" class="card-avatar" loading="lazy" alt="">' +
+            '<span class="card-name" title="' + repo.repo + '">' + repo.repo + '</span>' +
+          '</div>' +
           '<span class="card-score" style="color:' + stateColor(repo.state) + '">' +
             repo.score +
             '<span class="badge ' + repo.state + '">' + repo.state + '</span>' +
           '</span>' +
         '</div>' +
+        descHtml +
+        (typeTag ? '<div>' + typeTag + '</div>' : '') +
         '<div class="card-metrics">' +
           '<div class="metric"><span class="metric-value">' + (repo.ci != null ? repo.ci + "%" : "N/A") + '</span><span class="metric-label">CI pass</span></div>' +
           '<div class="metric"><span class="metric-value">' + formatHours(repo.pr_hours) + '</span><span class="metric-label">PR merge</span></div>' +
@@ -185,6 +212,15 @@
     });
   }
 
+  /* ── Check if any non-code repos exist, show legend ── */
+  function maybeShowLegend(repos) {
+    var hasNonCode = repos.some(function (r) { return r.type && r.type !== "code"; });
+    if (hasNonCode) {
+      var legend = document.getElementById("legend-bar");
+      if (legend) legend.style.display = "flex";
+    }
+  }
+
   /* ── Wire up events ────────────────────────────── */
   function setupToggleGroup(container, setter) {
     container.addEventListener("click", function (e) {
@@ -219,6 +255,7 @@
       allRepos = data;
       populateLanguages(data);
       renderStats(data);
+      maybeShowLegend(data);
       render();
     })
     .catch(function (err) {
