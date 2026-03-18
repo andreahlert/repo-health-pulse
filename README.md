@@ -1,147 +1,15 @@
 
 ![Repo Health Pulse](docs/banner.svg)
 
-# Repo Health Pulse
+Your repository's vital signs, visualized as a cardiac monitor.
 
-Vital signs for open-source repositories, visualized as a cardiac monitor.
+Instead of static badges, your repo gets a **living ECG** where the waveform shape, speed, and rhythm are driven by real metrics from the GitHub API.
 
-Instead of static badges, your repo gets a **living ECG** that pulses based on real health metrics. The waveform shape, speed, and rhythm are driven by actual data from the GitHub API.
-
-**[Live Dashboard (286 repos)](https://andreahlert.github.io/repo-health-pulse/)**
+**[Live Dashboard with 286 repos](https://andreahlert.github.io/repo-health-pulse/)**
 
 ---
 
-## How It Works
-
-The system collects four vital signs from any public GitHub repo and maps them to an ECG waveform using a Gaussian cardiac model:
-
-| Vital Sign | Source | What it controls on the ECG |
-|---|---|---|
-| **CI Pass Rate** | GitHub Actions API | Rhythm regularity. Low CI = arrhythmia, irregular beats. Below 35% the P-wave disappears (atrial fibrillation). Below 30% the ST segment elevates (heart attack signal). |
-| **PR Merge Time** | Pull Requests API | T-wave stress. Slow merges = elevated T-wave. Above 7 days the T-wave inverts (extreme cardiac stress). |
-| **Release Cadence** | Releases API + Tags | Heart rate. Frequent releases = faster heartbeat. No releases = slow, bradycardic rhythm. Zero activity = flatline. |
-| **Issue Response** | Issues Search API | Baseline stability. Slow response = noisy, wandering baseline between beats. |
-
-Each repo gets a **unique waveform** generated from its individual metrics, using seeded randomness for deterministic output. Same repo always produces the same ECG.
-
----
-
-## The Model
-
-### Population-Based Scoring
-
-Scores are **not** based on arbitrary ideals. They come from **real population data collected from 286 active GitHub repos** (1k to 500k stars). Each metric is scored as a percentile rank within the population.
-
-A repo scoring 75 means it performs better than 75% of the population on that metric.
-
-### Cohort System
-
-A 500MB monorepo with 50 contributors is not comparable to a 5MB library with 2 contributors. The scoring system detects four cohorts by repo size and adjusts reference values accordingly:
-
-| Cohort | CI Median | PR Merge Median | Release Median |
-|---|---|---|---|
-| Tiny (<10MB) | 55% | 84h | 0/wk |
-| Medium (10-100MB) | 80% | 21h | 0/wk |
-| Big (100-500MB) | 80% | 17h | 0.31/wk |
-| Huge (500MB+) | 70% | 18h | 0.31/wk |
-
-### Scoring Weights
-
-Not all metrics carry equal weight. Release cadence gets less weight because 55% of repos don't use GitHub Releases at all (they use tags, channels, or other distribution mechanisms).
-
-| Metric | Weight | Rationale |
-|---|---|---|
-| CI Pass Rate | 30% | Core signal of code health |
-| PR Merge Time | 30% | Reflects team responsiveness |
-| Issue Response | 25% | Community engagement |
-| Release Cadence | 15% | Optional for many projects |
-
-### Smart Edge Cases
-
-- **Skipped CI runs** (cherry-pick workflows, conditional jobs) are excluded from pass rate. Only `success` and `failure` count.
-- **No GitHub Releases?** Falls back to git tags. If no tags either, checks PR activity: repos with 15+ merged PRs get a neutral score instead of being penalized.
-- **Bot auto-replies** on issues are detected and capped at score 50 to prevent artificial inflation.
-- **Flatline detection**: uses the **date** of the last merged PR, not just count. No PR merged in the last 30 days + no releases = flatline. If there's recent PR activity, the repo is alive (critical at worst).
-
-### Classification Criteria
-
-| State | Score | Condition | What it means |
-|---|---|---|---|
-| **Healthy** | >= 70 | All metrics above p50 of cohort | Top 8% of the population. The repo performs better than most peers in its size category. |
-| **Stressed** | 50-69 | Most metrics around cohort median | The normal state (42% of repos). Average performance for the segment. Not a problem. |
-| **Critical** | 30-49 | Multiple metrics below cohort p25 | Below average. At least 2 metrics are significantly behind peers. Needs attention. |
-| **Flatline** | < 30 | Low score + no recent activity | Abandoned or stalled. No PRs merged in the last 30 days AND no releases. If there's recent PR activity, the repo stays at critical, never flatline. |
-
-The key distinction: **flatline is not just a low score.** A repo with bad metrics but active development (PRs merging) is critical, not dead. Flatline is reserved for repos where development has actually stopped.
-
-### ECG Anatomy
-
-The waveform uses a **Gaussian sum model** matching real ECG anatomy (Lead II):
-
-| Wave | Real ECG Function | Proportion |
-|---|---|---|
-| P wave | Atrial contraction | ~1/8 of R height |
-| Q wave | Septal depolarization | ~1/10 of R depth |
-| R wave | Ventricular peak (dominant) | Reference (1.0) |
-| S wave | Late ventricular activity | ~1/8 of R depth |
-| T wave | Ventricular repolarization | ~1/4 of R height, asymmetric |
-
-When heart rate increases, the **TP segment** (resting period) compresses while QRS width stays constant, matching real cardiac physiology.
-
----
-
-## Population Analysis
-
-Data collected from **286 active repos** across 10+ languages and star counts from 1k to 500k.
-
-### Distribution
-
-| State | Count | % | Description |
-|---|---|---|---|
-| Healthy | 75 | 26% | Above p50 in most metrics for their cohort |
-| Stressed | 153 | 53% | Around cohort median. The normal state. |
-| Critical | 48 | 17% | Below cohort median on multiple metrics |
-| Flatline | 10 | 3% | Truly abandoned (no PRs merged in 30 days, no releases) |
-
-### Population Medians (the "normal patient")
-
-| Metric | p25 | p50 (median) | p75 |
-|---|---|---|---|
-| CI Pass Rate | 35% | 75% | 95% |
-| PR Merge Time | 7h | 27h | 119h |
-| Releases/week | 0 | 0 | 0.3 |
-
-### Key Findings
-
-- **55% of repos don't use GitHub Releases.** Release cadence cannot be a primary health signal.
-- **CI of 75% is normal.** Large monorepos have flaky infrastructure tests, not bad code.
-- **PR merge time of 1 day is standard.** Not a sign of dysfunction.
-- **Huge repos (500MB+) merge PRs faster** than tiny repos (18h vs 84h median). More reviewers, more process.
-- **Old repos (11y+) have better CI** than young ones (80% vs 55%). Mature pipelines.
-
----
-
-## Showcase
-
-### Reference: The Normal Patient
-
-The reference is not an ideal. It's the **population median** for each cohort, the average repo in each size category. All values are p50 from 286 repos.
-
-**Population median** (CI 75%, PR 27h, Releases 0/wk, Response 2.4h):
-
-![population-median](generated/monitor/reference-population-median.svg)
-
-**Tiny repo median** (<10MB, CI 55%, PR 84h):
-
-![tiny](generated/monitor/reference-tiny.svg)
-
-**Huge repo median** (500MB+, CI 70%, PR 18h):
-
-![huge](generated/monitor/reference-huge.svg)
-
-Notice how each cohort has a different "normal." A tiny repo with 84h PR merge time is average for its size. The same number in a huge repo would be below average.
-
-### Real Repos
+## What It Looks Like
 
 ![ruff](generated/monitor/astral-sh-ruff.svg)
 
@@ -151,22 +19,16 @@ Notice how each cohort has a different "normal." A tiny repo with 84h PR merge t
 
 ![flutter](generated/monitor/flutter-flutter.svg)
 
-![next.js](generated/monitor/vercel-next.js.svg)
-
-![react](generated/monitor/facebook-react.svg)
-
 ![kubernetes](generated/monitor/kubernetes-kubernetes.svg)
 
 ![express](generated/monitor/expressjs-express.svg)
 
-### Minimal View
+### Compact Formats
 
 ![ruff](generated/mini/astral-sh-ruff.svg)
 ![vscode](generated/mini/microsoft-vscode.svg)
 ![airflow](generated/mini/apache-airflow.svg)
 ![flutter](generated/mini/flutter-flutter.svg)
-
-### Badge View
 
 | Repo | Badge |
 |---|---|
@@ -177,34 +39,41 @@ Notice how each cohort has a different "normal." A tiny repo with 84h PR merge t
 
 ---
 
+## Reading the Monitor
+
+![anatomy](docs/anatomy.svg)
+
+Four vital signs drive the entire visualization:
+
+| Vital Sign | What it controls on the ECG |
+|---|---|
+| **CI Pass Rate** | Rhythm regularity. Low CI = arrhythmia. Below 35% the P-wave disappears. Below 30% the ST segment elevates (heart attack). |
+| **PR Merge Time** | T-wave stress. Slow merges = elevated T-wave. Above 7 days it inverts. |
+| **Release Cadence** | Heart rate. More releases = faster heartbeat. No activity = flatline. |
+| **Issue Response** | Baseline stability. Slow response = noisy, wandering baseline between beats. |
+
+Each repo gets a **unique waveform** generated from its individual metrics using a Gaussian cardiac model. Same repo always produces the same ECG.
+
+---
+
 ## Quick Start
 
 ### GitHub Action
 
-Add to `.github/workflows/health-pulse.yml`:
-
 ```yaml
 name: Health Pulse
-
 on:
-  release:
-    types: [published]
-  pull_request:
-    types: [closed]
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
-
 permissions:
   contents: write
   actions: read
   pull-requests: read
   issues: read
-
 jobs:
   pulse:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
       - uses: andreahlert/repo-health-pulse@main
@@ -241,6 +110,101 @@ npx repo-health-pulse                                                   # detect
 
 ---
 
+## How Scoring Works
+
+### Population-Based, Not Arbitrary
+
+Scores come from **real data collected from 286 active GitHub repos** (1k to 500k stars). Each metric is scored as a percentile rank within the population. No arbitrary thresholds.
+
+### Cohort System
+
+A 500MB monorepo is not comparable to a 5MB library. The system detects four cohorts and adjusts what "normal" means:
+
+| Cohort | CI Median | PR Merge Median | Release Median |
+|---|---|---|---|
+| Tiny (<10MB) | 55% | 84h | 0/wk |
+| Medium (10-100MB) | 80% | 21h | 0/wk |
+| Big (100-500MB) | 80% | 17h | 0.31/wk |
+| Huge (500MB+) | 70% | 18h | 0.31/wk |
+
+### The "Normal Patient" (Population Median)
+
+The reference is not an ideal. It's the actual average:
+
+![population-median](generated/monitor/reference-population-median.svg)
+
+A tiny repo with 84h PR merge time is **average** for its size. The same number in a huge repo would be **below average**.
+
+![tiny](generated/monitor/reference-tiny.svg)
+
+![huge](generated/monitor/reference-huge.svg)
+
+### Scoring Weights
+
+| Metric | Weight | Rationale |
+|---|---|---|
+| CI Pass Rate | 30% | Core signal of code health |
+| PR Merge Time | 30% | Team responsiveness |
+| Issue Response | 25% | Community engagement |
+| Release Cadence | 15% | Optional (55% of repos don't use GitHub Releases) |
+
+### Classification
+
+| State | Score | What it means |
+|---|---|---|
+| **Healthy** | >= 70 | Above p50 in most metrics. Top 26% of the population. |
+| **Stressed** | 50-69 | Around cohort median. The normal state (53% of repos). |
+| **Critical** | 30-49 | Below median on multiple metrics. Needs attention. |
+| **Flatline** | < 30 | Abandoned. No PRs merged in the last 30 days AND no releases. Only 3% of repos. |
+
+The key rule: **flatline requires inactivity, not just a low score.** A repo with bad metrics but PRs merging is critical, not dead.
+
+### Population Distribution (286 repos)
+
+| State | Count | % |
+|---|---|---|
+| Healthy | 75 | 26% |
+| Stressed | 153 | 53% |
+| Critical | 48 | 17% |
+| Flatline | 10 | 3% |
+
+### Smart Edge Cases
+
+- **Skipped CI runs** (cherry-picks, conditional jobs) excluded from pass rate
+- **No GitHub Releases?** Falls back to git tags. No tags + active PRs = neutral score
+- **Bot auto-replies** detected and capped at score 50
+- **Flutter-style projects** that use custom release channels aren't penalized for missing GitHub Releases if they have recent PR activity
+
+---
+
+## Population Analysis Findings
+
+Data from 286 repos across 10+ languages, 1k to 500k stars.
+
+| Finding | Implication |
+|---|---|
+| **55% of repos don't use GitHub Releases** | Release cadence can't be a primary health signal |
+| **CI median is 75%** | Flaky CI is normal in monorepos, not a sign of bad code |
+| **PR merge median is 27h** | One-day turnaround is standard, not slow |
+| **Huge repos merge PRs faster** (18h vs 84h for tiny) | More reviewers = faster process |
+| **Old repos (11y+) have better CI** (80% vs 55% for young) | Mature pipelines improve over time |
+
+---
+
+## ECG Anatomy
+
+The waveform uses a Gaussian sum model matching real ECG anatomy (Lead II):
+
+| Wave | Proportion | Maps to |
+|---|---|---|
+| P wave | ~1/8 of R height | Disappears when CI < 35% (atrial fibrillation) |
+| QRS complex | Dominant peak | Always present, amplitude varies with CI stability |
+| T wave | ~1/4 of R, asymmetric | Elevates with slow PR merge, inverts above 7 days |
+| TP segment | Compresses with speed | Shrinks when releases are frequent (faster heart rate) |
+| Baseline | Flat when healthy | Wanders when issue response is slow |
+
+---
+
 ## Action Reference
 
 ### Inputs
@@ -263,10 +227,10 @@ npx repo-health-pulse                                                   # detect
 
 ## Known Limitations
 
-- **GitHub-only metrics.** Projects using LKML, Bugzilla, or other tools appear less active than they are (e.g., Linux kernel).
-- **Release detection.** Some projects use custom distribution channels not visible via GitHub API (e.g., Flutter uses `flutter upgrade` channels).
-- **Response time skew.** Repos with 10k+ open issues naturally have slower median response times. This is measured, not penalized unfairly.
-- **CI architecture varies.** Monorepos may have hundreds of workflow files, some experimental. The 30-run sample may not be representative.
+- **GitHub-only metrics.** Projects using LKML, Bugzilla, or external tools appear less active than they are.
+- **Release detection.** Custom distribution channels (Flutter channels, Go toolchain) aren't always visible via GitHub API.
+- **Response time skew.** Repos with 10k+ open issues naturally have slower median response times.
+- **CI sampling.** The 30-run sample may not be representative for repos with hundreds of workflow files.
 
 ## License
 

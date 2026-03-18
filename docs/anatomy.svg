@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="350" viewBox="0 0 800 350">
+  <defs>
+    <style>
+      .bg { fill: #1a1c20; }
+      .monitor-bg { fill: #1a1c20; }
+      .ecg-line {
+        fill: none;
+        stroke: #4ade80;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 4px #4ade8050);
+      }
+      .grid-line { stroke: #262a30; stroke-width: 0.5; }
+      .label { fill: #94a3b8; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+      .value { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 13px; font-weight: bold; }
+      .value-unit { fill: #64748b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 9px; }
+      .value-good { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 13px; font-weight: bold; }
+      .repo-name { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; font-weight: bold; }
+      .status-text { fill: #4ade80; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 11px; font-weight: bold; }
+      .status-dot { fill: #4ade80; }
+      .divider { stroke: #2e3238; stroke-width: 1; }
+      .bar-bg { fill: #262a30; }
+      .bar-fill { fill: #4ade80; opacity: 0.85; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; }
+      .heart { fill: #4ade80; font-size: 16px; }
+      .bpm { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 19px; font-weight: bold; }
+      .bpm-unit { fill: #4ade8099; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 9px; }
+
+      /* Annotation styles */
+      .ann-line { stroke: #475569; stroke-width: 1; fill: none; }
+      .ann-dot { fill: #475569; }
+      .ann-text { fill: #cbd5e1; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; }
+      .ann-text-bold { fill: #cbd5e1; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; font-weight: 600; }
+
+      /* Title */
+      .title { fill: #e2e8f0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+      .subtitle { fill: #64748b; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; }
+    </style>
+  </defs>
+
+  <!-- Full background -->
+  <rect class="bg" width="800" height="350" rx="0"/>
+
+  <!-- Title -->
+  <text class="title" x="400" y="18" text-anchor="middle">ANATOMY OF A REPO HEALTH PULSE MONITOR</text>
+
+  <!-- ============================================ -->
+  <!-- MONITOR (scaled down, centered at y=65..245) -->
+  <!-- ============================================ -->
+  <g transform="translate(115, 55)">
+    <!-- Monitor background -->
+    <rect class="monitor-bg" width="570" height="175" rx="6"/>
+    <rect class="border" x="0.5" y="0.5" width="569" height="174" rx="6"/>
+
+    <!-- Grid -->
+    <g opacity="0.3">
+      <line class="grid-line" x1="0" y1="35" x2="395" y2="35"/>
+      <line class="grid-line" x1="0" y1="70" x2="395" y2="70"/>
+      <line class="grid-line" x1="0" y1="105" x2="395" y2="105"/>
+      <line class="grid-line" x1="0" y1="140" x2="395" y2="140"/>
+    </g>
+
+    <!-- ECG Waveform -->
+    <path class="ecg-line" d="
+      M 0,88
+      L 22,88 L 25,88 L 27,84 L 30,92 L 32,88
+      L 46,88 L 48,88 L 51,86 L 54,88
+      L 60,88 L 63,88 L 64,48 L 67,112 L 69,78 L 71,88
+      L 85,88 L 87,84 L 92,80 L 100,80 L 105,84 L 107,88
+      L 128,88
+      L 150,88 L 153,88 L 155,84 L 158,92 L 160,88
+      L 174,88 L 176,88 L 179,86 L 182,88
+      L 188,88 L 191,88 L 192,48 L 195,112 L 197,78 L 199,88
+      L 213,88 L 215,84 L 220,80 L 228,80 L 233,84 L 235,88
+      L 256,88
+      L 278,88 L 281,88 L 283,84 L 286,92 L 288,88
+      L 302,88 L 304,88 L 307,86 L 310,88
+      L 316,88 L 319,88 L 320,48 L 323,112 L 325,78 L 327,88
+      L 341,88 L 343,84 L 348,80 L 356,80 L 361,84 L 363,88
+      L 395,88
+    "/>
+
+    <!-- Divider -->
+    <line class="divider" x1="405" y1="8" x2="405" y2="167"/>
+
+    <!-- BPM display -->
+    <text class="heart" x="416" y="27">&#x2665;</text>
+    <text class="bpm" x="434" y="27">72</text>
+    <text class="bpm-unit" x="460" y="27">bpm</text>
+
+    <!-- CI Pass Rate -->
+    <text class="label" x="416" y="50">ci pass rate</text>
+    <text class="value-good" x="556" y="50" text-anchor="end">100%</text>
+
+    <!-- PR Merge Time -->
+    <text class="label" x="416" y="72">pr merge time</text>
+    <text class="value" x="536" y="72" text-anchor="end">1.2</text>
+    <text class="value-unit" x="540" y="72">hrs</text>
+
+    <!-- Releases -->
+    <text class="label" x="416" y="94">releases</text>
+    <text class="value" x="536" y="94" text-anchor="end">0.86</text>
+    <text class="value-unit" x="540" y="94">/wk</text>
+
+    <!-- Response Time -->
+    <text class="label" x="416" y="116">response time</text>
+    <text class="value" x="536" y="116" text-anchor="end">&lt;1</text>
+    <text class="value-unit" x="540" y="116">min</text>
+
+    <!-- Health Bar -->
+    <rect class="bar-bg" x="416" y="128" width="140" height="7" rx="3"/>
+    <rect class="bar-fill" x="416" y="128" width="129" height="7" rx="3"/>
+
+    <!-- Status -->
+    <circle class="status-dot" cx="422" cy="150" r="3"/>
+    <text class="status-text" x="430" y="153">HEALTHY</text>
+    <text class="value" x="536" y="153" text-anchor="end">92</text>
+    <text class="value-unit" x="540" y="153">/100</text>
+
+    <!-- Repo Name -->
+    <text class="repo-name" x="14" y="163">
+      <tspan fill="#64748b">microsoft/</tspan>vscode
+    </text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- LEFT SIDE ANNOTATIONS (ECG waveform area)    -->
+  <!-- ============================================ -->
+
+  <!-- 1. ECG line itself (point to the QRS complex area) -->
+  <circle class="ann-dot" cx="247" cy="103" r="2.5"/>
+  <polyline class="ann-line" points="247,103 200,60 15,60"/>
+  <text class="ann-text" x="15" y="53">
+    <tspan font-weight="600">Waveform shape</tspan> unique to each repo.
+  </text>
+  <text class="ann-text" x="15" y="64">Generated from a Gaussian cardiac model.</text>
+
+  <!-- 2. Fast-beating section (point to spacing between beats) -->
+  <circle class="ann-dot" cx="295" cy="143" r="2.5"/>
+  <polyline class="ann-line" points="295,143 230,250 15,250"/>
+  <text class="ann-text" x="15" y="243">
+    <tspan font-weight="600">Release frequency</tspan> controls heart rate.
+  </text>
+  <text class="ann-text" x="15" y="254">More releases = faster heartbeat.</text>
+
+  <!-- 3. Arrhythmia / P-wave (point to P-wave area) -->
+  <circle class="ann-dot" cx="155" cy="143" r="2.5"/>
+  <polyline class="ann-line" points="155,143 108,175 15,175"/>
+  <text class="ann-text" x="15" y="168">
+    <tspan font-weight="600">Low CI pass rate</tspan> causes arrhythmia.
+  </text>
+  <text class="ann-text" x="15" y="179">Below 35% the P-wave disappears.</text>
+
+  <!-- 4. T-wave (point to T-wave hump) -->
+  <circle class="ann-dot" cx="342" cy="135" r="2.5"/>
+  <polyline class="ann-line" points="342,135 280,285 15,285"/>
+  <text class="ann-text" x="15" y="278">
+    <tspan font-weight="600">Slow PR merges</tspan> elevate the T-wave.
+  </text>
+  <text class="ann-text" x="15" y="289">Above 7 days it inverts.</text>
+
+  <!-- 5. Noisy baseline (point to the baseline) -->
+  <circle class="ann-dot" cx="225" cy="143" r="2.5"/>
+  <polyline class="ann-line" points="225,143 170,320 15,320"/>
+  <text class="ann-text" x="15" y="313">
+    <tspan font-weight="600">Slow issue response</tspan> adds baseline noise.
+  </text>
+
+  <!-- ============================================ -->
+  <!-- RIGHT SIDE ANNOTATIONS (vital signs panel)   -->
+  <!-- ============================================ -->
+
+  <!-- 1. BPM display -->
+  <circle class="ann-dot" cx="665" cy="82" r="2.5"/>
+  <polyline class="ann-line" points="665,82 715,50 785,50"/>
+  <text class="ann-text" x="785" y="43" text-anchor="end">
+    <tspan font-weight="600">Composite health score</tspan>
+  </text>
+  <text class="ann-text" x="785" y="54" text-anchor="end">mapped to BPM</text>
+
+  <!-- 2. CI value -->
+  <circle class="ann-dot" cx="675" cy="105" r="2.5"/>
+  <polyline class="ann-line" points="675,105 720,80 785,80"/>
+  <text class="ann-text" x="785" y="77" text-anchor="end">
+    <tspan font-weight="600">CI pass rate</tspan> (skipped runs excluded)
+  </text>
+
+  <!-- 3. PR value -->
+  <circle class="ann-dot" cx="665" cy="127" r="2.5"/>
+  <polyline class="ann-line" points="665,127 730,127 785,127"/>
+  <text class="ann-text" x="785" y="124" text-anchor="end">
+    <tspan font-weight="600">Median PR merge time</tspan>
+  </text>
+
+  <!-- 4. Releases value -->
+  <circle class="ann-dot" cx="665" cy="149" r="2.5"/>
+  <polyline class="ann-line" points="665,149 730,160 785,160"/>
+  <text class="ann-text" x="785" y="157" text-anchor="end">
+    <tspan font-weight="600">Releases per week</tspan> (falls back to tags)
+  </text>
+
+  <!-- 5. Response value -->
+  <circle class="ann-dot" cx="665" cy="171" r="2.5"/>
+  <polyline class="ann-line" points="665,171 730,190 785,190"/>
+  <text class="ann-text" x="785" y="187" text-anchor="end">
+    <tspan font-weight="600">Median first response</tspan> on issues
+  </text>
+
+  <!-- 6. Health bar -->
+  <circle class="ann-dot" cx="620" cy="183" r="2.5"/>
+  <polyline class="ann-line" points="620,183 620,250 730,250 785,250"/>
+  <text class="ann-text" x="785" y="243" text-anchor="end">
+    <tspan font-weight="600">Overall score</tspan> (percentile in cohort)
+  </text>
+
+  <!-- 7. Status label -->
+  <circle class="ann-dot" cx="590" cy="205" r="2.5"/>
+  <polyline class="ann-line" points="590,205 620,280 730,280 785,280"/>
+  <text class="ann-text" x="785" y="273" text-anchor="end">
+    <tspan font-weight="600">healthy</tspan> / stressed / critical / flatline
+  </text>
+
+  <!-- 8. Repo name -->
+  <circle class="ann-dot" cx="210" cy="218" r="2.5"/>
+  <polyline class="ann-line" points="210,218 210,335 400,335 785,335"/>
+  <text class="ann-text" x="785" y="332" text-anchor="end">
+    <tspan font-weight="600">Repository identifier</tspan>
+  </text>
+
+</svg>
