@@ -199,10 +199,12 @@ const WEIGHTS = {
 
 // --- State and BPM mapping -------------------------------------------------
 
-function stateFromScore(score: number): HealthState {
+function stateFromScore(score: number, prMergedCount: number): HealthState {
   if (score >= 70) return 'healthy';
   if (score >= 50) return 'stressed';
-  if (score >= 30) return 'critical';
+  // A repo with active PRs is not dead, even if the score is low.
+  // Flatline means abandoned. If PRs are merging, it's critical at worst.
+  if (score >= 30 || prMergedCount >= 10) return 'critical';
   return 'flatline';
 }
 
@@ -266,7 +268,7 @@ export function calculateScore(raw: RawMetrics): HealthResult {
     metrics.response * WEIGHTS.response,
   );
 
-  const state = stateFromScore(score);
+  const state = stateFromScore(score, raw.prMergedCount);
   const bpm = bpmFromScore(score);
 
   return { score, state, bpm, metrics, raw };
