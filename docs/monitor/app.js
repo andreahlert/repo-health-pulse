@@ -199,27 +199,25 @@
       ? '<span class="card-lang"><span class="lang-dot" style="background:' + langColor + '"></span>' + repo.language + '</span>'
       : '';
 
+    var slug = repo.repo.replace("/", "-");
+
     card.innerHTML =
       '<div class="card-body">' +
+        /* Mini SVG */
+        '<div class="card-svg">' +
+          '<img src="mini/' + slug + '.svg" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
+        '</div>' +
+
         /* Header: avatar + name + stars/forks */
         '<div class="card-header">' +
           '<img src="https://github.com/' + o + '.png?size=40" class="card-avatar" loading="lazy" alt="">' +
           '<span class="card-name" title="' + repo.repo + '">' + repo.repo + '</span>' +
           (typeTag ? ' ' + typeTag : '') +
           '<span class="meta-item" style="margin-left:auto">' + starSvg + formatNum(repo.stars) + '</span>' +
-          '<span class="meta-item">' + forkSvg + formatNum(repo.forks) + '</span>' +
         '</div>' +
 
         /* Description */
         descHtml +
-
-        /* Metric bars */
-        '<div class="metric-bars">' +
-          metricBarHtml('CI', ciPct(repo.ci), ciBarColor(repo.ci), ciVal) +
-          metricBarHtml('PR', prPct(repo.pr_hours), prBarColor(repo.pr_hours), prVal) +
-          metricBarHtml('REL', releasePct(repo.releases_per_week), releaseBarColor(repo.releases_per_week), relVal) +
-          (repo.response_hours != null ? metricBarHtml('RESP', responsePct(repo.response_hours), responseBarColor(repo.response_hours), respVal) : '') +
-        '</div>' +
 
         /* Score badge + language */
         '<div class="card-bottom">' +
