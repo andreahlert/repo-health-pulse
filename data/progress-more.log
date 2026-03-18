@@ -83,3 +83,48 @@ GET /repos/saturndec/waoowaoo/pulls?state=closed&sort=updated&direction=desc&per
   Rate limit: 4208 remaining
   Progress: 1750/2800
   Rate limit: 3932 remaining
+  Progress: 1800/2800
+  Rate limit: 3665 remaining
+  Progress: 1850/2800
+  Rate limit: 3412 remaining
+  Progress: 1900/2800
+  Rate limit: 3280 remaining
+  Progress: 1950/2800
+  Rate limit: 3143 remaining
+  Progress: 2000/2800
+  Rate limit: 3008 remaining
+  Progress: 2050/2800
+  Rate limit: 2878 remaining
+  Progress: 2100/2800
+  Rate limit: 2742 remaining
+  Progress: 2150/2800
+  Rate limit: 2608 remaining
+  Progress: 2200/2800
+  Rate limit: 2469 remaining
+  Progress: 2250/2800
+  Rate limit: 2329 remaining
+  Progress: 2300/2800
+  Rate limit: 2195 remaining
+  Progress: 2350/2800
+  Rate limit: 2060 remaining
+  Progress: 2400/2800
+  Rate limit: 1923 remaining
+  Progress: 2450/2800
+  Rate limit: 1794 remaining
+  Progress: 2500/2800
+  Rate limit: 1659 remaining
+  Progress: 2550/2800
+  Rate limit: 1523 remaining
+  Progress: 2600/2800
+  Rate limit: 1383 remaining
+  Progress: 2650/2800
+  Rate limit: 1244 remaining
+  Progress: 2700/2800
+  Rate limit: 1105 remaining
+  Progress: 2750/2800
+  Rate limit: 968 remaining
+  Progress: 2800/2800
+  Rate limit: 832 remaining
+
+Done. Added 2800 repos to population.csv
+Total: 3100 repos
