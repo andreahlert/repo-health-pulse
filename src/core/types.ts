@@ -6,6 +6,7 @@ export interface RawMetrics {
   ciTotalRuns: number;
   prMergeTimeHours: number | null;
   prMergedCount: number;
+  lastPrMergedDate: string | null;
   releasesPerWeek: number;
   releaseCount: number;
   releasePeriodDays: number;

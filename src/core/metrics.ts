@@ -96,7 +96,7 @@ async function collectPrs(
   octokit: OctokitLike,
   owner: string,
   repo: string
-): Promise<Pick<RawMetrics, 'prMergeTimeHours' | 'prMergedCount'>> {
+): Promise<Pick<RawMetrics, 'prMergeTimeHours' | 'prMergedCount' | 'lastPrMergedDate'>> {
   try {
     const { data } = await octokit.rest.pulls.list({
       owner,
@@ -108,15 +108,21 @@ async function collectPrs(
     });
 
     const merged = data.filter((pr: any) => pr.merged_at);
-    if (merged.length === 0) return { prMergeTimeHours: null, prMergedCount: 0 };
+    if (merged.length === 0) return { prMergeTimeHours: null, prMergedCount: 0, lastPrMergedDate: null };
+
+    // Sort by merge date to find the most recent
+    const sortedByMerge = [...merged].sort((a: any, b: any) =>
+      new Date(b.merged_at).getTime() - new Date(a.merged_at).getTime()
+    );
 
     const times = merged.map((pr: any) => hoursBetween(pr.created_at, pr.merged_at));
     return {
       prMergeTimeHours: Math.round((median(times) ?? 0) * 10) / 10,
       prMergedCount: merged.length,
+      lastPrMergedDate: sortedByMerge[0].merged_at,
     };
   } catch {
-    return { prMergeTimeHours: null, prMergedCount: 0 };
+    return { prMergeTimeHours: null, prMergedCount: 0, lastPrMergedDate: null };
   }
 }
 

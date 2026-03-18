@@ -1,0 +1,23 @@
+# GitHub App Manifest
+# Use this to register the app at: https://github.com/settings/apps/new
+#
+# Or use manifest flow: POST to https://github.com/settings/apps/new
+# with this as the manifest parameter.
+
+name: Repo Health Pulse
+description: Automated ECG-style health monitor for your GitHub repository. Visualizes CI status, PR velocity, release cadence, and issue response time as a living cardiac waveform.
+url: https://github.com/andreahlert/repo-health-pulse
+hook_attributes:
+  url: https://repopulse.fly.dev/webhook
+  active: true
+redirect_url: https://github.com/andreahlert/repo-health-pulse
+public: true
+default_events:
+  - installation
+  - installation_repositories
+default_permissions:
+  contents: write
+  pull_requests: write
+  actions: read
+  issues: read
+  metadata: read

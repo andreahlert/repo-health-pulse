@@ -199,12 +199,18 @@ const WEIGHTS = {
 
 // --- State and BPM mapping -------------------------------------------------
 
-function stateFromScore(score: number, prMergedCount: number): HealthState {
+function hasRecentPrActivity(raw: RawMetrics): boolean {
+  if (!raw.lastPrMergedDate) return false;
+  const daysSince = (Date.now() - new Date(raw.lastPrMergedDate).getTime()) / (1000 * 60 * 60 * 24);
+  return daysSince < 30;
+}
+
+function stateFromScore(score: number, raw: RawMetrics): HealthState {
   if (score >= 70) return 'healthy';
   if (score >= 50) return 'stressed';
-  // A repo with active PRs is not dead, even if the score is low.
-  // Flatline means abandoned. If PRs are merging, it's critical at worst.
-  if (score >= 30 || prMergedCount >= 10) return 'critical';
+  // A repo with PRs merged in the last 30 days is alive, not dead.
+  // Flatline means abandoned. Recent activity = critical at worst.
+  if (score >= 30 || hasRecentPrActivity(raw)) return 'critical';
   return 'flatline';
 }
 
@@ -218,15 +224,13 @@ function bpmFromScore(score: number): string {
 // --- Flatline detection ----------------------------------------------------
 
 function isFlatline(raw: RawMetrics): boolean {
-  // Zero releases for a long time + very few merged PRs = dead
-  if (raw.releasesPerWeek === 0 && raw.prMergedCount <= 5) return true;
+  const recentPr = hasRecentPrActivity(raw);
 
-  // Last release over 6 months ago + negligible PR activity
-  if (raw.lastReleaseDate) {
-    const daysSinceRelease =
-      (Date.now() - new Date(raw.lastReleaseDate).getTime()) / (1000 * 60 * 60 * 24);
-    if (daysSinceRelease > 180 && raw.prMergedCount <= 3) return true;
-  }
+  // If there are PRs merged in the last 30 days, the repo is alive
+  if (recentPr) return false;
+
+  // No recent releases AND no recent PRs = dead
+  if (raw.releasesPerWeek === 0 && !recentPr) return true;
 
   return false;
 }
@@ -268,7 +272,7 @@ export function calculateScore(raw: RawMetrics): HealthResult {
     metrics.response * WEIGHTS.response,
   );
 
-  const state = stateFromScore(score, raw.prMergedCount);
+  const state = stateFromScore(score, raw);
   const bpm = bpmFromScore(score);
 
   return { score, state, bpm, metrics, raw };

@@ -22,6 +22,7 @@ const perfectRaw: RawMetrics = {
   ciTotalRuns: 30,
   prMergeTimeHours: 3.2,
   prMergedCount: 25,
+  lastPrMergedDate: new Date().toISOString(),
   releasesPerWeek: 1.1,
   releaseCount: 14,
   releasePeriodDays: 90,

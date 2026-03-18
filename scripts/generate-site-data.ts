@@ -69,6 +69,7 @@ function csvToRawMetrics(row: CsvRow): RawMetrics {
     responseTimeHours: null, // not collected in bulk
     responseIsBotOnly: false,
     lastReleaseDate: row.release_count_90d > 0 ? new Date().toISOString() : null,
+    lastPrMergedDate: row.pr_merged_count > 0 ? new Date().toISOString() : null,
     sizeKb: row.size_kb,
   };
 }
