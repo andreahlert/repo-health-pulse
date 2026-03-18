@@ -48,8 +48,6 @@
       .bpm-unit { fill: #4ade8099; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
 
       /* Adapt to GitHub light/dark mode */
-      @media (prefers-color-scheme: light) {
-        .bg { fill: #ffffff; }
         .grid-line { stroke: #e2e8f0; }
         .label { fill: #64748b; }
         .val { fill: #1e293b; }

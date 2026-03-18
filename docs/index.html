@@ -6,20 +6,20 @@
   <title>Repovital - Vital signs for every repository</title>
   <style>
     :root {
-      --bg: #0c0d10;
-      --bg-card: rgba(255,255,255,0.04);
-      --bg-card-hover: rgba(255,255,255,0.07);
-      --border: rgba(255,255,255,0.08);
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --green: #4ade80;
-      --green-dim: rgba(74,222,128,0.15);
-      --amber: #eab308;
-      --red: #ef4444;
+      --bg: #ffffff;
+      --bg-card: #f8fafc;
+      --bg-card-hover: #f1f5f9;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --green: #16a34a;
+      --green-dim: rgba(22,163,74,0.1);
+      --amber: #ca8a04;
+      --red: #dc2626;
       --gray: #6b7280;
-      --nav-bg: rgba(12,13,16,0.8);
-      --code-bg: #0a0b0d;
+      --nav-bg: rgba(255,255,255,0.9);
+      --code-bg: #f1f5f9;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -50,9 +50,8 @@
       font-size: 1.1rem;
       font-weight: 700;
       letter-spacing: -0.03em;
-      background: linear-gradient(135deg, var(--green), #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--green);
+      font-weight: 800;
     }
     .nav-links {
       display: flex;
@@ -87,9 +86,9 @@
     }
     .btn-primary {
       background: var(--green);
-      color: #0c0d10;
+      color: #ffffff;
     }
-    .btn-primary:hover { background: #34d399; transform: translateY(-1px); }
+    .btn-primary:hover { background: #15803d; transform: translateY(-1px); }
     .btn-ghost {
       background: transparent;
       color: var(--text-muted);
@@ -113,7 +112,7 @@
       position: absolute;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(74,222,128,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(22,163,74,0.05) 0%, transparent 70%);
       top: 20%;
       left: 50%;
       transform: translateX(-50%);
@@ -127,13 +126,13 @@
       width: 200%;
       height: 120px;
       transform: translateY(-50%);
-      opacity: 0.06;
+      opacity: 0.08;
       pointer-events: none;
       z-index: 0;
     }
     .hero-ecg path {
       fill: none;
-      stroke: var(--green);
+      stroke: #16a34a;
       stroke-width: 2;
       stroke-dasharray: 3000;
       animation: ecg-sweep 8s linear infinite;
@@ -148,8 +147,8 @@
       gap: 0.5rem;
       padding: 0.35rem 1rem;
       border-radius: 20px;
-      background: var(--green-dim);
-      border: 1px solid rgba(74,222,128,0.2);
+      background: rgba(22,163,74,0.08);
+      border: 1px solid rgba(22,163,74,0.2);
       font-size: 0.8rem;
       color: var(--green);
       margin-bottom: 2rem;
@@ -162,9 +161,7 @@
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.05;
-      background: linear-gradient(135deg, var(--text) 30%, var(--green) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--text);
       margin-bottom: 1.5rem;
       position: relative;
       z-index: 1;
@@ -214,44 +211,42 @@
 
     /* ── Showcase ──────────────────────────────────── */
     .showcase-wrapper {
-      background: #0c0d10;
+      background: #1a1c20;
       border-radius: 16px;
       padding: 2rem 2.5rem;
-      border: 1px solid #1e2028;
+      border: 1px solid #2e3238;
     }
     .showcase-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
     .showcase-card {
-      background: #161b22;
+      background: #21262d;
       border: 1px solid #30363d;
-      border-radius: 10px;
-      padding: 0.75rem;
+      border-radius: 8px;
+      padding: 0.5rem;
       transition: all 0.3s ease;
     }
     .showcase-card:hover {
-      border-color: #4ade8040;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      border-color: #4ade8060;
+      transform: translateY(-2px);
     }
     .showcase-card img {
       width: 100%;
-      border-radius: 6px;
-      background: #1a1c20;
+      border-radius: 4px;
       display: block;
-      color-scheme: dark;
     }
     .showcase-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
     }
     .showcase-repo {
       font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-      font-size: 0.85rem;
-      color: var(--text);
+      font-size: 0.8rem;
+      color: #e2e8f0;
     }
     .showcase-state {
       font-size: 0.75rem;
@@ -311,9 +306,8 @@
       font-size: 3rem;
       font-weight: 800;
       font-family: ui-monospace, monospace;
-      background: linear-gradient(135deg, var(--green), #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--green);
+      font-weight: 800;
       margin-bottom: 0.5rem;
     }
     .stats-bars {
