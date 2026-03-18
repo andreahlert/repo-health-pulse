@@ -226,24 +226,34 @@
     }
 
     /* ── Showcase ──────────────────────────────────── */
+    .showcase-wrapper {
+      background: #0c0d10;
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      border: 1px solid #1e2028;
+    }
     .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 1.5rem;
     }
     .showcase-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 0.75rem;
       transition: all 0.3s ease;
     }
     .showcase-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(255,255,255,0.12);
-      transform: translateY(-4px);
+      border-color: #4ade8040;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
-    .showcase-card img { width: 100%; border-radius: 8px; }
+    .showcase-card img {
+      width: 100%;
+      border-radius: 6px;
+      background: #1a1c20;
+      display: block;
+    }
     .showcase-meta {
       display: flex;
       align-items: center;
@@ -487,6 +497,7 @@
     <div class="section-title">Real repos, real data</div>
     <div class="section-desc">Every waveform is unique. Generated from actual CI, PR, release, and issue metrics collected via the GitHub API.</div>
 
+    <div class="showcase-wrapper">
     <div class="showcase-grid">
       <div class="showcase-card">
         <img src="showcase/astral-sh-ruff.svg" alt="astral-sh/ruff health monitor" loading="lazy">
@@ -509,6 +520,7 @@
           <span class="showcase-state" style="background:rgba(107,114,128,0.15);color:var(--gray)">Flatline</span>
         </div>
       </div>
+    </div>
     </div>
   </section>
 
