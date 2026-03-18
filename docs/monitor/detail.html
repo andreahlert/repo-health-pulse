@@ -6,70 +6,70 @@
   <title>Repo Detail - Repovital</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; font-size: 15px; }
+    html, body { margin: 0; padding: 0; min-height: 100vh; overflow: auto; font-size: 15px; }
 
-    /* ── Header (thin bar) ──────────────────────────── */
+    /* ── Top bar (sticky, 48px) ──────────────────────── */
     .detail-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 1rem;
+      justify-content: space-between;
+      padding: 0 1rem;
       border-bottom: 1px solid var(--border);
-      height: 44px;
+      height: 48px;
       box-sizing: border-box;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
     }
     .back-link {
       color: var(--accent);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
       gap: 0.25rem;
     }
     .back-link:hover { color: var(--text); }
     .detail-header-right {
-      margin-left: auto;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
     .detail-avatar {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       border-radius: 6px;
       background: var(--bg-input);
     }
     .repo-title {
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text);
     }
     .repo-title a { color: var(--text); text-decoration: none; }
     .repo-title a:hover { color: var(--accent); }
 
-    /* ── Dashboard layout (fills remaining viewport) ── */
-    .dashboard {
-      display: grid;
-      grid-template-columns: 38% 1fr;
-      grid-template-rows: auto 1fr;
+    /* ── Single column layout ────────────────────────── */
+    .detail-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.5rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      height: calc(100vh - 44px);
-      box-sizing: border-box;
-      overflow: hidden;
     }
 
-    /* ── Top bar: score + info (spans full width) ───── */
-    .top-bar {
-      grid-column: 1 / -1;
+    /* ── Info strip ──────────────────────────────────── */
+    .info-strip {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
       padding: 0.5rem 0.75rem;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      min-height: 0;
+      flex-wrap: wrap;
     }
     .score-circle {
       width: 48px;
@@ -79,144 +79,97 @@
       align-items: center;
       justify-content: center;
       font-family: var(--font-mono);
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       flex-shrink: 0;
     }
-    .score-state {
-      font-size: 1.15rem;
+    .state-label {
+      font-size: 0.85rem;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
-    .score-desc {
-      font-size: 1.15rem;
+    .strip-desc {
+      font-size: 0.85rem;
       color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 400px;
     }
-    .top-bar .info-items {
-      margin-left: auto;
-      display: flex;
-      gap: 1.25rem;
-      align-items: center;
+    .strip-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      flex-shrink: 0;
     }
-    .info-item {
+    .strip-stat {
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      align-items: center;
+      gap: 0;
     }
-    .info-value {
+    .strip-stat-val {
       font-family: var(--font-mono);
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 600;
       color: var(--text);
     }
-    .info-label {
-      font-size: 0.9rem;
+    .strip-stat-lbl {
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--text-dim);
     }
-
-    /* ── Left column: SVG + description + ECG ──────── */
-    .col-left {
+    .strip-tags {
       display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      min-height: 0;
-      overflow: hidden;
-    }
-    .hero-svg {
-      background: #1e2025;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem;
-      flex-shrink: 0;
-    }
-    .hero-svg img { width: 100%; height: auto; }
-    .repo-description {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      padding: 0.5rem 0.75rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-    /* Languages stack */
-    .lang-stack {
-      display: flex;
-      gap: 0.4rem;
+      gap: 0.3rem;
       flex-wrap: wrap;
-      padding: 0.4rem 0.75rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      flex-shrink: 0;
     }
-    .lang-tag {
-      font-size: 0.9rem;
+    .strip-tag {
+      font-size: 0.75rem;
       font-family: var(--font-mono);
-      padding: 0.15rem 0.4rem;
+      padding: 0.1rem 0.35rem;
       border-radius: 4px;
       background: #262a30;
       color: var(--text-muted);
     }
-    /* ECG section grows to fill remaining space */
-    .ecg-section { flex: 1; min-height: 0; overflow-y: auto; }
-
-    /* ── Right column: metrics + comparison ─────────── */
-    .col-right {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      min-height: 0;
-      overflow-y: auto;
+    .strip-tag.topic {
+      background: #1e2a20;
+      color: #4ade80;
     }
-    /* Metrics grid takes 4 cards in 2x2 */
-    .metrics-grid { flex-shrink: 0; }
-    /* Comparison and percentile fill remaining space */
-    .comparison-section { flex-shrink: 0; }
-    .percentile-section { flex-shrink: 0; }
 
-    /* ── Metric cards (2x2 grid) ───────────────────── */
-    .metrics-grid {
+    /* ── Metrics row (4 cards) ───────────────────────── */
+    .metrics-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
       gap: 0.5rem;
     }
     .metric-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 0.6rem 0.75rem;
+      padding: 0.5rem 0.65rem;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-    }
-    .metric-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      gap: 0.25rem;
     }
     .metric-card-name {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--text-muted);
+      color: var(--text-dim);
       font-weight: 600;
     }
     .metric-card-value {
       font-family: var(--font-mono);
-      font-size: 1.15rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: var(--text);
     }
     .metric-bar-track {
       width: 100%;
-      height: 6px;
+      height: 5px;
       background: #1e2025;
       border-radius: 3px;
       overflow: hidden;
@@ -225,23 +178,13 @@
       height: 100%;
       border-radius: 3px;
     }
-    .metric-percentile {
+    .metric-score-num {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-    }
-    .metric-explanation {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.3;
-    }
-    .metric-comparison {
-      font-size: 0.9rem;
-      color: var(--text-dim);
-      font-style: italic;
     }
 
-    /* ── Comparison Chart ────────────────────────────── */
+    /* ── Unified comparison section ──────────────────── */
     .comparison-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -249,102 +192,117 @@
       padding: 0.6rem 0.75rem;
     }
     .comparison-section h3 {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: var(--text);
     }
-    .comparison-metric { margin-bottom: 0.6rem; }
-    .comparison-metric:last-child { margin-bottom: 0; }
-    .comparison-metric-name {
-      font-size: 0.9rem;
+    .comp-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .comp-row:last-child { margin-bottom: 0; }
+    .comp-label {
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--text-muted);
       font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-    .comparison-bars { display: flex; flex-direction: column; gap: 0.2rem; }
-    .comparison-bar-row { display: flex; align-items: center; gap: 0.5rem; }
-    .comparison-bar-label {
-      font-size: 0.9rem;
-      color: var(--text-dim);
-      width: 70px;
-      flex-shrink: 0;
-      text-align: right;
-    }
-    .comparison-bar-track {
-      flex: 1;
-      height: 10px;
-      background: #1e2025;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .comparison-bar-fill { height: 100%; border-radius: 3px; min-width: 2px; }
-    .comparison-bar-fill.pop-median { background: #475569; }
-    .comparison-bar-fill.cohort-median { background: transparent; border: 1.5px dashed #64748b; box-sizing: border-box; }
-    .comparison-bar-value {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      color: var(--text-muted);
       width: 50px;
       flex-shrink: 0;
     }
-
-    /* ── Percentile section ──────────────────────────── */
-    .percentile-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.6rem 0.75rem;
+    .comp-track {
+      flex: 1;
+      height: 14px;
+      background: #1e2025;
+      border-radius: 4px;
+      position: relative;
+      overflow: visible;
     }
-    .percentile-section h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
-    .percentile-items { display: flex; flex-direction: column; gap: 0.3rem; }
-    .percentile-item {
-      font-size: 0.85rem;
+    .comp-marker {
+      position: absolute;
+      top: -2px;
+      width: 3px;
+      height: 18px;
+      border-radius: 2px;
+      transform: translateX(-50%);
+    }
+    .comp-marker.pop { background: #475569; }
+    .comp-marker.cohort { background: #64748b; border: 1px dashed #94a3b8; }
+    .comp-marker.repo-mk { border-radius: 50%; width: 10px; height: 10px; top: 2px; }
+    .comp-marker-label {
+      position: absolute;
+      top: -14px;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    .comp-pct-text {
+      font-size: 0.75rem;
       color: var(--text-muted);
+      width: 190px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .comp-legend {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .comp-legend-item {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.3rem;
     }
-    .percentile-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .comp-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
 
-    /* ── ECG Explanation ────────────────────────────── */
+    /* ── ECG section (compact) ───────────────────────── */
     .ecg-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 0.6rem 0.75rem;
+      padding: 0.5rem 0.75rem;
     }
-    .ecg-section h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
-    .ecg-findings { display: flex; flex-direction: column; gap: 0.25rem; }
+    .ecg-section h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+    .ecg-findings { display: flex; flex-direction: column; gap: 0.2rem; }
     .ecg-finding {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.4rem;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       line-height: 1.3;
       color: var(--text-muted);
     }
-    .ecg-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 0.25rem; }
-    .ecg-normal {
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      background: rgba(74, 222, 128, 0.08);
-      border: 1px solid rgba(74, 222, 128, 0.2);
-      color: var(--healthy);
-      font-size: 0.85rem;
-    }
+    .ecg-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ── Loading / Error ────────────────────────────── */
+    /* ── Loading / Error ─────────────────────────────── */
     .detail-loading, .detail-error { text-align: center; padding: 4rem 2rem; color: var(--text-dim); }
     .detail-error { color: var(--critical); }
 
-    /* ── Responsive ─────────────────────────────────── */
+    /* ── Responsive ───────────────────────────────────── */
     @media (max-width: 900px) {
-      html, body { height: auto; overflow: auto; }
-      .dashboard { grid-template-columns: 1fr; height: auto; overflow: visible; }
-      .col-right { overflow: visible; }
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+      .info-strip { gap: 0.5rem; }
+      .strip-desc { max-width: 200px; }
+      .comp-pct-text { width: 140px; font-size: 0.7rem; }
+    }
+    @media (max-width: 560px) {
+      .metrics-row { grid-template-columns: 1fr; }
+      .comp-pct-text { display: none; }
     }
   </style>
 </head>
@@ -352,7 +310,7 @@
   <div class="detail-header">
     <a href="/repo-health-pulse/monitor/" class="back-link">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Back to mosaic
+      Back
     </a>
     <div class="detail-header-right">
       <img id="detail-avatar" class="detail-avatar" src="" alt="" style="display:none">
@@ -364,8 +322,6 @@
     <div class="detail-loading">Loading repo data...</div>
   </div>
 
-  <!-- no footer in fullscreen dashboard mode -->
-
   <script>
   (function () {
     "use strict";
@@ -376,13 +332,8 @@
       return url.searchParams.get(name);
     }
 
-    function slug(repo) {
-      return repo.replace("/", "-");
-    }
-
-    function owner(repo) {
-      return repo.split("/")[0];
-    }
+    function slug(repo) { return repo.replace("/", "-"); }
+    function owner(repo) { return repo.split("/")[0]; }
 
     function formatStars(n) {
       if (n >= 1000) return (n / 1000).toFixed(n >= 100000 ? 0 : 1) + "k";
@@ -397,9 +348,8 @@
     }
 
     function formatAge(days) {
-      if (days < 365) return days + " days";
-      var y = (days / 365).toFixed(1);
-      return y + " years";
+      if (days < 365) return days + "d";
+      return (days / 365).toFixed(1) + "y";
     }
 
     function formatSize(kb) {
@@ -435,7 +385,7 @@
       return { name: "huge (500 MB+)", ci: 70, pr: 18, rel: 0.31 };
     }
 
-    /* ── Population medians (across all repos) ──────── */
+    /* ── Population medians ──────────────────────────── */
     var POP_MEDIANS = { ci: 75, pr: 28, rel: 0.1 };
 
     /* ── Percentile scoring (0-100) ─────────────────── */
@@ -447,33 +397,18 @@
     function prPercentile(val) {
       if (val == null) return 0;
       if (val <= 0) return 100;
-      var p = Math.max(0, 100 - (val / 168) * 100);
-      return Math.round(Math.min(100, p));
+      return Math.round(Math.min(100, Math.max(0, 100 - (val / 168) * 100)));
     }
 
     function relPercentile(val) {
       if (val == null || val === 0) return 0;
-      var p = Math.min(100, (val / 3) * 100);
-      return Math.round(p);
+      return Math.round(Math.min(100, (val / 3) * 100));
     }
 
     function responsePercentile(val) {
       if (val == null) return null;
       if (val <= 0) return 100;
-      var p = Math.max(0, 100 - (val / 72) * 100);
-      return Math.round(Math.min(100, p));
-    }
-
-    function comparisonText(value, median, metricName, cohortName, lowerIsBetter) {
-      if (value == null || median == null) return "";
-      var diff;
-      if (lowerIsBetter) {
-        diff = median - value;
-      } else {
-        diff = value - median;
-      }
-      var word = diff > 0 ? "above" : diff < 0 ? "below" : "at";
-      return "This is " + word + " average for " + cohortName + " repos";
+      return Math.round(Math.min(100, Math.max(0, 100 - (val / 72) * 100)));
     }
 
     /* ── Compute percentile rank within a population ── */
@@ -495,53 +430,52 @@
       var findings = [];
 
       if (repo.ci != null && repo.ci < 35) {
-        findings.push({ color: "#ef4444", text: "P-wave absent due to very low CI pass rate (" + repo.ci + "%), indicating atrial fibrillation in the development pipeline." });
+        findings.push({ color: "#ef4444", text: "P-wave absent: very low CI pass rate (" + repo.ci + "%), indicating pipeline failure." });
       } else if (repo.ci != null && repo.ci < 60) {
-        findings.push({ color: "#eab308", text: "P-wave diminished from moderate CI pass rate (" + repo.ci + "%). The build pipeline shows intermittent failures." });
+        findings.push({ color: "#eab308", text: "P-wave diminished: moderate CI pass rate (" + repo.ci + "%), intermittent build failures." });
       } else if (repo.ci == null) {
-        findings.push({ color: "#6b7280", text: "P-wave absent: no CI data available. The build pipeline has no visible heartbeat." });
+        findings.push({ color: "#6b7280", text: "P-wave absent: no CI data available." });
       }
 
       if (repo.pr_hours != null && repo.pr_hours > 168) {
-        findings.push({ color: "#ef4444", text: "T-wave inverted due to extremely slow PR merges (" + formatHours(repo.pr_hours) + "). Code review is severely backlogged." });
+        findings.push({ color: "#ef4444", text: "T-wave inverted: extremely slow PR merges (" + formatHours(repo.pr_hours) + "), severe review backlog." });
       } else if (repo.pr_hours != null && repo.pr_hours > 72) {
-        findings.push({ color: "#eab308", text: "T-wave flattened from slow PR merge time (" + formatHours(repo.pr_hours) + "). Review throughput could improve." });
+        findings.push({ color: "#eab308", text: "T-wave flattened: slow PR merge time (" + formatHours(repo.pr_hours) + ")." });
       } else if (repo.pr_hours == null || repo.pr_count === 0) {
-        findings.push({ color: "#6b7280", text: "QRS complex absent: no recent PR activity detected. The repo may be dormant or uses a different workflow." });
+        findings.push({ color: "#6b7280", text: "QRS absent: no recent PR activity detected." });
       }
 
       if (repo.releases_per_week === 0) {
-        findings.push({ color: "#eab308", text: "Slow heart rate (bradycardia) from no release activity in the past 90 days. Delivery rhythm is stalled." });
+        findings.push({ color: "#eab308", text: "Bradycardia: no releases in the past 90 days." });
       }
 
       if (repo.response_hours != null && repo.response_hours > 168) {
-        findings.push({ color: "#ef4444", text: "Severe baseline wander: issue response time exceeds one week (" + formatHours(repo.response_hours) + ")." });
+        findings.push({ color: "#ef4444", text: "Baseline wander: issue response time exceeds one week (" + formatHours(repo.response_hours) + ")." });
       } else if (repo.response_hours != null && repo.response_hours > 48) {
-        findings.push({ color: "#eab308", text: "Noisy baseline from slow issue response time (" + formatHours(repo.response_hours) + "). Community engagement is lagging." });
+        findings.push({ color: "#eab308", text: "Noisy baseline: slow issue response (" + formatHours(repo.response_hours) + ")." });
       }
 
       if (repo.score < 25) {
-        findings.push({ color: "#ef4444", text: "Overall flatline pattern. Minimal vital signs across all metrics suggest the project may be abandoned or in maintenance-only mode." });
+        findings.push({ color: "#ef4444", text: "Flatline pattern: minimal vital signs, project may be abandoned." });
       }
 
       return findings;
     }
 
-    /* ── Bar width helpers for comparison chart ──────── */
-    function ciBarWidth(val) {
+    /* ── Bar position helpers for comparison ──────── */
+    function ciBarPos(val) {
       if (val == null) return 0;
       return clamp(val, 0, 100);
     }
 
-    function prBarWidth(val, maxHours) {
-      // Logarithmic scale for PR hours
+    function prBarPos(val) {
       if (val == null || val <= 0) return 0;
       var logVal = Math.log10(val + 1);
-      var logMax = Math.log10(maxHours + 1);
+      var logMax = Math.log10(721); // 30 days
       return clamp((logVal / logMax) * 100, 0, 100);
     }
 
-    function relBarWidth(val) {
+    function relBarPos(val) {
       if (val == null) return 0;
       return clamp((val / 3) * 100, 0, 100);
     }
@@ -552,121 +486,102 @@
       return "#ef4444";
     }
 
-    /* ── Render comparison chart ─────────────────────── */
-    function renderComparisonChart(repo, cohort, allRepos) {
-      var maxPrHours = 720; // 30 days as max for log scale
-
-      var metrics = [
-        {
-          name: "CI Pass Rate",
-          repoVal: repo.ci,
-          popMedian: POP_MEDIANS.ci,
-          cohortMedian: cohort.ci,
-          barFn: ciBarWidth,
-          formatFn: function(v) { return v != null ? v + "%" : "N/A"; },
-          scorePct: ciPercentile(repo.ci)
-        },
-        {
-          name: "PR Merge Time",
-          repoVal: repo.pr_hours,
-          popMedian: POP_MEDIANS.pr,
-          cohortMedian: cohort.pr,
-          barFn: function(v) { return prBarWidth(v, maxPrHours); },
-          formatFn: function(v) { return formatHours(v); },
-          scorePct: prPercentile(repo.pr_hours)
-        },
-        {
-          name: "Release Frequency",
-          repoVal: repo.releases_per_week,
-          popMedian: POP_MEDIANS.rel,
-          cohortMedian: cohort.rel,
-          barFn: relBarWidth,
-          formatFn: function(v) { return v != null ? v.toFixed(2) + "/wk" : "0/wk"; },
-          scorePct: relPercentile(repo.releases_per_week)
-        }
-      ];
-
-      var html = '<div class="comparison-section"><h3>Metric Comparison</h3>';
-
-      metrics.forEach(function(m) {
-        var repoWidth = m.barFn(m.repoVal);
-        var popWidth = m.barFn(m.popMedian);
-        var cohortWidth = m.barFn(m.cohortMedian);
-        var repoColor = barColorForScore(m.scorePct);
-
-        html += '<div class="comparison-metric">' +
-          '<div class="comparison-metric-name">' + m.name + '</div>' +
-          '<div class="comparison-bars">' +
-            '<div class="comparison-bar-row">' +
-              '<span class="comparison-bar-label">Population</span>' +
-              '<div class="comparison-bar-track"><div class="comparison-bar-fill pop-median" style="width:' + popWidth + '%"></div></div>' +
-              '<span class="comparison-bar-value">' + m.formatFn(m.popMedian) + '</span>' +
-            '</div>' +
-            '<div class="comparison-bar-row">' +
-              '<span class="comparison-bar-label">Cohort</span>' +
-              '<div class="comparison-bar-track"><div class="comparison-bar-fill cohort-median" style="width:' + cohortWidth + '%"></div></div>' +
-              '<span class="comparison-bar-value">' + m.formatFn(m.cohortMedian) + '</span>' +
-            '</div>' +
-            '<div class="comparison-bar-row">' +
-              '<span class="comparison-bar-label" style="color:var(--text)">This repo</span>' +
-              '<div class="comparison-bar-track"><div class="comparison-bar-fill" style="width:' + repoWidth + '%;background:' + repoColor + '"></div></div>' +
-              '<span class="comparison-bar-value" style="color:var(--text)">' + m.formatFn(m.repoVal) + '</span>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-      });
-
-      html += '</div>';
-      return html;
-    }
-
-    /* ── Render percentile section ───────────────────── */
-    function renderPercentileSection(repo, allRepos, cohort) {
+    /* ── Render unified comparison section ──────────── */
+    function renderComparison(repo, cohort, allRepos) {
       var codeRepos = allRepos.filter(function(r) { return !r.type || r.type === "code"; });
-
       var ciValues = codeRepos.map(function(r) { return r.ci; }).filter(function(v) { return v != null; });
       var prValues = codeRepos.map(function(r) { return r.pr_hours; }).filter(function(v) { return v != null; });
       var relValues = codeRepos.map(function(r) { return r.releases_per_week; }).filter(function(v) { return v != null; });
 
-      var items = [];
+      var metrics = [
+        {
+          name: "CI",
+          repoVal: repo.ci,
+          popMedian: POP_MEDIANS.ci,
+          cohortMedian: cohort.ci,
+          posFn: ciBarPos,
+          formatFn: function(v) { return v != null ? v + "%" : "N/A"; },
+          scorePct: ciPercentile(repo.ci),
+          pctRank: percentileRank(repo.ci, ciValues, false),
+          lowerBetter: false
+        },
+        {
+          name: "PR",
+          repoVal: repo.pr_hours,
+          popMedian: POP_MEDIANS.pr,
+          cohortMedian: cohort.pr,
+          posFn: prBarPos,
+          formatFn: function(v) { return formatHours(v); },
+          scorePct: prPercentile(repo.pr_hours),
+          pctRank: percentileRank(repo.pr_hours, prValues, true),
+          lowerBetter: true
+        },
+        {
+          name: "REL",
+          repoVal: repo.releases_per_week,
+          popMedian: POP_MEDIANS.rel,
+          cohortMedian: cohort.rel,
+          posFn: relBarPos,
+          formatFn: function(v) { return v != null ? v.toFixed(2) + "/wk" : "0/wk"; },
+          scorePct: relPercentile(repo.releases_per_week),
+          pctRank: percentileRank(repo.releases_per_week, relValues, false),
+          lowerBetter: false
+        }
+      ];
 
-      var ciPct = percentileRank(repo.ci, ciValues, false);
-      if (ciPct !== null) {
-        var ciColor = ciPct >= 60 ? "#4ade80" : ciPct >= 30 ? "#eab308" : "#ef4444";
-        items.push({
-          color: ciColor,
-          text: "This repo's CI pass rate (" + repo.ci + "%) is better than " + ciPct + "% of code repos in its cohort."
+      // Add RESP only if data exists
+      if (repo.response_hours != null) {
+        var respValues = codeRepos.map(function(r) { return r.response_hours; }).filter(function(v) { return v != null; });
+        metrics.push({
+          name: "RESP",
+          repoVal: repo.response_hours,
+          popMedian: 48,
+          cohortMedian: 48,
+          posFn: function(v) {
+            if (v == null || v <= 0) return 0;
+            var logVal = Math.log10(v + 1);
+            var logMax = Math.log10(721);
+            return clamp((logVal / logMax) * 100, 0, 100);
+          },
+          formatFn: function(v) { return formatHours(v); },
+          scorePct: responsePercentile(repo.response_hours),
+          pctRank: percentileRank(repo.response_hours, respValues, true),
+          lowerBetter: true
         });
       }
 
-      var prPct = percentileRank(repo.pr_hours, prValues, true);
-      if (prPct !== null) {
-        var prColor = prPct >= 60 ? "#4ade80" : prPct >= 30 ? "#eab308" : "#ef4444";
-        items.push({
-          color: prColor,
-          text: "This repo's PR merge time (" + formatHours(repo.pr_hours) + ") is faster than " + prPct + "% of code repos."
-        });
-      }
+      var html = '<div class="comparison-section"><h3>Metric Comparison</h3>';
+      html += '<div class="comp-legend">' +
+        '<span class="comp-legend-item"><span class="comp-legend-swatch" style="background:#475569"></span> Population median</span>' +
+        '<span class="comp-legend-item"><span class="comp-legend-swatch" style="background:#64748b;border:1px dashed #94a3b8"></span> Cohort median</span>' +
+        '<span class="comp-legend-item"><span class="comp-legend-swatch" style="background:#4ade80;border-radius:50%"></span> This repo</span>' +
+      '</div>';
 
-      var relPct = percentileRank(repo.releases_per_week, relValues, false);
-      if (relPct !== null) {
-        var relColor = relPct >= 60 ? "#4ade80" : relPct >= 30 ? "#eab308" : "#ef4444";
-        items.push({
-          color: relColor,
-          text: "This repo's release cadence (" + (repo.releases_per_week != null ? repo.releases_per_week.toFixed(2) : "0") + "/wk) is higher than " + relPct + "% of code repos."
-        });
-      }
+      metrics.forEach(function(m) {
+        var popPos = m.posFn(m.popMedian);
+        var cohortPos = m.posFn(m.cohortMedian);
+        var repoPos = m.posFn(m.repoVal);
+        var repoColor = barColorForScore(m.scorePct);
 
-      if (items.length === 0) return "";
+        var pctText = "";
+        if (m.pctRank !== null) {
+          pctText = m.lowerBetter
+            ? "faster than " + m.pctRank + "% of cohort"
+            : "better than " + m.pctRank + "% of cohort";
+        }
 
-      var html = '<div class="percentile-section"><h3>Compare with Population</h3><div class="percentile-items">';
-      items.forEach(function(item) {
-        html += '<div class="percentile-item">' +
-          '<span class="percentile-dot" style="background:' + item.color + '"></span>' +
-          '<span>' + item.text + '</span>' +
+        html += '<div class="comp-row">' +
+          '<span class="comp-label">' + m.name + '</span>' +
+          '<div class="comp-track">' +
+            '<div class="comp-marker pop" style="left:' + popPos + '%"></div>' +
+            '<div class="comp-marker cohort" style="left:' + cohortPos + '%"></div>' +
+            '<div class="comp-marker repo-mk" style="left:' + repoPos + '%;background:' + repoColor + '"></div>' +
+          '</div>' +
+          '<span class="comp-pct-text">' + pctText + '</span>' +
         '</div>';
       });
-      html += '</div></div>';
+
+      html += '</div>';
       return html;
     }
 
@@ -692,125 +607,110 @@
         {
           name: "CI Pass Rate",
           raw: repo.ci != null ? repo.ci + "%" : "N/A",
-          percentile: ciPercentile(repo.ci),
-          explanation: repo.ci != null
-            ? "Build success rate across recent workflow runs. Higher is better."
-            : "No CI workflow data available for this repository.",
-          comparison: comparisonText(repo.ci, cohort.ci, "CI", cohort.name, false)
+          percentile: ciPercentile(repo.ci)
         },
         {
           name: "PR Merge Time",
           raw: formatHours(repo.pr_hours),
-          percentile: prPercentile(repo.pr_hours),
-          explanation: repo.pr_hours != null
-            ? "Median time from PR open to merge. Faster merges indicate a responsive review process."
-            : "No recent PR merge data. The repo may have no open PRs or uses direct commits.",
-          comparison: repo.pr_hours != null
-            ? comparisonText(repo.pr_hours, cohort.pr, "PR merge time", cohort.name, true)
-            : ""
+          percentile: prPercentile(repo.pr_hours)
         },
         {
-          name: "Release Frequency",
-          raw: repo.releases_per_week != null ? repo.releases_per_week.toFixed(2) + " / week" : "0 / week",
-          percentile: relPercentile(repo.releases_per_week),
-          explanation: repo.releases_per_week > 0
-            ? "Average releases per week over the last 90 days. Regular releases signal active delivery."
-            : "No releases in the past 90 days. The project may use a different distribution method.",
-          comparison: comparisonText(repo.releases_per_week, cohort.rel, "release frequency", cohort.name, false)
+          name: "Release Freq",
+          raw: repo.releases_per_week != null ? repo.releases_per_week.toFixed(2) + "/wk" : "0/wk",
+          percentile: relPercentile(repo.releases_per_week)
         },
         {
-          name: "Issue Response Time",
+          name: "Issue Response",
           raw: repo.response_hours != null ? formatHours(repo.response_hours) : "N/A",
-          percentile: responsePercentile(repo.response_hours),
-          explanation: repo.response_hours != null
-            ? "Median time for first response on new issues. Faster responses indicate an engaged maintainer team."
-            : "No issue response data available.",
-          comparison: ""
+          percentile: responsePercentile(repo.response_hours)
         }
       ];
 
-      /* Build HTML - Dashboard layout */
-      var html = '<div class="dashboard">';
+      var html = '<div class="detail-wrapper">';
 
-      /* Top bar: score + info (spans full width) */
-      html += '<div class="top-bar">' +
-        '<div class="score-circle" style="background:' + sc + '22;color:' + sc + ';border:2px solid ' + sc + '">' + repo.score + '</div>' +
-        '<div><span class="score-state" style="color:' + sc + '">' + stateLabel(repo.state) + '</span><br>' +
-        '<span class="score-desc">' + repo.score + '/100 &middot; ' + cohort.name + '</span></div>' +
-        '<div class="info-items">' +
-          '<div class="info-item"><span class="info-value">' + formatStars(repo.stars) + ' &#9733;</span><span class="info-label">Stars</span></div>' +
-          '<div class="info-item"><span class="info-value">' + repo.language + '</span><span class="info-label">Language</span></div>' +
-          '<div class="info-item"><span class="info-value">' + formatSize(repo.size_kb) + '</span><span class="info-label">Size</span></div>' +
-          '<div class="info-item"><span class="info-value">' + formatAge(repo.age_days) + '</span><span class="info-label">Age</span></div>' +
-          '<div class="info-item"><span class="info-value">' + (repo.open_issues || 0) + '</span><span class="info-label">Issues</span></div>' +
-          '<div class="info-item"><span class="info-value">' + (repo.forks ? formatStars(repo.forks) : '?') + '</span><span class="info-label">Forks</span></div>' +
-        '</div>' +
-      '</div>';
+      /* ── Info strip ──────────────────────────────── */
+      html += '<div class="info-strip">';
+      html += '<div class="score-circle" style="background:' + sc + '22;color:' + sc + ';border:2px solid ' + sc + '">' + repo.score + '</div>';
+      html += '<span class="state-label" style="color:' + sc + '">' + stateLabel(repo.state) + '</span>';
 
-      /* Left column: SVG + description + ECG */
-      html += '<div class="col-left">';
-      html += '<div class="hero-svg"><img src="mini/' + slug(repo.repo) + '.svg" alt="' + repo.repo + ' ECG" onerror="this.parentElement.innerHTML=\'<span style=color:#6b7280>SVG not available</span>\'"></div>';
       if (repo.description) {
-        html += '<div class="repo-description">' + repo.description + '</div>';
+        html += '<span class="strip-sep"></span>';
+        html += '<span class="strip-desc" title="' + (repo.description || '').replace(/"/g, '&quot;') + '">' + repo.description + '</span>';
       }
-      /* Languages stack */
+
+      html += '<span class="strip-sep"></span>';
+
+      var infoItems = [
+        { val: formatStars(repo.stars) + " \u2605", lbl: "Stars" },
+        { val: repo.language || "?", lbl: "Lang" },
+        { val: formatSize(repo.size_kb), lbl: "Size" },
+        { val: formatAge(repo.age_days), lbl: "Age" },
+        { val: (repo.forks ? formatStars(repo.forks) : "?"), lbl: "Forks" },
+        { val: cohort.name, lbl: "Cohort" }
+      ];
+      infoItems.forEach(function(item) {
+        html += '<div class="strip-stat"><span class="strip-stat-val">' + item.val + '</span><span class="strip-stat-lbl">' + item.lbl + '</span></div>';
+      });
+
+      /* Languages tags */
       if (repo.languages && repo.languages.length > 0) {
-        html += '<div class="lang-stack">';
+        html += '<span class="strip-sep"></span><div class="strip-tags">';
         repo.languages.forEach(function(l) {
-          html += '<span class="lang-tag">' + l.lang + ' ' + l.pct + '%</span>';
+          html += '<span class="strip-tag">' + l.lang + ' ' + l.pct + '%</span>';
         });
         html += '</div>';
       }
-      /* Topics */
+
+      /* Topics tags */
       if (repo.topics && repo.topics.length > 0) {
-        html += '<div class="lang-stack">';
+        html += '<span class="strip-sep"></span><div class="strip-tags">';
         repo.topics.slice(0, 8).forEach(function(t) {
-          html += '<span class="lang-tag" style="background:#1e2a20;color:#4ade80">' + t + '</span>';
+          html += '<span class="strip-tag topic">' + t + '</span>';
         });
         html += '</div>';
       }
 
-      /* ECG findings in left column */
-      var findings = getEcgFindings(repo);
-      html += '<div class="ecg-section"><h3>ECG Analysis</h3>';
-      if (findings.length === 0) {
-        html += '<div class="ecg-normal">Healthy sinus rhythm. All vital signs normal.</div>';
-      } else {
-        html += '<div class="ecg-findings">';
-        findings.forEach(function (f) {
-          html += '<div class="ecg-finding"><span class="ecg-dot" style="background:' + f.color + '"></span><span>' + f.text + '</span></div>';
-        });
-        html += '</div>';
-      }
-      html += '</div>';
-      html += '</div>'; /* close col-left */
+      html += '</div>'; /* close info-strip */
 
-      /* Right column: metrics + comparison + percentile */
-      html += '<div class="col-right">';
-
-      /* Metric cards */
-      html += '<div class="metrics-grid">';
+      /* ── Metrics row (4 cards) ───────────────────── */
+      html += '<div class="metrics-row">';
       metrics.forEach(function (m) {
         var pct = m.percentile;
         var barColor = pct == null ? "#6b7280" : (pct >= 65 ? "#4ade80" : (pct >= 40 ? "#eab308" : "#ef4444"));
         var barWidth = pct != null ? pct : 0;
-        html += '<div class="metric-card">' +
-          '<div class="metric-card-header"><span class="metric-card-name">' + m.name + '</span><span class="metric-card-value">' + m.raw + '</span></div>' +
-          '<div class="metric-bar-track"><div class="metric-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div></div>' +
-          '<span class="metric-percentile">Score: ' + (pct != null ? pct : "N/A") + ' / 100</span>' +
-          (m.comparison ? '<p class="metric-comparison">' + m.comparison + '</p>' : '') +
+
+        // Hide RESP card if null
+        if (m.name === "Issue Response" && pct === null) {
+          html += '<div class="metric-card" style="opacity:0.4">' +
+            '<span class="metric-card-name">' + m.name + '</span>' +
+            '<span class="metric-card-value">N/A</span>' +
           '</div>';
+          return;
+        }
+
+        html += '<div class="metric-card">' +
+          '<span class="metric-card-name">' + m.name + '</span>' +
+          '<span class="metric-card-value">' + m.raw + '</span>' +
+          '<div class="metric-bar-track"><div class="metric-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div></div>' +
+          '<span class="metric-score-num">' + (pct != null ? pct + "/100" : "N/A") + '</span>' +
+        '</div>';
       });
       html += '</div>';
 
-      /* Comparison chart */
-      html += renderComparisonChart(repo, cohort, allRepos);
+      /* ── Comparison section (merged) ─────────────── */
+      html += renderComparison(repo, cohort, allRepos);
 
-      /* Percentile section */
-      html += renderPercentileSection(repo, allRepos, cohort);
+      /* ── ECG section (only if findings) ──────────── */
+      var findings = getEcgFindings(repo);
+      if (findings.length > 0) {
+        html += '<div class="ecg-section"><h3>ECG Analysis</h3><div class="ecg-findings">';
+        findings.forEach(function (f) {
+          html += '<div class="ecg-finding"><span class="ecg-dot" style="background:' + f.color + '"></span><span>' + f.text + '</span></div>';
+        });
+        html += '</div></div>';
+      }
 
-      html += '</div>'; /* close col-right */
-      html += '</div>'; /* close dashboard */
+      html += '</div>'; /* close detail-wrapper */
       root.innerHTML = html;
     }
 

@@ -103,7 +103,7 @@
   function releaseBarColor(rpw) {
     if (rpw == null) return "#6b7280";
     if (rpw >= 0.5) return "#4ade80";
-    if (rpw >= 0.1) return "#eab308";
+    if (rpw > 0) return "#eab308";
     return "#ef4444";
   }
 
@@ -201,11 +201,13 @@
 
     card.innerHTML =
       '<div class="card-body">' +
-        /* Header: avatar + name */
+        /* Header: avatar + name + stars/forks */
         '<div class="card-header">' +
           '<img src="https://github.com/' + o + '.png?size=40" class="card-avatar" loading="lazy" alt="">' +
           '<span class="card-name" title="' + repo.repo + '">' + repo.repo + '</span>' +
           (typeTag ? ' ' + typeTag : '') +
+          '<span class="meta-item" style="margin-left:auto">' + starSvg + formatNum(repo.stars) + '</span>' +
+          '<span class="meta-item">' + forkSvg + formatNum(repo.forks) + '</span>' +
         '</div>' +
 
         /* Description */
@@ -216,7 +218,7 @@
           metricBarHtml('CI', ciPct(repo.ci), ciBarColor(repo.ci), ciVal) +
           metricBarHtml('PR', prPct(repo.pr_hours), prBarColor(repo.pr_hours), prVal) +
           metricBarHtml('REL', releasePct(repo.releases_per_week), releaseBarColor(repo.releases_per_week), relVal) +
-          metricBarHtml('RESP', responsePct(repo.response_hours), responseBarColor(repo.response_hours), respVal) +
+          (repo.response_hours != null ? metricBarHtml('RESP', responsePct(repo.response_hours), responseBarColor(repo.response_hours), respVal) : '') +
         '</div>' +
 
         /* Score badge + language */
@@ -224,16 +226,7 @@
           '<div class="card-bottom-left">' +
             langHtml +
           '</div>' +
-          '<div class="card-score-badge">' +
-            '<span class="score-number" style="color:' + stateColor(repo.state) + '">' + repo.score + '</span>' +
-            '<span class="badge ' + repo.state + '">' + repo.state + '</span>' +
-          '</div>' +
-        '</div>' +
-
-        /* Stars + Forks */
-        '<div class="card-meta">' +
-          '<span class="meta-item">' + starSvg + formatNum(repo.stars) + '</span>' +
-          '<span class="meta-item">' + forkSvg + formatNum(repo.forks) + '</span>' +
+          '<span class="badge ' + repo.state + '" style="font-size:0.625rem;padding:3px 10px">' + repo.score + ' ' + repo.state.toUpperCase() + '</span>' +
         '</div>' +
       '</div>';
 
