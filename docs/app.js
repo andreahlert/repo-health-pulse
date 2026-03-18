@@ -98,6 +98,10 @@
 
     var card = document.createElement("div");
     card.className = "card";
+    card.style.cursor = "pointer";
+    card.addEventListener("click", function () {
+      window.location.href = "detail.html?repo=" + encodeURIComponent(repo.repo);
+    });
     card.innerHTML =
       '<div class="card-svg">' +
         '<img src="' + SVG_BASE + s + '.svg" alt="' + repo.repo + ' health pulse" loading="lazy" onerror="this.parentElement.innerHTML=\'<span style=&quot;color:#6b7280;font-size:0.75rem&quot;>SVG not found</span>\'">' +

@@ -19,32 +19,14 @@ function formatTime(hours: number | null): { display: string; unit: string } {
   return { display: String(Math.round(hours / 24 * 10) / 10), unit: 'days' };
 }
 
-function classForCi(rate: number | null): 'good' | 'warn' | 'crit' | 'dead' {
-  if (rate === null) return 'dead';
-  if (rate >= 95) return 'good';
-  if (rate >= 80) return 'warn';
-  return 'crit';
-}
-
-function classForPr(hours: number | null): 'good' | 'warn' | 'crit' | 'dead' {
-  if (hours === null) return 'dead';
-  if (hours < 24) return 'good';
-  if (hours < 72) return 'warn';
-  return 'crit';
-}
-
-function classForReleases(perWeek: number): 'good' | 'warn' | 'crit' | 'dead' {
-  if (perWeek >= 0.8) return 'good';
-  if (perWeek >= 0.3) return 'warn';
-  if (perWeek > 0) return 'crit';
+// Color classes based on the percentile SCORE (0-100), not the raw value.
+// This way colors are relative to the cohort, not absolute thresholds.
+// A CI of 75% that scores 50 in its cohort shows as neutral, not red.
+function classFromScore(score: number): 'good' | 'warn' | 'crit' | 'dead' {
+  if (score >= 65) return 'good';
+  if (score >= 40) return 'warn';
+  if (score >= 15) return 'crit';
   return 'dead';
-}
-
-function classForResponse(hours: number | null): 'good' | 'warn' | 'crit' | 'dead' {
-  if (hours === null) return 'dead';
-  if (hours < 12) return 'good';
-  if (hours < 48) return 'warn';
-  return 'crit';
 }
 
 function buildFootnote(result: HealthResult): string | null {
@@ -76,15 +58,15 @@ export function buildSvgData(result: HealthResult, owner: string, repo: string):
     state: result.state,
     bpm: result.bpm,
     ciDisplay: raw.ciPassRate !== null ? `${raw.ciPassRate}%` : 'N/A',
-    ciClass: classForCi(raw.ciPassRate),
+    ciClass: classFromScore(result.metrics.ci),
     prDisplay: pr.display,
     prUnit: pr.unit,
-    prClass: classForPr(raw.prMergeTimeHours),
+    prClass: classFromScore(result.metrics.pr),
     relDisplay: String(raw.releasesPerWeek),
-    relClass: classForReleases(raw.releasesPerWeek),
+    relClass: classFromScore(result.metrics.releases),
     respDisplay: resp.display,
     respUnit: resp.unit + (raw.responseIsBotOnly ? '*' : ''),
-    respClass: classForResponse(raw.responseTimeHours),
+    respClass: classFromScore(result.metrics.response),
     footnote: buildFootnote(result),
     healthBarWidth: Math.round((result.score / 100) * 195),
   };

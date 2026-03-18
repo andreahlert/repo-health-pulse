@@ -32,9 +32,9 @@
       .label { fill: #94a3b8; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
       .val { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
       .val-unit { fill: #64748b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
-      .val-ci { fill: #ef4444; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold;  }
-      .val-pr { fill: #ef4444; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
-      .val-rel { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .val-ci { fill: #f59e0b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold;  }
+      .val-pr { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .val-rel { fill: #f59e0b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
       .val-resp { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
       .repo-name { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 14px; font-weight: bold; }
       .status-text { fill: #4ade80; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; font-weight: bold;  }
