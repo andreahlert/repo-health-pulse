@@ -98,10 +98,10 @@ Data collected from **286 active repos** across 10+ languages and star counts fr
 
 | State | Count | % | Description |
 |---|---|---|---|
-| Healthy | 24 | 8% | Top performers in their cohort |
-| Stressed | 116 | 41% | Population average |
-| Critical | 98 | 34% | Below cohort median |
-| Flatline | 48 | 17% | Inactive or abandoned (no PRs merged in 30 days) |
+| Healthy | 75 | 26% | Above p50 in most metrics for their cohort |
+| Stressed | 153 | 53% | Around cohort median. The normal state. |
+| Critical | 48 | 17% | Below cohort median on multiple metrics |
+| Flatline | 10 | 3% | Truly abandoned (no PRs merged in 30 days, no releases) |
 
 ### Population Medians (the "normal patient")
 
@@ -123,11 +123,23 @@ Data collected from **286 active repos** across 10+ languages and star counts fr
 
 ## Showcase
 
-### Reference: The Healthy Patient
+### Reference: The Normal Patient
 
-What a perfectly healthy repo looks like: CI 98%, PRs merging in 3h, weekly releases, issues answered in under an hour. Calm 68 bpm, regular sinus rhythm, clean baseline.
+The reference is not an ideal. It's the **population median** for each cohort, the average repo in each size category. All values are p50 from 286 repos.
 
-![reference](generated/monitor/reference-perfect-repo.svg)
+**Population median** (CI 75%, PR 27h, Releases 0/wk, Response 2.4h):
+
+![population-median](generated/monitor/reference-population-median.svg)
+
+**Tiny repo median** (<10MB, CI 55%, PR 84h):
+
+![tiny](generated/monitor/reference-tiny.svg)
+
+**Huge repo median** (500MB+, CI 70%, PR 18h):
+
+![huge](generated/monitor/reference-huge.svg)
+
+Notice how each cohort has a different "normal." A tiny repo with 84h PR merge time is average for its size. The same number in a huge repo would be below average.
 
 ### Real Repos
 

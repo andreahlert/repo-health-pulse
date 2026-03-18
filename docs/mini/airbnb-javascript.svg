@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
   <defs>
     <style>
-      @keyframes flat-sweep {
+      @keyframes trace-fast {
         0% { stroke-dashoffset: 1000; }
         100% { stroke-dashoffset: 0; }
       }
@@ -16,20 +16,20 @@
       .bg { fill: #1a1c20; }
       .ecg {
         fill: none;
-        stroke: #6b7280;
+        stroke: #eab308;
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
         /* no filter - avoids render glitch */
         stroke-dasharray: 1000;
-        animation: flat-sweep 6s linear infinite;
+        animation: trace-fast 2.5s linear infinite;
       }
-      .repo { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
-      .repo-dim { fill: #4b5563; }
-      .score { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
-      .score-unit { fill: #4b5563; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
-      .status { fill: #6b7280; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: fade 3s ease-in-out infinite; }
-      .dot { fill: #6b7280; animation: fade 3s ease-in-out infinite; }
+      .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
+      .repo-dim { fill: #64748b; }
+      .score { fill: #eab308; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #94a3b8; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #eab308; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;  }
+      .dot { fill: #eab308; animation: pulse 0.7s ease-in-out infinite; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
     </style>
   </defs>
@@ -38,15 +38,15 @@
   
   <rect class="border" x="0.5" y="0.5" width="479" height="79"/>
 
-  <path class="ecg" d="M 15,40 L 23,40.07 L 31,40.43 L 39,40.37 L 47,40.27 L 55,40.51 L 63,40.48 L 71,40.6 L 79,40.66 L 87,40.51 L 95,40.71 L 103,40.81 L 111,40.82 L 119,40.49 L 127,40.54 L 135,40.58 L 143,40.51 L 151,40.47 L 159,40.43 L 167,40.44 L 175,40.42 L 183,40.29 L 191,40.24 L 199,39.94 L 207,40.05 L 215,40.05 L 223,39.79 L 231,39.96 L 239,39.77 L 247,39.52 L 255,39.6 L 263,39.48 L 271,39.54 L 279,39.29 L 287,39.46 L 295,39.42 L 303,39.51 L 311,39.33 L 319,39.17 L 327,39.27 L 335,39.3 L 343,39.35 L 351,39.61 L 359,39.59 L 367,39.61 L 375,39.74 L 383,39.66 L 385,40"/>
+  <path class="ecg" d="M 15,40 L 15,40.99 L 16.46,40.9 L 17.93,39.16 L 19.39,41.28 L 20.86,40.11 L 22.32,40.01 L 23.78,39.74 L 25.25,38.9 L 26.71,39.87 L 28.18,37.01 L 29.64,20.31 L 31.11,37.66 L 32.57,38.62 L 34.03,36.17 L 35.5,35.47 L 36.96,34.27 L 38.43,33.82 L 39.89,33.87 L 41.35,36.4 L 42.82,39.12 L 44.28,39.95 L 45.75,40.15 L 47.21,40.1 L 48.67,39.61 L 50.14,39.76 L 51.6,39.83 L 53.07,39.69 L 54.53,40.01 L 56,40.28 L 57.46,39.78 L 58.92,40.31 L 60.39,40.32 L 61.85,39.93 L 63.32,40.32 L 64.78,40.28 L 66.24,40.2 L 67.71,39.67 L 69.17,39.82 L 70.64,40.13 L 72.1,40.15 L 82.35,40.04 L 91.13,39.98 L 91.13,41.01 L 92.57,38.75 L 94.01,40.13 L 95.45,40.24 L 96.89,41.65 L 98.33,40.61 L 99.76,39.89 L 101.2,39.37 L 102.64,40.41 L 104.08,37.19 L 105.52,20.26 L 106.95,38.01 L 108.39,38.13 L 109.83,36.3 L 111.27,35.48 L 112.71,34.57 L 114.14,33.89 L 115.58,33.84 L 117.02,36.72 L 118.46,38.52 L 119.9,39.99 L 121.34,39.68 L 122.77,40.1 L 124.21,40.22 L 125.65,40.29 L 127.09,39.68 L 128.53,39.87 L 129.96,40.31 L 131.4,40.18 L 132.84,39.76 L 134.28,40.19 L 135.72,40.39 L 137.15,39.9 L 138.59,40.03 L 140.03,39.63 L 141.47,39.64 L 142.91,39.61 L 144.35,40.12 L 145.78,40.3 L 147.22,40.36 L 157.29,40.24 L 165.92,39.91 L 165.92,39.87 L 167.38,41.43 L 168.85,40.9 L 170.32,41.47 L 171.79,38.62 L 173.25,39.86 L 174.72,41.19 L 176.19,39.27 L 177.65,40.54 L 179.12,36.84 L 180.59,20.27 L 182.06,38.08 L 183.52,38.74 L 184.99,36.69 L 186.46,35.51 L 187.92,34.04 L 189.39,34.15 L 190.86,34.04 L 192.32,36.62 L 193.79,38.35 L 195.26,39.47 L 196.73,39.83 L 198.19,40.38 L 199.66,39.85 L 201.13,40.29 L 202.59,39.78 L 204.06,39.93 L 205.53,39.79 L 207,39.95 L 208.46,39.8 L 209.93,39.65 L 211.4,40.1 L 212.86,39.88 L 214.33,39.68 L 215.8,39.87 L 217.27,39.97 L 218.73,39.75 L 220.2,40.31 L 221.67,40.02 L 223.13,39.76 L 233.4,40.17 L 242.21,39.9 L 242.21,41.21 L 243.57,40.25 L 244.94,39.63 L 246.3,38.84 L 247.67,38.85 L 249.03,40.1 L 250.4,41.47 L 251.76,39.41 L 253.12,40.26 L 254.49,36.79 L 255.85,20.06 L 257.22,37.55 L 258.58,38.2 L 259.95,36.05 L 261.31,35.33 L 262.68,34.79 L 264.04,33.87 L 265.41,33.84 L 266.77,36.21 L 268.14,38.71 L 269.5,39.94 L 270.87,39.73 L 272.23,39.77 L 273.6,39.9 L 274.96,39.85 L 276.33,40.32 L 277.69,39.65 L 279.06,39.75 L 280.42,40.22 L 281.79,40.4 L 283.15,40.31 L 284.52,40.13 L 285.88,40.23 L 287.24,40.22 L 288.61,40.39 L 289.97,39.88 L 291.34,40.28 L 292.7,40.07 L 294.07,40.03 L 295.43,40.29 L 304.99,40.07 L 313.18,40.16 L 313.18,39.05 L 314.58,40.09 L 315.99,38.99 L 317.4,40.4 L 318.81,38.83 L 320.22,38.77 L 321.63,39.49 L 323.03,39.56 L 324.44,40.57 L 325.85,37.14 L 327.26,19.68 L 328.67,37.53 L 330.07,38.74 L 331.48,36.67 L 332.89,35.49 L 334.3,34.76 L 335.71,34.04 L 337.11,34.58 L 338.52,36.73 L 339.93,38.98 L 341.34,40.02 L 342.75,40.19 L 344.16,39.78 L 345.56,39.97 L 346.97,39.7 L 348.38,39.63 L 349.79,39.78 L 351.2,40.19 L 352.6,40.12 L 354.01,40.37 L 355.42,40.29 L 356.83,39.72 L 358.24,39.89 L 359.65,40.36 L 361.05,40.18 L 362.46,39.68 L 363.87,40.26 L 365.28,39.85 L 366.69,39.9 L 368.09,39.83 L 377.25,40.13 L 385,40.2 L 385,40"/>
 
   <text class="repo" x="15" y="68">
     <tspan class="repo-dim">airbnb/</tspan>javascript
   </text>
 
   <circle class="dot" cx="410" cy="28" r="3"/>
-  <text class="status" x="418" y="32">flatline</text>
+  <text class="status" x="418" y="32">stressed</text>
 
-  <text class="score" x="410" y="58">10</text>
+  <text class="score" x="410" y="58">53</text>
   <text class="score-unit" x="438" y="58">/100</text>
 </svg>

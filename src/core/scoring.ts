@@ -81,42 +81,59 @@ function percentileScore(
   anchors: [number, number, number, number, number],
   higherIsBetter: boolean,
 ): number {
-  const vals = higherIsBetter ? anchors : [...anchors].reverse();
-  const pcts = higherIsBetter ? PCTL_ANCHORS : [...PCTL_ANCHORS].reverse();
+  // For "lower is better" metrics (PR time, response time), we keep the
+  // original anchor order [p10, p25, p50, p75, p90] where p10 is the worst
+  // (highest value) and p90 is the best (lowest value).
+  //
+  // We pair each anchor with its corresponding score:
+  //   p10 anchor -> score 10, p25 -> 25, p50 -> 50, p75 -> 75, p90 -> 90
 
-  // Below or equal to worst anchor
-  if (higherIsBetter && value <= vals[0]) return pcts[0] * (value / Math.max(vals[0], 1));
-  if (!higherIsBetter && value >= vals[0]) {
-    // For inverted metrics, values worse than p10 get score approaching 0
-    const ratio = vals[0] / Math.max(value, 0.01);
-    return Math.max(pcts[0] * ratio, 2);
+  const pairs: Array<{ val: number; score: number }> = anchors.map((v, i) => ({
+    val: v,
+    score: PCTL_ANCHORS[i],
+  }));
+
+  // Sort pairs so val is ascending
+  if (!higherIsBetter) {
+    pairs.reverse(); // anchors for "lower is better" are [worst..best], reverse to [best..worst] = [low..high]
+  }
+  // Now pairs are sorted by val ascending, with correct scores
+
+  const first = pairs[0];
+  const last = pairs[pairs.length - 1];
+
+  // Below lowest anchor
+  if (value <= first.val) {
+    if (higherIsBetter) {
+      // Below worst: extrapolate down from score 10
+      return Math.max(first.score * (value / Math.max(first.val, 0.01)), 2);
+    } else {
+      // Below best (very good): extrapolate up from score 90
+      if (first.val <= 0) return 98;
+      return 95 + 5 * Math.max(1 - value / first.val, 0);
+    }
   }
 
-  // Above or equal to best anchor
-  if (higherIsBetter && value >= vals[vals.length - 1]) {
-    return 95 + 5 * Math.min((value - vals[vals.length - 1]) / Math.max(vals[vals.length - 1], 1), 1);
-  }
-  if (!higherIsBetter && value <= vals[vals.length - 1]) {
-    const best = vals[vals.length - 1];
-    if (best <= 0) return 98;
-    const ratio = Math.max(1 - value / best, 0);
-    return 95 + 5 * ratio;
+  // Above highest anchor
+  if (value >= last.val) {
+    if (higherIsBetter) {
+      // Above best: extrapolate up from score 90
+      return 95 + 5 * Math.min((value - last.val) / Math.max(last.val, 1), 1);
+    } else {
+      // Above worst (very bad): extrapolate down from score 10
+      const ratio = last.val / Math.max(value, 0.01);
+      return Math.max(last.score * ratio, 2);
+    }
   }
 
-  // Interpolate between anchors
-  for (let i = 0; i < vals.length - 1; i++) {
-    const lo = vals[i];
-    const hi = vals[i + 1];
-    if (
-      (higherIsBetter && value >= lo && value <= hi) ||
-      (!higherIsBetter && value <= lo && value >= hi)
-    ) {
-      const range = Math.abs(hi - lo);
-      const dist = Math.abs(value - lo);
-      const frac = range === 0 ? 0.5 : dist / range;
-      const scoreLo = pcts[i];
-      const scoreHi = pcts[i + 1];
-      return scoreLo + frac * (scoreHi - scoreLo);
+  // Interpolate between adjacent anchors
+  for (let i = 0; i < pairs.length - 1; i++) {
+    const lo = pairs[i];
+    const hi = pairs[i + 1];
+    if (value >= lo.val && value <= hi.val) {
+      const range = hi.val - lo.val;
+      const frac = range === 0 ? 0.5 : (value - lo.val) / range;
+      return lo.score + frac * (hi.score - lo.score);
     }
   }
 

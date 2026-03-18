@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="80" viewBox="0 0 480 80">
   <defs>
     <style>
-      @keyframes flat-sweep {
+      @keyframes trace-fast {
         0% { stroke-dashoffset: 1000; }
         100% { stroke-dashoffset: 0; }
       }
@@ -16,20 +16,20 @@
       .bg { fill: #1a1c20; }
       .ecg {
         fill: none;
-        stroke: #6b7280;
+        stroke: #eab308;
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
         /* no filter - avoids render glitch */
         stroke-dasharray: 1000;
-        animation: flat-sweep 6s linear infinite;
+        animation: trace-fast 2.5s linear infinite;
       }
-      .repo { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
-      .repo-dim { fill: #4b5563; }
-      .score { fill: #6b7280; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
-      .score-unit { fill: #4b5563; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
-      .status { fill: #6b7280; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; animation: fade 3s ease-in-out infinite; }
-      .dot { fill: #6b7280; animation: fade 3s ease-in-out infinite; }
+      .repo { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 12px; }
+      .repo-dim { fill: #64748b; }
+      .score { fill: #eab308; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 20px; font-weight: bold; }
+      .score-unit { fill: #94a3b8; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .status { fill: #eab308; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;  }
+      .dot { fill: #eab308; animation: pulse 0.7s ease-in-out infinite; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
     </style>
   </defs>
@@ -45,8 +45,8 @@
   </text>
 
   <circle class="dot" cx="410" cy="28" r="3"/>
-  <text class="status" x="418" y="32">flatline</text>
+  <text class="status" x="418" y="32">stressed</text>
 
-  <text class="score" x="410" y="58">10</text>
+  <text class="score" x="410" y="58">68</text>
   <text class="score-unit" x="438" y="58">/100</text>
 </svg>
