@@ -52,12 +52,25 @@
 
     /* ── Single column layout ────────────────────────── */
     .detail-wrapper {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0.5rem 1rem 1rem;
+      width: 100%;
+      max-width: 100%;
+      padding: 0.5rem 1.5rem 1rem;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+    }
+
+    /* ── Full monitor SVG ──────────────────────────── */
+    .detail-monitor {
+      background: #1a1c20;
+      border-radius: 10px;
+      overflow: hidden;
+      line-height: 0;
+      border: 1px solid #2e3238;
+    }
+    .detail-monitor img {
+      width: 100%;
+      display: block;
     }
 
     /* ── Info strip ──────────────────────────────────── */
@@ -627,6 +640,12 @@
       ];
 
       var html = '<div class="detail-wrapper">';
+
+      /* ── Full monitor SVG (hero) ──────────────────── */
+      var monitorSlug = slug(repo.repo);
+      html += '<div class="detail-monitor">';
+      html += '<img src="full/' + monitorSlug + '.svg" alt="' + repo.repo + ' health monitor" onerror="this.parentElement.style.display=\'none\'">';
+      html += '</div>';
 
       /* ── Info strip ──────────────────────────────── */
       html += '<div class="info-strip">';
