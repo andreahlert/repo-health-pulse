@@ -6,245 +6,211 @@
   <title>Repo Detail - Repo Health Pulse</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      padding: 0 24px;
-    }
+    html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; }
 
-    /* ── Detail page layout ─────────────────────────── */
+    /* ── Header (thin bar) ──────────────────────────── */
     .detail-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1.5rem 0;
+      gap: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      height: 44px;
+      box-sizing: border-box;
     }
-
     .back-link {
       color: var(--accent);
       text-decoration: none;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
-      gap: 0.375rem;
-      transition: color 0.15s;
+      gap: 0.25rem;
     }
-
-    .back-link:hover {
-      color: var(--text);
-    }
-
+    .back-link:hover { color: var(--text); }
     .detail-header-right {
       margin-left: auto;
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
-
     .detail-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       background: var(--bg-input);
-      flex-shrink: 0;
     }
-
     .repo-title {
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text);
-      letter-spacing: -0.025em;
     }
+    .repo-title a { color: var(--text); text-decoration: none; }
+    .repo-title a:hover { color: var(--accent); }
 
-    .repo-title a {
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-
-    .repo-title a:hover {
-      color: var(--accent);
-    }
-
-    /* ── Hero SVG ───────────────────────────────────── */
-    .hero-svg {
-      max-width: 900px;
-      margin: 0 auto 2rem;
-      background: #1e2025;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+    /* ── Dashboard layout (fills remaining viewport) ── */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      height: calc(100vh - 44px);
+      box-sizing: border-box;
       overflow: hidden;
+    }
+
+    /* ── Top bar: score + info (spans full width) ───── */
+    .top-bar {
+      grid-column: 1 / -1;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
-
-    .hero-svg img {
-      width: 100%;
-      height: auto;
-    }
-
-    /* ── Content wrapper ────────────────────────────── */
-    .detail-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 0 3rem;
-    }
-
-    /* ── Description ─────────────────────────────────── */
-    .repo-description {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      padding: 0.75rem 1.25rem;
+      gap: 1rem;
+      padding: 0.5rem 0.75rem;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      min-height: 0;
     }
-
-    /* ── Info bar ───────────────────────────────────── */
-    .info-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      align-items: center;
-      padding: 1rem 1.25rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
-    .info-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.125rem;
-    }
-
-    .info-value {
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .info-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-    }
-
-    .info-divider {
-      width: 1px;
-      height: 2rem;
-      background: var(--border);
-    }
-
-    /* ── Score overview ─────────────────────────────── */
-    .score-overview {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      padding: 1.25rem 1.5rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
     .score-circle {
-      width: 72px;
-      height: 72px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--font-mono);
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
       flex-shrink: 0;
     }
-
-    .score-text h2 {
-      font-size: 1.125rem;
+    .score-state {
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 0.25rem;
+    }
+    .score-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .top-bar .info-items {
+      margin-left: auto;
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+    }
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .info-value {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .info-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
     }
 
-    .score-text p {
-      font-size: 0.8rem;
+    /* ── Left column: SVG + description + ECG ──────── */
+    .col-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .hero-svg {
+      background: #1e2025;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      flex-shrink: 0;
+    }
+    .hero-svg img { width: 100%; height: auto; }
+    .repo-description {
+      font-size: 0.75rem;
       color: var(--text-muted);
       line-height: 1.4;
+      padding: 0.5rem 0.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      flex-shrink: 0;
     }
 
-    /* ── Metric cards grid ──────────────────────────── */
+    /* ── Right column: metrics + comparison ─────────── */
+    .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    /* ── Metric cards (2x2 grid) ───────────────────── */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
     }
-
     .metric-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem;
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.35rem;
     }
-
     .metric-card-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
     }
-
     .metric-card-name {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
       font-weight: 600;
     }
-
     .metric-card-value {
       font-family: var(--font-mono);
-      font-size: 1.25rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text);
     }
-
     .metric-bar-track {
       width: 100%;
-      height: 8px;
+      height: 6px;
       background: #1e2025;
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
     }
-
     .metric-bar-fill {
       height: 100%;
-      border-radius: 4px;
-      transition: width 0.6s ease;
+      border-radius: 3px;
     }
-
     .metric-percentile {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       color: var(--text-muted);
     }
-
     .metric-explanation {
-      font-size: 0.8rem;
+      font-size: 0.65rem;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.3;
     }
-
     .metric-comparison {
-      font-size: 0.75rem;
+      font-size: 0.6rem;
       color: var(--text-dim);
       font-style: italic;
     }
@@ -253,86 +219,49 @@
     .comparison-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
     }
-
     .comparison-section h3 {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-
-    .comparison-metric {
-      margin-bottom: 1.25rem;
-    }
-
-    .comparison-metric:last-child {
-      margin-bottom: 0;
-    }
-
-    .comparison-metric-name {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
+      font-size: 0.75rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
+      color: var(--text);
     }
-
-    .comparison-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 0.375rem;
+    .comparison-metric { margin-bottom: 0.6rem; }
+    .comparison-metric:last-child { margin-bottom: 0; }
+    .comparison-metric-name {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
     }
-
-    .comparison-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
+    .comparison-bars { display: flex; flex-direction: column; gap: 0.2rem; }
+    .comparison-bar-row { display: flex; align-items: center; gap: 0.5rem; }
     .comparison-bar-label {
-      font-size: 0.7rem;
+      font-size: 0.6rem;
       color: var(--text-dim);
-      width: 110px;
+      width: 70px;
       flex-shrink: 0;
       text-align: right;
     }
-
     .comparison-bar-track {
       flex: 1;
-      height: 14px;
+      height: 10px;
       background: #1e2025;
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
-      position: relative;
     }
-
-    .comparison-bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.6s ease;
-      min-width: 2px;
-    }
-
-    .comparison-bar-fill.pop-median {
-      background: #475569;
-    }
-
-    .comparison-bar-fill.cohort-median {
-      background: transparent;
-      border: 1.5px dashed #64748b;
-      box-sizing: border-box;
-    }
-
+    .comparison-bar-fill { height: 100%; border-radius: 3px; min-width: 2px; }
+    .comparison-bar-fill.pop-median { background: #475569; }
+    .comparison-bar-fill.cohort-median { background: transparent; border: 1.5px dashed #64748b; box-sizing: border-box; }
     .comparison-bar-value {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.6rem;
       color: var(--text-muted);
-      width: 55px;
+      width: 50px;
       flex-shrink: 0;
     }
 
@@ -340,112 +269,56 @@
     .percentile-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
     }
-
-    .percentile-section h3 {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-
-    .percentile-items {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
+    .percentile-section h3 { font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
+    .percentile-items { display: flex; flex-direction: column; gap: 0.3rem; }
     .percentile-item {
-      font-size: 0.8rem;
+      font-size: 0.65rem;
       color: var(--text-muted);
-      line-height: 1.5;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
-
-    .percentile-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .percentile-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
     /* ── ECG Explanation ────────────────────────────── */
     .ecg-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
     }
-
-    .ecg-section h3 {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-
-    .ecg-findings {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
+    .ecg-section h3 { font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
+    .ecg-findings { display: flex; flex-direction: column; gap: 0.25rem; }
     .ecg-finding {
       display: flex;
       align-items: flex-start;
-      gap: 0.625rem;
-      font-size: 0.8rem;
-      line-height: 1.4;
+      gap: 0.4rem;
+      font-size: 0.65rem;
+      line-height: 1.3;
       color: var(--text-muted);
     }
-
-    .ecg-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 0.35rem;
-    }
-
+    .ecg-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 0.25rem; }
     .ecg-normal {
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
       background: rgba(74, 222, 128, 0.08);
       border: 1px solid rgba(74, 222, 128, 0.2);
       color: var(--healthy);
-      font-size: 0.8rem;
+      font-size: 0.65rem;
     }
 
     /* ── Loading / Error ────────────────────────────── */
-    .detail-loading,
-    .detail-error {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--text-dim);
-    }
-
-    .detail-error {
-      color: var(--critical);
-    }
+    .detail-loading, .detail-error { text-align: center; padding: 4rem 2rem; color: var(--text-dim); }
+    .detail-error { color: var(--critical); }
 
     /* ── Responsive ─────────────────────────────────── */
     @media (max-width: 900px) {
-      .metrics-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 700px) {
-      body { padding: 0 16px; }
-      .detail-content { padding: 0 0 2rem; }
-      .detail-header { padding: 1rem 0; }
-      .hero-svg { margin: 0 0 1.5rem; }
-      .info-bar { gap: 1rem; }
-      .score-overview { flex-direction: column; text-align: center; }
-      .comparison-bar-label { width: 80px; font-size: 0.65rem; }
+      html, body { height: auto; overflow: auto; }
+      .dashboard { grid-template-columns: 1fr; height: auto; overflow: visible; }
+      .col-right { overflow: visible; }
     }
   </style>
 </head>
@@ -465,9 +338,7 @@
     <div class="detail-loading">Loading repo data...</div>
   </div>
 
-  <footer class="footer">
-    <p>Generated by <strong>repo-health-pulse</strong></p>
-  </footer>
+  <!-- no footer in fullscreen dashboard mode -->
 
   <script>
   (function () {
@@ -832,46 +703,48 @@
         }
       ];
 
-      /* Build HTML */
-      var html = '';
+      /* Build HTML - Dashboard layout */
+      var html = '<div class="dashboard">';
 
-      /* Hero SVG */
-      html += '<div class="hero-svg">' +
-        '<img src="mini/' + slug(repo.repo) + '.svg" alt="' + repo.repo + ' ECG" onerror="this.parentElement.innerHTML=\'<span style=&quot;color:#6b7280&quot;>SVG not available</span>\'">' +
-        '</div>';
+      /* Top bar: score + info (spans full width) */
+      html += '<div class="top-bar">' +
+        '<div class="score-circle" style="background:' + sc + '22;color:' + sc + ';border:2px solid ' + sc + '">' + repo.score + '</div>' +
+        '<div><span class="score-state" style="color:' + sc + '">' + stateLabel(repo.state) + '</span><br>' +
+        '<span class="score-desc">' + repo.score + '/100 &middot; ' + cohort.name + '</span></div>' +
+        '<div class="info-items">' +
+          '<div class="info-item"><span class="info-value">' + formatStars(repo.stars) + ' &#9733;</span><span class="info-label">Stars</span></div>' +
+          '<div class="info-item"><span class="info-value">' + repo.language + '</span><span class="info-label">Language</span></div>' +
+          '<div class="info-item"><span class="info-value">' + formatSize(repo.size_kb) + '</span><span class="info-label">Size</span></div>' +
+          '<div class="info-item"><span class="info-value">' + formatAge(repo.age_days) + '</span><span class="info-label">Age</span></div>' +
+          '<div class="info-item"><span class="info-value">' + (repo.open_issues || 0) + '</span><span class="info-label">Issues</span></div>' +
+          '<div class="info-item"><span class="info-value">' + (repo.forks ? formatStars(repo.forks) : '?') + '</span><span class="info-label">Forks</span></div>' +
+        '</div>' +
+      '</div>';
 
-      html += '<div class="detail-content">';
-
-      /* Description */
+      /* Left column: SVG + description + ECG */
+      html += '<div class="col-left">';
+      html += '<div class="hero-svg"><img src="mini/' + slug(repo.repo) + '.svg" alt="' + repo.repo + ' ECG" onerror="this.parentElement.innerHTML=\'<span style=color:#6b7280>SVG not available</span>\'"></div>';
       if (repo.description) {
         html += '<div class="repo-description">' + repo.description + '</div>';
       }
 
-      /* Score overview */
-      html += '<div class="score-overview">' +
-        '<div class="score-circle" style="background:' + sc + '22;color:' + sc + ';border:2px solid ' + sc + '">' +
-          repo.score +
-        '</div>' +
-        '<div class="score-text">' +
-          '<h2 style="color:' + sc + '">' + stateLabel(repo.state) + '</h2>' +
-          '<p>Composite health score of ' + repo.score + ' out of 100, based on CI stability, PR velocity, release cadence, and community responsiveness.</p>' +
-        '</div>' +
-        '</div>';
+      /* ECG findings in left column */
+      var findings = getEcgFindings(repo);
+      html += '<div class="ecg-section"><h3>ECG Analysis</h3>';
+      if (findings.length === 0) {
+        html += '<div class="ecg-normal">Healthy sinus rhythm. All vital signs normal.</div>';
+      } else {
+        html += '<div class="ecg-findings">';
+        findings.forEach(function (f) {
+          html += '<div class="ecg-finding"><span class="ecg-dot" style="background:' + f.color + '"></span><span>' + f.text + '</span></div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>'; /* close col-left */
 
-      /* Info bar */
-      html += '<div class="info-bar">' +
-        '<div class="info-item"><span class="info-value">' + formatStars(repo.stars) + ' &#9733;</span><span class="info-label">Stars</span></div>' +
-        '<div class="info-divider"></div>' +
-        '<div class="info-item"><span class="info-value">' + repo.language + '</span><span class="info-label">Language</span></div>' +
-        '<div class="info-divider"></div>' +
-        '<div class="info-item"><span class="info-value">' + formatSize(repo.size_kb) + '</span><span class="info-label">Size</span></div>' +
-        '<div class="info-divider"></div>' +
-        '<div class="info-item"><span class="info-value">' + formatAge(repo.age_days) + '</span><span class="info-label">Age</span></div>' +
-        '<div class="info-divider"></div>' +
-        '<div class="info-item"><span class="info-value">' + cohort.name + '</span><span class="info-label">Cohort</span></div>' +
-        '<div class="info-divider"></div>' +
-        '<div class="info-item"><span class="info-value">' + (repo.open_issues || 0) + '</span><span class="info-label">Open Issues</span></div>' +
-        '</div>';
+      /* Right column: metrics + comparison + percentile */
+      html += '<div class="col-right">';
 
       /* Metric cards */
       html += '<div class="metrics-grid">';
@@ -879,17 +752,10 @@
         var pct = m.percentile;
         var barColor = pct == null ? "#6b7280" : (pct >= 65 ? "#4ade80" : (pct >= 40 ? "#eab308" : "#ef4444"));
         var barWidth = pct != null ? pct : 0;
-
         html += '<div class="metric-card">' +
-          '<div class="metric-card-header">' +
-            '<span class="metric-card-name">' + m.name + '</span>' +
-            '<span class="metric-card-value">' + m.raw + '</span>' +
-          '</div>' +
-          '<div class="metric-bar-track">' +
-            '<div class="metric-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div>' +
-          '</div>' +
+          '<div class="metric-card-header"><span class="metric-card-name">' + m.name + '</span><span class="metric-card-value">' + m.raw + '</span></div>' +
+          '<div class="metric-bar-track"><div class="metric-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div></div>' +
           '<span class="metric-percentile">Score: ' + (pct != null ? pct : "N/A") + ' / 100</span>' +
-          '<p class="metric-explanation">' + m.explanation + '</p>' +
           (m.comparison ? '<p class="metric-comparison">' + m.comparison + '</p>' : '') +
           '</div>';
       });
@@ -901,26 +767,8 @@
       /* Percentile section */
       html += renderPercentileSection(repo, allRepos, cohort);
 
-      /* ECG findings */
-      var findings = getEcgFindings(repo);
-      html += '<div class="ecg-section">' +
-        '<h3>ECG Waveform Analysis</h3>';
-
-      if (findings.length === 0) {
-        html += '<div class="ecg-normal">All vital signs within normal range. The ECG shows a healthy sinus rhythm with strong P-wave, QRS complex, and T-wave.</div>';
-      } else {
-        html += '<div class="ecg-findings">';
-        findings.forEach(function (f) {
-          html += '<div class="ecg-finding">' +
-            '<span class="ecg-dot" style="background:' + f.color + '"></span>' +
-            '<span>' + f.text + '</span>' +
-            '</div>';
-        });
-        html += '</div>';
-      }
-      html += '</div>';
-
-      html += '</div>'; /* close detail-content */
+      html += '</div>'; /* close col-right */
+      html += '</div>'; /* close dashboard */
       root.innerHTML = html;
     }
 
