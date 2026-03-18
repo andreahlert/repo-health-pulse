@@ -205,7 +205,7 @@
       '<div class="card-body">' +
         /* Mini SVG */
         '<div class="card-svg">' +
-          '<img src="mini/' + slug + '.svg" alt="" loading="lazy" onerror="this.style.display=\'none\'">' +
+          '<img src="mini/' + slug + '.svg" alt="" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
         '</div>' +
 
         /* Header: avatar + name + stars/forks */

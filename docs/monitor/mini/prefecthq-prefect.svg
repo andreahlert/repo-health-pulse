@@ -32,8 +32,6 @@
       .dot { fill: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
       .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 6; }
 
-      @media (prefers-color-scheme: light) {
-        .bg { fill: #ffffff; }
         .repo { fill: #1e293b; }
         .repo-dim { fill: #94a3b8; }
         .score-unit { fill: #64748b; }

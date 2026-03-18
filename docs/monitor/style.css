@@ -74,9 +74,10 @@ body {
 
 /* ── Container ──────────────────────────────────── */
 .container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 20px 24px 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 16px 20px 0;
 }
 
 /* ── Stats Banner ────────────────────────────────── */
@@ -230,23 +231,23 @@ body {
 /* ── Card Grid ───────────────────────────────────── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   padding-bottom: 48px;
 }
 
-@media (max-width: 1200px) {
-  .grid { grid-template-columns: repeat(3, 1fr); }
+@media (min-width: 1800px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
-  .stats-banner { gap: 1rem; padding: 10px 16px; }
-  .container { padding: 16px 16px 0; }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 700px) {
   .grid { grid-template-columns: 1fr; }
+  .stats-banner { gap: 1rem; padding: 10px 16px; }
+  .container { padding: 16px 12px 0; }
   .controls-row { flex-direction: column; gap: 10px; }
   .toggle-buttons { flex-wrap: wrap; }
 }
@@ -274,11 +275,20 @@ body {
   background: #1a1c20;
   padding: 0;
   line-height: 0;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
 }
 
-.card-svg img {
+.card-svg img,
+.card-svg object {
   width: 100%;
   display: block;
+}
+
+/* Use object tag to isolate SVG color scheme from page */
+.card-svg object {
+  pointer-events: none;
+  color-scheme: dark;
 }
 
 .card[data-state="healthy"]:hover {
