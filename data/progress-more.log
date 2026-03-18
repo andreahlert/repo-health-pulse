@@ -1,0 +1,53 @@
+Already have 300 repos. Collecting more...
+
+Collected 400 new repos (stars 10000-15000)
+Collected 850 new repos (stars 7500-10000)
+Collected 1300 new repos (stars 5000-7500)
+Collected 1750 new repos (stars 3500-5000)
+Collected 2200 new repos (stars 2000-3500)
+Collected 2500 new repos (stars 1500-2000)
+Collected 2800 new repos (stars 1000-1500)
+
+Total new repos: 2800. Collecting metrics...
+
+  Progress: 50/2800
+  Rate limit: 4733 remaining
+GET /repos/free-nodes/clashfree/pulls?state=closed&sort=updated&direction=desc&per_page=20 - 404 with id 96FC:0BD1:4E40DB:5C0C22:69BA5D93 in 231ms
+  Progress: 100/2800
+  Rate limit: 4599 remaining
+  Progress: 150/2800
+  Rate limit: 4459 remaining
+  Progress: 200/2800
+  Rate limit: 4326 remaining
+  Progress: 250/2800
+  Rate limit: 4184 remaining
+  Progress: 300/2800
+  Rate limit: 4050 remaining
+  Progress: 350/2800
+  Rate limit: 3910 remaining
+  Progress: 400/2800
+  Rate limit: 3772 remaining
+  Progress: 450/2800
+  Rate limit: 3633 remaining
+  Progress: 500/2800
+  Rate limit: 3498 remaining
+GET /repos/lua/lua/pulls?state=closed&sort=updated&direction=desc&per_page=20 - 404 with id 96FC:0BD1:4F916C:5DBC6A:69BA6132 in 228ms
+  Progress: 550/2800
+  Rate limit: 3364 remaining
+  Progress: 600/2800
+  Rate limit: 3227 remaining
+GET /repos/saturndec/waoowaoo/pulls?state=closed&sort=updated&direction=desc&per_page=20 - 404 with id 96FC:0BD1:4FDBD6:5E1BF6:69BA61F6 in 258ms
+  Progress: 650/2800
+  Rate limit: 3089 remaining
+  Progress: 700/2800
+  Rate limit: 2952 remaining
+  Progress: 750/2800
+  Rate limit: 2802 remaining
+  Progress: 800/2800
+  Rate limit: 2664 remaining
+  Progress: 850/2800
+  Rate limit: 2520 remaining
+  Progress: 900/2800
+  Rate limit: 2381 remaining
+  Progress: 950/2800
+  Rate limit: 2066 remaining
