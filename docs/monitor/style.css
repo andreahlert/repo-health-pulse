@@ -191,8 +191,8 @@ body {
 }
 
 .toggle-btn.active {
-  background: #21262d;
-  color: var(--text);
+  background: #1e293b;
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -291,6 +291,11 @@ body {
   color-scheme: dark;
 }
 
+.card[data-state="healthy"] { border-left: 3px solid #16a34a; }
+.card[data-state="stressed"] { border-left: 3px solid #ca8a04; }
+.card[data-state="critical"] { border-left: 3px solid #dc2626; }
+.card[data-state="flatline"] { border-left: 3px solid #6b7280; }
+
 .card[data-state="healthy"]:hover {
   border-color: rgba(74, 222, 128, 0.5);
   box-shadow: 0 4px 20px rgba(74, 222, 128, 0.08), 0 0 0 1px rgba(74, 222, 128, 0.15);
@@ -381,7 +386,7 @@ body {
 .metric-bar-track {
   flex: 1;
   height: 4px;
-  background: rgba(255, 255, 255, 0.06);
+  background: #e2e8f0;
   border-radius: 2px;
   overflow: hidden;
 }

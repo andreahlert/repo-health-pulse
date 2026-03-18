@@ -21,23 +21,6 @@
       --nav-bg: rgba(12,13,16,0.8);
       --code-bg: #0a0b0d;
     }
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --bg-card: rgba(0,0,0,0.03);
-      --bg-card-hover: rgba(0,0,0,0.06);
-      --border: rgba(0,0,0,0.1);
-      --text: #1e293b;
-      --text-muted: #475569;
-      --text-dim: #94a3b8;
-      --green: #16a34a;
-      --green-dim: rgba(22,163,74,0.12);
-      --amber: #ca8a04;
-      --red: #dc2626;
-      --gray: #6b7280;
-      --nav-bg: rgba(248,250,252,0.85);
-      --code-bg: #f1f5f9;
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -117,7 +100,7 @@
     /* ── Hero ─────────────────────────────────────── */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -135,6 +118,7 @@
       left: 50%;
       transform: translateX(-50%);
       pointer-events: none;
+      z-index: 0;
     }
     .hero-ecg {
       position: absolute;
@@ -145,6 +129,7 @@
       transform: translateY(-50%);
       opacity: 0.06;
       pointer-events: none;
+      z-index: 0;
     }
     .hero-ecg path {
       fill: none;
@@ -168,6 +153,8 @@
       font-size: 0.8rem;
       color: var(--green);
       margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
     }
     .hero-badge span { font-size: 0.7rem; }
     .hero h1 {
@@ -253,6 +240,7 @@
       border-radius: 6px;
       background: #1a1c20;
       display: block;
+      color-scheme: dark;
     }
     .showcase-meta {
       display: flex;
@@ -467,7 +455,6 @@
       <a href="https://github.com/andreahlert/repo-health-pulse" target="_blank">GitHub</a>
     </div>
     <div class="nav-cta">
-      <button id="theme-toggle" class="btn btn-ghost" onclick="toggleTheme()" title="Toggle light/dark mode" style="padding:0.4rem 0.7rem;font-size:1rem">&#9790;</button>
       <a href="monitor/" class="btn btn-ghost">Dashboard</a>
       <a href="#install" class="btn btn-primary">Install</a>
     </div>
@@ -595,6 +582,8 @@
     <div class="section-title" style="text-align:center">Three ways to use Repovital</div>
     <p class="section-desc" style="text-align:center;margin-left:auto;margin-right:auto">Pick the one that fits your workflow. All use the same scoring engine.</p>
 
+    <a href="monitor/" class="btn btn-primary" style="padding:0.75rem 2rem;font-size:1.05rem;margin-bottom:1rem">Try it on your repo</a>
+
     <div class="install-options">
       <div class="install-card">
         <h3>GitHub Action</h3>
@@ -663,26 +652,6 @@ npx repo-health-pulse --format mini \
     var bars = document.getElementById('stats-bars');
     if (bars) barsObserver.observe(bars);
 
-    // Theme toggle
-    function toggleTheme() {
-      var html = document.documentElement;
-      var current = html.getAttribute('data-theme');
-      var next = current === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('repovital-theme', next);
-      document.getElementById('theme-toggle').textContent = next === 'light' ? '\u2600' : '\u263E';
-    }
-    // Init theme from localStorage or system preference
-    (function() {
-      var saved = localStorage.getItem('repovital-theme');
-      if (!saved) {
-        saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      }
-      if (saved === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        document.getElementById('theme-toggle').textContent = '\u2600';
-      }
-    })();
   </script>
 </body>
 </html>
