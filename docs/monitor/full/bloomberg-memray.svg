@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="220" viewBox="0 0 800 220">
+  <defs>
+    <style>
+      @keyframes trace {
+        0% { stroke-dashoffset: 2400; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+      @keyframes pulse-glow {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      @keyframes fade-slow {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.7; }
+      }
+      .bg { fill: #1a1c20; }
+      .ecg-line {
+        fill: none;
+        stroke: #4ade80;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        /* no filter - avoids render glitch */
+        stroke-dasharray: 2400;
+        animation: trace 4s linear infinite;
+      }
+      .grid-line { stroke: #262a30; stroke-width: 0.5; }
+      .label { fill: #94a3b8; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+      .val { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .val-unit { fill: #64748b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
+      .val-ci { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold;  }
+      .val-pr { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .val-rel { fill: #f59e0b; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .val-resp { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 15px; font-weight: bold; }
+      .repo-name { fill: #e2e8f0; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 14px; font-weight: bold; }
+      .status-text { fill: #4ade80; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; font-weight: bold;  }
+      .status-dot { fill: #4ade80; animation: blink 1.5s ease-in-out infinite; }
+      .divider { stroke: #2e3238; stroke-width: 1; }
+      .bar-bg { fill: #262a30; rx: 3; }
+      .bar-fill { fill: #4ade80; rx: 3; opacity: 0.85; }
+      .border { fill: none; stroke: #2e3238; stroke-width: 1; rx: 8; }
+      .heart { fill: #4ade80; animation: pulse-glow 1s ease-in-out infinite; font-size: 18px; }
+      .bpm { fill: #4ade80; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 22px; font-weight: bold; }
+      .bpm-unit { fill: #4ade8099; font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 10px; }
+
+      /* Adapt to GitHub light/dark mode */
+        .grid-line { stroke: #e2e8f0; }
+        .label { fill: #64748b; }
+        .val { fill: #1e293b; }
+        .val-unit { fill: #94a3b8; }
+        .repo-name { fill: #1e293b; }
+        .divider { stroke: #e2e8f0; }
+        .bar-bg { fill: #f1f5f9; }
+        .border { stroke: #e2e8f0; }
+        .bpm-unit { fill: #4ade8099; }
+      }
+    </style>
+  </defs>
+
+  <rect class="bg" width="800" height="220" rx="8"/>
+  
+  <rect class="border" x="0.5" y="0.5" width="799" height="219"/>
+
+  <g opacity="0.3">
+    <line class="grid-line" x1="0" y1="44" x2="555" y2="44"/>
+    <line class="grid-line" x1="0" y1="88" x2="555" y2="88"/>
+    <line class="grid-line" x1="0" y1="132" x2="555" y2="132"/>
+    <line class="grid-line" x1="0" y1="176" x2="555" y2="176"/>
+  </g>
+
+  <path class="ecg-line" d="M 0,110 L 0,109.99 L 1.25,109.95 L 2.51,109.65 L 3.76,108.51 L 5.02,106.05 L 6.27,104.22 L 7.52,105.26 L 8.78,107.83 L 10.03,109.44 L 11.29,110.93 L 12.54,86.39 L 13.79,64.02 L 15.05,108.4 L 16.3,110.26 L 17.56,108.65 L 18.81,106.4 L 20.06,102.89 L 21.32,99.11 L 22.57,97.34 L 23.83,100.03 L 25.08,105.28 L 26.33,108.69 L 27.59,109.76 L 28.84,109.96 L 30.1,109.95 L 31.35,109.99 L 32.61,110.02 L 33.86,109.97 L 35.11,110.04 L 36.37,110.03 L 37.62,110.05 L 38.88,109.97 L 40.13,109.96 L 41.38,110.04 L 42.64,110 L 43.89,109.98 L 45.15,110.04 L 46.4,109.97 L 47.65,110.05 L 48.91,110.03 L 50.16,109.99 L 51.42,109.97 L 52.67,110.02 L 70.1,110 L 70.1,109.99 L 71.35,109.95 L 72.59,109.66 L 73.84,108.54 L 75.08,105.99 L 76.33,104.17 L 77.57,105.24 L 78.82,107.8 L 80.06,109.43 L 81.31,110.97 L 82.55,86.35 L 83.79,64.05 L 85.04,108.41 L 86.28,110.25 L 87.53,108.65 L 88.77,106.42 L 90.02,102.81 L 91.26,99.18 L 92.51,97.45 L 93.75,99.94 L 95,105.28 L 96.24,108.73 L 97.49,109.8 L 98.73,109.95 L 99.98,109.95 L 101.22,110.01 L 102.47,109.99 L 103.71,110.05 L 104.96,109.96 L 106.2,109.96 L 107.45,110.01 L 108.69,110 L 109.94,110.02 L 111.18,110.04 L 112.43,110.02 L 113.67,110.02 L 114.92,110.05 L 116.16,110 L 117.41,109.95 L 118.65,110 L 119.9,109.98 L 121.14,110.04 L 122.39,110 L 139.69,110 L 139.69,110.03 L 140.97,110.01 L 142.25,109.68 L 143.53,108.45 L 144.81,106.07 L 146.09,104.18 L 147.37,105.27 L 148.65,107.79 L 149.93,109.44 L 151.21,111 L 152.49,86.37 L 153.77,64.05 L 155.05,108.37 L 156.33,110.21 L 157.61,108.66 L 158.88,106.36 L 160.16,102.82 L 161.44,99.21 L 162.72,97.38 L 164,99.99 L 165.28,105.33 L 166.56,108.71 L 167.84,109.82 L 169.12,110.01 L 170.4,110 L 171.68,110.05 L 172.96,109.97 L 174.24,109.98 L 175.52,110 L 176.8,110.05 L 178.08,109.98 L 179.36,110.02 L 180.64,109.99 L 181.92,110.03 L 183.2,110.01 L 184.48,110.04 L 185.75,109.95 L 187.03,109.98 L 188.31,109.99 L 189.59,110.05 L 190.87,109.96 L 192.15,109.99 L 193.43,109.97 L 211.22,110 L 211.22,110.01 L 212.49,109.96 L 213.76,109.7 L 215.03,108.45 L 216.3,106.07 L 217.57,104.18 L 218.84,105.28 L 220.11,107.82 L 221.38,109.48 L 222.65,110.96 L 223.92,86.34 L 225.19,64.04 L 226.46,108.38 L 227.73,110.25 L 229,108.61 L 230.28,106.42 L 231.55,102.85 L 232.82,99.16 L 234.09,97.37 L 235.36,100.01 L 236.63,105.26 L 237.9,108.76 L 239.17,109.82 L 240.44,110.01 L 241.71,110.03 L 242.98,110 L 244.25,110.05 L 245.52,110 L 246.79,110.03 L 248.06,109.98 L 249.33,110 L 250.6,109.98 L 251.87,110.05 L 253.14,109.96 L 254.41,109.96 L 255.69,110 L 256.96,109.99 L 258.23,110.03 L 259.5,110.03 L 260.77,110.04 L 262.04,110.01 L 263.31,110.02 L 264.58,109.98 L 282.24,110 L 282.24,110 L 283.51,110.01 L 284.78,109.71 L 286.06,108.47 L 287.33,106.05 L 288.6,104.24 L 289.87,105.23 L 291.15,107.78 L 292.42,109.44 L 293.69,111.01 L 294.96,86.36 L 296.23,64.02 L 297.51,108.46 L 298.78,110.24 L 300.05,108.63 L 301.32,106.43 L 302.6,102.83 L 303.87,99.19 L 305.14,97.35 L 306.41,100.03 L 307.69,105.32 L 308.96,108.65 L 310.23,109.76 L 311.5,109.99 L 312.77,110 L 314.05,110.02 L 315.32,110.01 L 316.59,109.95 L 317.86,110.04 L 319.14,110.03 L 320.41,109.96 L 321.68,110 L 322.95,109.95 L 324.23,109.97 L 325.5,109.98 L 326.77,109.96 L 328.04,110.03 L 329.31,110.01 L 330.59,109.96 L 331.86,110 L 333.13,110.04 L 334.4,109.99 L 335.68,110.03 L 353.36,110 L 353.36,110.02 L 354.64,109.94 L 355.92,109.64 L 357.19,108.53 L 358.47,106.07 L 359.75,104.19 L 361.02,105.27 L 362.3,107.77 L 363.58,109.46 L 364.85,110.92 L 366.13,86.33 L 367.41,64.01 L 368.68,108.37 L 369.96,110.29 L 371.24,108.59 L 372.52,106.45 L 373.79,102.89 L 375.07,99.16 L 376.35,97.44 L 377.62,99.94 L 378.9,105.3 L 380.18,108.71 L 381.45,109.79 L 382.73,110 L 384.01,109.96 L 385.28,110 L 386.56,109.96 L 387.84,110.02 L 389.12,109.96 L 390.39,110.01 L 391.67,109.98 L 392.95,110.03 L 394.22,110.04 L 395.5,109.96 L 396.78,109.95 L 398.05,110 L 399.33,109.97 L 400.61,110.03 L 401.89,110.03 L 403.16,109.99 L 404.44,110.01 L 405.72,110.03 L 406.99,110.03 L 424.74,110 L 424.74,110.02 L 426,109.95 L 427.25,109.65 L 428.5,108.51 L 429.75,106 L 431,104.19 L 432.26,105.22 L 433.51,107.84 L 434.76,109.49 L 436.01,111 L 437.27,86.31 L 438.52,64.07 L 439.77,108.44 L 441.02,110.27 L 442.28,108.62 L 443.53,106.35 L 444.78,102.89 L 446.03,99.12 L 447.29,97.4 L 448.54,100 L 449.79,105.32 L 451.04,108.71 L 452.3,109.73 L 453.55,109.94 L 454.8,109.99 L 456.05,109.95 L 457.3,110.01 L 458.56,109.95 L 459.81,109.95 L 461.06,110.04 L 462.31,109.96 L 463.57,109.99 L 464.82,110.04 L 466.07,110 L 467.32,110 L 468.58,110.04 L 469.83,109.97 L 471.08,110.02 L 472.33,110.05 L 473.59,110.05 L 474.84,109.96 L 476.09,109.95 L 477.34,110.05 L 494.75,110 L 494.75,109.97 L 496,110 L 497.24,109.64 L 498.49,108.49 L 499.73,106.05 L 500.98,104.22 L 502.22,105.22 L 503.47,107.78 L 504.72,109.46 L 505.96,110.98 L 507.21,86.35 L 508.45,64.01 L 509.7,108.38 L 510.94,110.25 L 512.19,108.63 L 513.44,106.45 L 514.68,102.92 L 515.93,99.2 L 517.17,97.41 L 518.42,99.99 L 519.66,105.34 L 520.91,108.69 L 522.15,109.8 L 523.4,110 L 524.65,110.02 L 525.89,109.95 L 527.14,110.03 L 528.38,109.98 L 529.63,110.04 L 530.87,110.01 L 532.12,110.01 L 533.36,110.02 L 534.61,109.98 L 535.86,110.04 L 537.1,109.97 L 538.35,109.98 L 539.59,110.03 L 540.84,109.99 L 542.08,109.98 L 543.33,110 L 544.57,110 L 545.82,110.01 L 547.07,110.02 L 555,110 L 555,110"/>
+  
+
+  <line class="divider" x1="570" y1="10" x2="570" y2="210"/>
+
+  <text class="heart" x="585" y="33">&#x2665;</text>
+  <text class="bpm" x="605" y="33">71</text>
+  <text class="bpm-unit" x="638" y="33">bpm</text>
+
+  <text class="label" x="585" y="62">ci pass rate</text>
+  <text class="val-ci" x="780" y="62" text-anchor="end">100%</text>
+
+  <text class="label" x="585" y="88">pr merge time</text>
+  <text class="val-pr" x="757" y="88" text-anchor="end">2.6</text>
+  <text class="val-unit" x="762" y="88">days</text>
+
+  <text class="label" x="585" y="114">releases</text>
+  <text class="val-rel" x="757" y="114" text-anchor="end">0.08</text>
+  <text class="val-unit" x="762" y="114">/wk</text>
+
+  <text class="label" x="585" y="140">response time</text>
+  <text class="val-resp" x="757" y="140" text-anchor="end">43</text>
+  <text class="val-unit" x="762" y="140">min</text>
+
+  <rect class="bar-bg" x="585" y="158" width="195" height="8"/>
+  <rect class="bar-fill" x="585" y="158" width="177" height="8"/>
+
+  <circle class="status-dot" cx="593" cy="183" r="3.5"/>
+  <text class="status-text" x="603" y="187">HEALTHY</text>
+  <text class="val" x="757" y="187" text-anchor="end">91</text>
+  <text class="val-unit" x="762" y="187">/100</text>
+
+  <text class="repo-name" x="20" y="205">
+    <tspan fill="#64748b">bloomberg/</tspan>memray
+  </text>
+  
+</svg>
