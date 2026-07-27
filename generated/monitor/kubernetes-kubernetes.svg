@@ -87,11 +87,11 @@
   <text class="val-ci" x="780" y="62" text-anchor="end">100%</text>
 
   <text class="label" x="585" y="88">pr merge time</text>
-  <text class="val-pr" x="757" y="88" text-anchor="end">19.4</text>
+  <text class="val-pr" x="757" y="88" text-anchor="end">25.9</text>
   <text class="val-unit" x="762" y="88">days</text>
 
   <text class="label" x="585" y="114">releases</text>
-  <text class="val-rel" x="757" y="114" text-anchor="end">0.93</text>
+  <text class="val-rel" x="757" y="114" text-anchor="end">1.17</text>
   <text class="val-unit" x="762" y="114">/wk</text>
 
   <text class="label" x="585" y="140">response time</text>
